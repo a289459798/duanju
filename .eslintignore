@@ -1,0 +1,5 @@
+ios/
+android/
+__tests__/
+.bundle/
+node_modules/

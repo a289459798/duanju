@@ -1,0 +1,31 @@
+/* tslint:disable */
+/* eslint-disable */
+
+import React, { FunctionComponent } from 'react';
+import { ViewProps } from 'react-native';
+import { Svg, GProps, Path } from 'react-native-svg';
+import { getIconColor } from './helper';
+
+interface Props extends GProps, ViewProps {
+  size?: number;
+  color?: string | string[];
+}
+
+let IconMenu: FunctionComponent<Props> = ({ size, color, ...rest }) => {
+  return (
+    <Svg viewBox="0 0 1024 1024" width={size} height={size} {...rest}>
+      <Path
+        d="M123.63851852 286.75034075c-32.17186512 0-58.25422222-26.0823571-58.25422222-58.25422223S91.46665339 170.2418963 123.63851852 170.2418963h776.72296296c32.17186512 0 58.25422222 26.0823571 58.25422222 58.25422222S932.53334661 286.75034075 900.36148148 286.75034075H123.63851852z m0 284.79841975c-32.17186512 0-58.25422222-26.0823571-58.25422222-58.25422223S91.46665339 455.04031605 123.63851852 455.04031605h776.72296296c32.17186512 0 58.25422222 26.0823571 58.25422222 58.25422222S932.53334661 571.5487605 900.36148148 571.5487605H123.63851852z m0 284.79841975c-32.17186512 0-58.25422222-26.0823571-58.25422222-58.25422222S91.46665339 739.83873581 123.63851852 739.83873581h776.72296296c32.17186512 0 58.25422222 26.0823571 58.25422222 58.25422222S932.53334661 856.34718025 900.36148148 856.34718025H123.63851852z"
+        fill={getIconColor(color, 0, '#333333')}
+      />
+    </Svg>
+  );
+};
+
+IconMenu.defaultProps = {
+  size: 18,
+};
+
+IconMenu = React.memo ? React.memo(IconMenu) : IconMenu;
+
+export default IconMenu;
