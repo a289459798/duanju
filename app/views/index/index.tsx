@@ -1,8 +1,8 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useCallback} from 'react';
 import {View, UIManager, findNodeHandle} from 'react-native';
 import {connect} from 'react-redux';
-import {Text} from '@/component';
-import {CreatePage} from '@/utils';
+import {Text, ListView} from '@/component';
+import {CreatePage, Screen} from '@/utils';
 import {CSJVideoManager} from '@/briage/view';
 
 const createFragment = (viewId: number | null) =>
@@ -23,18 +23,58 @@ const Page = CreatePage({
     const {user} = props;
     console.log('user1', user);
     const ref = useRef(null);
-    useEffect(() => {
-      const viewId = findNodeHandle(ref.current);
-      createFragment(viewId!);
+
+    const _onViewableItemsChanged = useCallback((aaa: any) => {
+      // 这个方法为了让state对应当前呈现在页面上的item的播放器的state
+      // 也就是只会有一个播放器播放，而不会每个item都播放
+      // 可以理解为，只要不是当前再页面上的item 它的状态就应该暂停
+      // 只有100%呈现再页面上的item（只会有一个）它的播放器是播放状态
+      //       if (viewableItems.length === 1) {
+      //         // setCurrentItem(viewableItems[0].index);
+      //       }
+      console.log('aaa', aaa);
+      //       const viewId = findNodeHandle(ref.current);
+      //       createFragment(viewId!);
+    }, []);
+
+    const loadMore = useCallback(() => {
+      console.log('loadMore');
     }, []);
 
     return (
       <View>
-        <Text>11111</Text>
-        <CSJVideoManager
-          ref={ref}
-          id={'123'}
-          style={{width: 100, height: 100}}
+        <ListView
+          data={[1, 2, 3, 4, 5]}
+          getItemLayout={(item, index) => {
+            return {
+              length: Screen.height - Screen.calc(44),
+              offset: (Screen.height - Screen.calc(44)) * index,
+              index,
+            };
+          }}
+          pagingEnabled={true}
+          viewabilityConfig={{
+            viewAreaCoveragePercentThreshold: 80,
+          }}
+          onViewableItemsChanged={_onViewableItemsChanged}
+          onLoadMore={loadMore}
+          hasMore={true}
+          renderItem={({item}) => (
+            <View
+              style={{
+                backgroundColor: item % 2 === 0 ? 'red' : 'green',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: Screen.height - Screen.calc(44),
+              }}>
+              <Text>{item}</Text>
+              <CSJVideoManager
+                ref={ref}
+                id={'1234'}
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+          )}
         />
       </View>
     );
