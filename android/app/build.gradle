@@ -114,6 +114,17 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation 'com.umeng.umsdk:share-wx:7.3.2'
 
+    implementation 'com.pangle.cn:ads-sdk-pro:5.3.0.5'
+    implementation ('com.pangle.cn:pangrowth-sdk:3.9.0.0'){
+        exclude group: 'com.pangle.cn', module: 'partner-live-sdk'
+        exclude group: 'com.pangle.cn', module: 'pangrowth-novel-sdk'
+        exclude group: 'com.pangle.cn', module: 'pangrowth-game-sdk'
+        exclude group: 'com.pangle.cn', module: 'pangrowth-luckycat-sdk'
+        exclude group: 'com.pangle.cn', module: 'pangrowth-reward-sdk'
+        exclude group: 'com.pangle.cn', module: 'partner-luckycat-api-sdk'
+        exclude group: 'com.pangle.cn', module: 'pangrowth-luckycat-api'
+    }
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'

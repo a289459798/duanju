@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         tools:replace="android:allowBackup"
         android:name=".MainApplication"
@@ -41,5 +42,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.bytedance.sdk.dp.act.DPProvider"
+            android:authorities="com.duanju.BDDPProvider"
+            android:exported="false" />
     </application>
 </manifest>
