@@ -34,9 +34,6 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
     TTAdNative ttAdNative;
-
-    AdSlot adSlot;
-
     TTRewardVideoAd ad;
 
     public RNTTAdSdkModule(ReactApplicationContext reactContext) {
@@ -72,6 +69,8 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                                 .build(), new TTAdSdk.InitCallback() {
                             @Override
                             public void success() {
+                                TTAdManager ttAdManager = TTAdSdk.getAdManager();
+                                ttAdNative = ttAdManager.createAdNative(reactContext);
                                 successCallback.invoke();
                             }
 
@@ -86,18 +85,13 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initAd(String codeId) {
-        TTAdManager ttAdManager = TTAdSdk.getAdManager();
-        ttAdNative = ttAdManager.createAdNative(reactContext);
-
-        adSlot = new AdSlot.Builder()
+    public void loadAd(String codeId, float expressViewWidth, float expressViewHeight, Callback onRewardVideoCached, Callback onError) {
+        AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) // 广告代码位Id
                 .setAdLoadType(TTAdLoadType.LOAD) // 本次广告用途：TTAdLoadType.LOAD实时；TTAdLoadType.PRELOAD预请求
+                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
                 .build();
-    }
 
-    @ReactMethod
-    public void loadAd(Callback onRewardVideoCached, Callback onError) {
         ttAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
 
             @Override

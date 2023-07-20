@@ -39,6 +39,9 @@ const Page = CreatePage({
 
       if (aaa?.viewableItems[0]?.index === 1) {
         TTAdSdk.loadAd(
+          '952940267',
+          Screen.width,
+          Screen.height + (StatusBar.currentHeight || 0),
           () => {
             console.log('广告加载成功');
             TTAdSdk.showAd();

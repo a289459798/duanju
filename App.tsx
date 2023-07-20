@@ -80,7 +80,6 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
-        TTAdSdk.initAd('952940267');
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);

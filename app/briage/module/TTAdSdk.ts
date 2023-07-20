@@ -16,15 +16,14 @@ class TTAdSdk extends NativeEventEmitter {
     RNTTAdSdk.init(appId, appName, successCallback, errorCallback);
   }
 
-  initAd(codeId: string) {
-    RNTTAdSdk.initAd(codeId);
-  }
-
   loadAd(
+    codeId: string,
+    width: number,
+    height: number,
     onRewardVideoCached?: () => void,
     onError?: (code: number, error: string) => void,
   ) {
-    RNTTAdSdk.loadAd(onRewardVideoCached, onError);
+    RNTTAdSdk.loadAd(codeId, width, height, onRewardVideoCached, onError);
   }
 
   showAd() {
