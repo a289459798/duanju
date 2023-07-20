@@ -1,9 +1,13 @@
 package com.duanju;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.bytedance.sdk.dp.DPSdk;
 import com.bytedance.sdk.dp.DPSdkConfig;
+import com.bytedance.sdk.openadsdk.TTAdConfig;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;

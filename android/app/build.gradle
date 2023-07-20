@@ -80,6 +80,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86' ,'x86_64'
+        }
     }
     signingConfigs {
         debug {
@@ -99,6 +103,12 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -124,6 +134,7 @@ dependencies {
         exclude group: 'com.pangle.cn', module: 'partner-luckycat-api-sdk'
         exclude group: 'com.pangle.cn', module: 'pangrowth-luckycat-api'
     }
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

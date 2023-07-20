@@ -2,6 +2,7 @@ package com.duanju;
 
 import androidx.annotation.NonNull;
 
+import com.duanju.module.RNTTAdSdkModule;
 import com.duanju.view.video.ReactCSJVideoManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
@@ -18,6 +19,7 @@ public class MyReactNativePackage implements ReactPackage {
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new RNSplashScreenModule(reactApplicationContext));
+        modules.add(new RNTTAdSdkModule(reactApplicationContext));
         return modules;
     }
 

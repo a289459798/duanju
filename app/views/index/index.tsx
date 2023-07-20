@@ -1,9 +1,10 @@
 import React, {useRef, useEffect, useCallback} from 'react';
-import {View, UIManager, findNodeHandle} from 'react-native';
+import {View, UIManager, findNodeHandle, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import {CSJVideoManager} from '@/briage/view';
+import {TTAdSdk} from 'briage/module';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -35,10 +36,55 @@ const Page = CreatePage({
       console.log('aaa', aaa);
       //       const viewId = findNodeHandle(ref.current);
       //       createFragment(viewId!);
+
+      if (aaa?.viewableItems[0]?.index === 1) {
+        TTAdSdk.loadAd(
+          () => {
+            console.log('广告加载成功');
+            TTAdSdk.showAd();
+          },
+          (code: number, error: string) => {
+            console.log('广告加载失败:', code, error);
+          },
+        );
+      }
     }, []);
 
     const loadMore = useCallback(() => {
       console.log('loadMore');
+    }, []);
+
+    useEffect(() => {
+      const onAdShow = TTAdSdk.addListener('onAdShow', () => {
+        console.log('onAdShow');
+      });
+      const onAdVideoBarClick = TTAdSdk.addListener('onAdVideoBarClick', () => {
+        console.log('onAdVideoBarClick');
+      });
+      const onAdClose = TTAdSdk.addListener('onAdClose', () => {
+        console.log('onAdClose');
+      });
+      const onVideoComplete = TTAdSdk.addListener('onVideoComplete', () => {
+        console.log('onVideoComplete');
+      });
+      const onVideoError = TTAdSdk.addListener('onVideoError', () => {
+        console.log('onVideoError');
+      });
+      const onRewardArrived = TTAdSdk.addListener('onRewardArrived', () => {
+        console.log('onRewardArrived');
+      });
+      const onSkippedVideo = TTAdSdk.addListener('onSkippedVideo', () => {
+        console.log('onSkippedVideo');
+      });
+      return () => {
+        onAdShow?.remove();
+        onAdVideoBarClick?.remove();
+        onAdClose?.remove();
+        onVideoComplete?.remove();
+        onVideoError?.remove();
+        onRewardArrived?.remove();
+        onSkippedVideo?.remove();
+      };
     }, []);
 
     return (
@@ -47,8 +93,8 @@ const Page = CreatePage({
           data={[1, 2, 3, 4, 5]}
           getItemLayout={(item, index) => {
             return {
-              length: Screen.height - Screen.calc(44),
-              offset: (Screen.height - Screen.calc(44)) * index,
+              length: Screen.height + (StatusBar.currentHeight || 0),
+              offset: (Screen.height + (StatusBar.currentHeight || 0)) * index,
               index,
             };
           }}
@@ -65,7 +111,7 @@ const Page = CreatePage({
                 backgroundColor: item % 2 === 0 ? 'red' : 'green',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: Screen.height - Screen.calc(44),
+                height: Screen.height + (StatusBar.currentHeight || 0),
               }}>
               <Text>{item}</Text>
               <CSJVideoManager

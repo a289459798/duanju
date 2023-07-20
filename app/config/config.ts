@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 
 export default {
-  AppName: '三目AI',
+  AppName: '短剧',
   Scheme: 'smuai://',
   EncrpytHash: 'CxdK3xTJ2Z6Bcyp3WGp5wTxU1BlkMd2l',
   UM: {
@@ -16,6 +16,9 @@ export default {
         redirectURL: '',
       },
     },
+  },
+  CSJ: {
+    AppId: '5412066',
   },
   // 用户协议
   agreement:

@@ -20,7 +20,7 @@ import {applyMiddleware, legacy_createStore as createStore} from 'redux';
 import thunk from 'redux-thunk';
 
 import userAction from '@/action/userAction';
-import {SplashScreen} from '@/briage/module';
+import {SplashScreen, TTAdSdk} from '@/briage/module';
 import {ModalRef} from '@/component/modal';
 import AgreementModal from '@/component/modal/agreementModal';
 import UpdateModal, {UpdateModalRef} from '@/component/modal/updateModal';
@@ -30,6 +30,7 @@ import {GlobalLoadingType} from '@/reducer/global';
 import Route from '@/route';
 import LinkConfig from '@/route/route';
 import {Storage} from '@/utils';
+import config from '@/config';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
@@ -74,7 +75,17 @@ function App(): JSX.Element {
     initUser();
     Analytics.init(Config.UM.Appkey, Config.DEBUG);
     Share.init(Config.UM.Appkey, Config.UM.Share, Config.DEBUG);
-
+    TTAdSdk.init(
+      config.CSJ.AppId,
+      config.AppName,
+      () => {
+        console.log('穿山甲初始成功');
+        TTAdSdk.initAd('952940267');
+      },
+      (status: number, error: string) => {
+        console.log('穿山甲初始化失败：', status, error);
+      },
+    );
     loginEmit = NativeAppEventEmitter.addListener('401', () => {
       console.log('login');
     });
