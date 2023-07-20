@@ -79,6 +79,10 @@ const Page = CreatePage({
       const onSkippedVideo = TTAdSdk.addListener('onSkippedVideo', () => {
         console.log('onSkippedVideo');
       });
+
+      const viewId = findNodeHandle(ref.current);
+      createFragment(viewId!);
+
       return () => {
         onAdShow?.remove();
         onAdVideoBarClick?.remove();
@@ -89,6 +93,17 @@ const Page = CreatePage({
         onSkippedVideo?.remove();
       };
     }, []);
+
+    return (
+      <CSJVideoManager
+        ref={ref}
+        id={1234}
+        index={1}
+        config={{
+          mode: 'common',
+        }}
+      />
+    );
 
     return (
       <View>
@@ -119,8 +134,11 @@ const Page = CreatePage({
               <Text>{item}</Text>
               <CSJVideoManager
                 ref={ref}
-                id={'1234'}
-                style={{width: '100%', height: '100%'}}
+                id={1234}
+                index={1}
+                config={{
+                  mode: 'common',
+                }}
               />
             </View>
           )}

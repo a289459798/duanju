@@ -36,7 +36,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     public final int COMMAND_CREATE = 1;
     ReactApplicationContext mCallerContext;
 
-    private Long id;
+    private double id;
     private int index;
     private boolean isFromCard;
     private String fromGid;
@@ -59,7 +59,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     }
 
     @ReactProp(name = "id")
-    public void setId(FrameLayout view, @Nullable Long id) {
+    public void setId(FrameLayout view, @Nullable double id) {
         this.id = id;
     }
 
@@ -85,8 +85,32 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
     @ReactProp(name = "config")
     public void setDetailConfig(FrameLayout view, @Nullable ReadableMap config) {
-        detailConfig = DPDramaDetailConfig.obtain("common");
-        this.currentDuration = currentDuration;
+        if (config.hasKey("mode")) {
+            detailConfig = DPDramaDetailConfig.obtain(config.getString("mode"));
+        } else {
+            detailConfig = DPDramaDetailConfig.obtain("common");
+        }
+
+        if (config.hasKey("freeSet")) {
+            detailConfig.freeSet = config.getInt("freeSet");
+        }
+
+        if (config.hasKey("lockSet")) {
+            detailConfig.freeSet = config.getInt("lockSet");
+        }
+
+        if (config.hasKey("isHideLeftTopTips")) {
+            detailConfig.mIsHideLeftTopTips = config.getBoolean("isHideLeftTopTips");
+        }
+
+        if (config.hasKey("isHideMore")) {
+            detailConfig.mIsHideMore = config.getBoolean("isHideMore");
+        }
+
+        if (config.hasKey("infiniteScrollEnabled")) {
+            detailConfig.mInfiniteScrollEnabled = config.getBoolean("infiniteScrollEnabled");
+        }
+
     }
 
     /**
@@ -123,7 +147,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         setupLayout(parentView);
 
         DPWidgetDramaDetailParams params = DPWidgetDramaDetailParams.obtain();
-        params.id = this.id;
+        params.id = (long)this.id;
         params.index = this.index;
         params.mIsFromCard = this.isFromCard;
         params.mFromGid = this.fromGid;
