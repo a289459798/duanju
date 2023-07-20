@@ -7,12 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.CSJAdError;
+import com.bytedance.sdk.openadsdk.CSJSplashAd;
 import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdLoadType;
@@ -20,6 +23,7 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.duanju.BuildConfig;
 import com.duanju.R;
 import com.facebook.react.bridge.Callback;
@@ -69,8 +73,6 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                                 .build(), new TTAdSdk.InitCallback() {
                             @Override
                             public void success() {
-                                TTAdManager ttAdManager = TTAdSdk.getAdManager();
-                                ttAdNative = ttAdManager.createAdNative(reactContext);
                                 successCallback.invoke();
                             }
 
@@ -84,6 +86,14 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 
     }
 
+    private TTAdNative getAdNative() {
+        if (ttAdNative == null) {
+            TTAdManager ttAdManager = TTAdSdk.getAdManager();
+            ttAdNative = ttAdManager.createAdNative(reactContext);
+        }
+        return ttAdNative;
+    }
+
     @ReactMethod
     public void loadAd(String codeId, float expressViewWidth, float expressViewHeight, Callback onRewardVideoCached, Callback onError) {
         AdSlot adSlot = new AdSlot.Builder()
@@ -92,7 +102,7 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
                 .build();
 
-        ttAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
+        getAdNative().loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
 
             @Override
             public void onError(int i, String s) {
@@ -174,5 +184,40 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
             });
             ad.showRewardVideoAd(reactContext.getCurrentActivity());
         }
+    }
+
+    @ReactMethod
+    public void loadSplashAd(String codeId, float expressViewWidth, float expressViewHeight) {
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId) // 广告代码位Id
+                .setAdLoadType(TTAdLoadType.LOAD) // 本次广告用途：TTAdLoadType.LOAD实时；TTAdLoadType.PRELOAD预请求
+                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
+                .build();
+
+        getAdNative().loadSplashAd(adSlot, new TTAdNative.CSJSplashAdListener() {
+
+            @Override
+            public void onSplashLoadSuccess() {
+
+            }
+
+            @Override
+            public void onSplashLoadFail(CSJAdError csjAdError) {
+
+            }
+
+            @Override
+            public void onSplashRenderSuccess(CSJSplashAd csjSplashAd) {
+                if (csjSplashAd == null) {
+                    return;
+                }
+                csjSplashAd.showSplashView((ViewGroup) getCurrentActivity().getWindow().getDecorView());
+            }
+
+            @Override
+            public void onSplashRenderFail(CSJSplashAd csjSplashAd, CSJAdError csjAdError) {
+
+            }
+        }, 4000);
     }
 }

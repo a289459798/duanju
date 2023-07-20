@@ -12,6 +12,7 @@ import {
   EmitterSubscription,
   Linking,
   NativeAppEventEmitter,
+  StatusBar,
 } from 'react-native';
 import Spinner from 'react-native-spinkit';
 import {Analytics, Share} from 'react-native-umshare';
@@ -29,7 +30,7 @@ import reducers from '@/reducer';
 import {GlobalLoadingType} from '@/reducer/global';
 import Route from '@/route';
 import LinkConfig from '@/route/route';
-import {Storage} from '@/utils';
+import {Screen, Storage} from '@/utils';
 import config from '@/config';
 
 const store = createStore(reducers, applyMiddleware(thunk));
@@ -80,6 +81,11 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
+        TTAdSdk.loadSplashAd(
+          '888388282',
+          Screen.width,
+          Screen.height + (StatusBar.currentHeight || 0),
+        );
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);

@@ -80,8 +80,8 @@ const Page = CreatePage({
         console.log('onSkippedVideo');
       });
 
-      const viewId = findNodeHandle(ref.current);
-      createFragment(viewId!);
+      //       const viewId = findNodeHandle(ref.current);
+      //       createFragment(viewId!);
 
       return () => {
         onAdShow?.remove();
@@ -93,17 +93,6 @@ const Page = CreatePage({
         onSkippedVideo?.remove();
       };
     }, []);
-
-    return (
-      <CSJVideoManager
-        ref={ref}
-        id={1234}
-        index={1}
-        config={{
-          mode: 'common',
-        }}
-      />
-    );
 
     return (
       <View>
