@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
@@ -211,7 +212,24 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                 if (csjSplashAd == null) {
                     return;
                 }
-                csjSplashAd.showSplashView((ViewGroup) getCurrentActivity().getWindow().getDecorView());
+                View v = csjSplashAd.getSplashView();
+                csjSplashAd.setSplashAdListener(new CSJSplashAd.SplashAdListener() {
+                    @Override
+                    public void onSplashAdShow(CSJSplashAd csjSplashAd) {
+
+                    }
+
+                    @Override
+                    public void onSplashAdClick(CSJSplashAd csjSplashAd) {
+                        ((ViewGroup) getCurrentActivity().getWindow().getDecorView()).removeView(v);
+                    }
+
+                    @Override
+                    public void onSplashAdClose(CSJSplashAd csjSplashAd, int i) {
+                        ((ViewGroup) getCurrentActivity().getWindow().getDecorView()).removeView(v);
+                    }
+                });
+                ((ViewGroup) getCurrentActivity().getWindow().getDecorView()).addView(v);
             }
 
             @Override
