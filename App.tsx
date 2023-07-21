@@ -81,11 +81,11 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
-        TTAdSdk.loadSplashAd(
-          '888388282',
-          Screen.width,
-          Screen.height + (StatusBar.currentHeight || 0),
-        );
+        // TTAdSdk.loadSplashAd(
+        //   '888388282',
+        //   Screen.width,
+        //   Screen.height + (StatusBar.currentHeight || 0),
+        // );
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
