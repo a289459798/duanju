@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   NativeAppEventEmitter,
   RefreshControl,
@@ -38,6 +38,16 @@ const Page = CreatePage({
       }
     };
     const [refreshing, setRefreshing] = React.useState(false);
+
+    useEffect(() => {
+      nav.setOptions({
+        tabBarStyle: {
+          backgroundColor: 'red',
+          borderTopWidth: 0,
+          paddingTop: 3,
+        },
+      });
+    }, []);
 
     const onRefresh = () => {
       checkLogin(() => {
