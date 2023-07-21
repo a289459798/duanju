@@ -30,8 +30,8 @@ class TTAdSdk extends NativeEventEmitter {
     RNTTAdSdk.showAd();
   }
 
-  loadSplashAd(codeId: string, width: number, height: number) {
-    RNTTAdSdk.loadSplashAd(codeId, width, height);
+  loadSplashAd(codeId: string) {
+    RNTTAdSdk.loadSplashAd(codeId);
   }
 }
 

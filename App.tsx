@@ -81,11 +81,7 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
-        // TTAdSdk.loadSplashAd(
-        //   '888388282',
-        //   Screen.width,
-        //   Screen.height + (StatusBar.currentHeight || 0),
-        // );
+        TTAdSdk.loadSplashAd('888388282');
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
@@ -103,10 +99,10 @@ function App(): JSX.Element {
   const updateModalRef = useRef<UpdateModalRef>(null);
 
   useLayoutEffect(() => {
+    init();
     setTimeout(() => {
-      init();
       SplashScreen.hide();
-    }, 2000);
+    }, 3000);
     return () => {
       loginEmit?.remove();
     };

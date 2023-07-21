@@ -41,7 +41,6 @@ const Page = CreatePage({
           );
 
           let lineLeft = 0;
-
           return (
             <View style={styles.tabBar}>
               <View style={styles.tabBarTop}>
@@ -56,12 +55,13 @@ const Page = CreatePage({
                   lineLeft = props.position.interpolate({
                     inputRange,
                     outputRange: inputRange.map((inputIndex: number) =>
-                      inputIndex === 0 ? Screen.calc(30) : Screen.calc(88),
+                      inputIndex === 0 ? Screen.calc(26) : Screen.calc(88),
                     ),
                   });
 
                   return (
                     <TouchableOpacity
+                      key={i}
                       style={styles.tabItem}
                       onPress={() => setIndex(i)}>
                       <Animated.Text
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     width: Screen.calc(30),
     height: Screen.calc(3),
     backgroundColor: '#fff',
-    marginTop: Screen.calc(10),
+    marginTop: Screen.calc(2),
     borderRadius: Screen.calc(1.5),
   },
 });

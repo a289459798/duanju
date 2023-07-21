@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,11 +189,20 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void loadSplashAd(String codeId, float expressViewWidth, float expressViewHeight) {
+    public void loadSplashAd(String codeId) {
+        DisplayMetrics dm = new DisplayMetrics();
+        dm = new DisplayMetrics();
+        getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density; // 屏幕密度（像素比例：0.75/1.0/1.5/2.0）
+        int screenWidthDip = dm.widthPixels; // 屏幕宽（dip，如：320dip）
+        int screenHeightDip = dm.heightPixels; // 屏幕宽（dip，如：533dip）
+        int screenWidth = (int)(dm.widthPixels * density + 0.5f); // 屏幕宽（px，如：720px）
+        int screenHeight = (int)(dm.heightPixels * density + 0.5f); // 屏幕高（px，如：1280px）
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) // 广告代码位Id
                 .setAdLoadType(TTAdLoadType.LOAD) // 本次广告用途：TTAdLoadType.LOAD实时；TTAdLoadType.PRELOAD预请求
-                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
+                .setImageAcceptedSize(screenWidth, screenHeight)
+                .setExpressViewAcceptedSize(screenWidthDip, screenHeightDip)
                 .build();
 
         getAdNative().loadSplashAd(adSlot, new TTAdNative.CSJSplashAdListener() {
@@ -237,5 +247,15 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 
             }
         }, 4000);
+    }
+
+    @ReactMethod
+    public void addListener(String eventName) {
+
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+
     }
 }
