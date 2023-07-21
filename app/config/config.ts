@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 
 export default {
-  AppName: '短剧',
+  AppName: '甜瓜剧场',
   Scheme: 'smuai://',
   EncrpytHash: 'CxdK3xTJ2Z6Bcyp3WGp5wTxU1BlkMd2l',
   UM: {
@@ -21,7 +21,7 @@ export default {
     AppId: '5413022',
     Code: {
       Splash: '888391456',
-      Video: '952966977',
+      Video: '952966978',
     },
   },
   // 用户协议
