@@ -5,6 +5,7 @@ import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import {CSJVideoManager} from '@/briage/view';
 import {TTAdSdk} from 'briage/module';
+import config from 'config';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -39,7 +40,7 @@ const Page = CreatePage({
 
       if (aaa?.viewableItems[0]?.index === 1) {
         TTAdSdk.loadAd(
-          '952940267',
+          config.CSJ.Code.Video,
           Screen.width,
           Screen.height + (StatusBar.currentHeight || 0),
           () => {

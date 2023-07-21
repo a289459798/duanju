@@ -18,7 +18,11 @@ export default {
     },
   },
   CSJ: {
-    AppId: '5412066',
+    AppId: '5413022',
+    Code: {
+      Splash: '888388282',
+      Video: '952940267',
+    },
   },
   // 用户协议
   agreement:

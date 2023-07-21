@@ -81,7 +81,7 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
-        TTAdSdk.loadSplashAd('888388282');
+        TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
