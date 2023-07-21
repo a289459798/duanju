@@ -24,7 +24,7 @@ const Page = CreatePage({
     statusBar: {translucent: true, backgroundColor: 'transparent'},
   }),
   Component: () => {
-    const [index, setIndex] = React.useState(1);
+    const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
       {key: 'history', title: '历史观看'},
       {key: 'recommand', title: '推荐'},

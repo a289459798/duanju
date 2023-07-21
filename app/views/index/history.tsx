@@ -1,145 +1,81 @@
-import React, {useRef, useEffect, useCallback} from 'react';
-import {View, UIManager, findNodeHandle, StatusBar} from 'react-native';
-import {connect} from 'react-redux';
+import React, {useRef, useEffect, useState} from 'react';
+import {View, StyleSheet} from 'react-native';
 import {Text, ListView} from '@/component';
-import {CreatePage, Screen} from '@/utils';
-import {CSJVideoManager} from '@/briage/view';
-import {TTAdSdk} from 'briage/module';
+import {Screen} from '@/utils';
 
-const createFragment = (viewId: number | null) =>
-  UIManager.dispatchViewManagerCommand(
-    viewId,
-    //@ts-ignore
-    UIManager.CSJVideoManager.Commands.create.toString(), // we are calling the 'create' command
-    [viewId],
-  );
-
-const Page = CreatePage({
-  navigationProps: () => ({
-    hideSafe: true,
-    hideHeader: true,
-    statusBar: {translucent: true, backgroundColor: 'transparent'},
-  }),
-  Component: (props: any) => {
-    const {user} = props;
-    console.log('user1', user);
-    const ref = useRef(null);
-
-    const _onViewableItemsChanged = useCallback((aaa: any) => {
-      // 这个方法为了让state对应当前呈现在页面上的item的播放器的state
-      // 也就是只会有一个播放器播放，而不会每个item都播放
-      // 可以理解为，只要不是当前再页面上的item 它的状态就应该暂停
-      // 只有100%呈现再页面上的item（只会有一个）它的播放器是播放状态
-      //       if (viewableItems.length === 1) {
-      //         // setCurrentItem(viewableItems[0].index);
-      //       }
-      console.log('aaa', aaa);
-      //       const viewId = findNodeHandle(ref.current);
-      //       createFragment(viewId!);
-
-      if (aaa?.viewableItems[0]?.index === 1) {
-        TTAdSdk.loadAd(
-          '952940267',
-          Screen.width,
-          Screen.height + (StatusBar.currentHeight || 0),
-          () => {
-            console.log('广告加载成功');
-            TTAdSdk.showAd();
-          },
-          (code: number, error: string) => {
-            console.log('广告加载失败:', code, error);
-          },
-        );
-      }
-    }, []);
-
-    const loadMore = useCallback(() => {
-      console.log('loadMore');
-    }, []);
-
-    useEffect(() => {
-      const onAdShow = TTAdSdk.addListener('onAdShow', () => {
-        console.log('onAdShow');
-      });
-      const onAdVideoBarClick = TTAdSdk.addListener('onAdVideoBarClick', () => {
-        console.log('onAdVideoBarClick');
-      });
-      const onAdClose = TTAdSdk.addListener('onAdClose', () => {
-        console.log('onAdClose');
-      });
-      const onVideoComplete = TTAdSdk.addListener('onVideoComplete', () => {
-        console.log('onVideoComplete');
-      });
-      const onVideoError = TTAdSdk.addListener('onVideoError', () => {
-        console.log('onVideoError');
-      });
-      const onRewardArrived = TTAdSdk.addListener('onRewardArrived', () => {
-        console.log('onRewardArrived');
-      });
-      const onSkippedVideo = TTAdSdk.addListener('onSkippedVideo', () => {
-        console.log('onSkippedVideo');
-      });
-
-      //       const viewId = findNodeHandle(ref.current);
-      //       createFragment(viewId!);
-
-      return () => {
-        onAdShow?.remove();
-        onAdVideoBarClick?.remove();
-        onAdClose?.remove();
-        onVideoComplete?.remove();
-        onVideoError?.remove();
-        onRewardArrived?.remove();
-        onSkippedVideo?.remove();
-      };
-    }, []);
-
-    return (
-      <View>
-        <ListView
-          data={[1, 2, 3, 4, 5]}
-          getItemLayout={(item, index) => {
-            return {
-              length: Screen.height + (StatusBar.currentHeight || 0),
-              offset: (Screen.height + (StatusBar.currentHeight || 0)) * index,
-              index,
-            };
-          }}
-          pagingEnabled={true}
-          viewabilityConfig={{
-            viewAreaCoveragePercentThreshold: 80,
-          }}
-          onViewableItemsChanged={_onViewableItemsChanged}
-          onLoadMore={loadMore}
-          hasMore={true}
-          renderItem={({item}) => (
-            <View
-              style={{
-                backgroundColor: item % 2 === 0 ? 'red' : 'green',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: Screen.height + (StatusBar.currentHeight || 0),
-              }}>
-              <Text>{item}</Text>
-              <CSJVideoManager
-                ref={ref}
-                id={1234}
-                index={1}
-                config={{
-                  mode: 'common',
-                }}
-              />
+type listType = {
+  title: string;
+  index: number;
+};
+export default () => {
+  const [list, setList] = useState<listType[]>([]);
+  useEffect(() => {
+    setList([
+      {title: 'sdsdsd', index: 1},
+      {title: 'sdsdsd', index: 1},
+      {title: 'sdsdsd', index: 1},
+      {title: 'sdsdsd', index: 1},
+    ]);
+  }, []);
+  return (
+    <ListView
+      style={styles.container}
+      columnWrapperStyle={{justifyContent: 'space-between'}}
+      numColumns={3}
+      data={list}
+      renderItem={({item}) => (
+        <View style={styles.itemView}>
+          <View style={styles.itemImageView}>
+            <View style={styles.itemImage} />
+            <View style={styles.statusView}>
+              <Text style={styles.statusText}>已完结</Text>
             </View>
-          )}
-        />
-      </View>
-    );
+          </View>
+          <Text style={styles.titleText}>{item.title}</Text>
+          <Text style={styles.lookText}>观看到第{item.index}集</Text>
+        </View>
+      )}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'rgb(65, 65, 65)',
+    paddingTop: Screen.calc(100),
+    paddingHorizontal: Screen.calc(10),
+  },
+  itemView: {flex: 1, marginTop: Screen.calc(20)},
+  itemImageView: {
+    width: Screen.calc(110),
+  },
+  itemImage: {
+    backgroundColor: '#fff',
+    width: Screen.calc(110),
+    height: Screen.calc(160),
+    borderRadius: Screen.calc(10),
+  },
+  statusView: {
+    position: 'absolute',
+    bottom: Screen.calc(5),
+    right: Screen.calc(5),
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    borderRadius: Screen.calc(4),
+    paddingHorizontal: Screen.calc(5),
+    paddingVertical: Screen.calc(2),
+  },
+  statusText: {
+    color: '#fff',
+    fontSize: Screen.calc(10),
+  },
+  titleText: {
+    color: '#fff',
+    fontSize: Screen.calc(14),
+    fontWeight: '500',
+    marginTop: Screen.calc(8),
+  },
+  lookText: {
+    color: '#aaa',
+    fontSize: Screen.calc(11),
   },
 });
-
-export default connect((state: any) => {
-  const {user} = state;
-  return {
-    user,
-  };
-})(Page);
