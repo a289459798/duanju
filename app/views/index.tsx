@@ -4,7 +4,7 @@ import {Image} from 'react-native';
 
 import Index from '../views/index/index';
 import My from '../views/my';
-import Tools from '../views/my';
+import Theater from '../views/theater';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ export default function Tab() {
       screenOptions={{
         header: () => null,
         tabBarStyle: {
-          backgroundColor: '#180033',
+          backgroundColor: 'rgb(37, 37, 37)',
           borderTopWidth: 0,
           paddingTop: 3,
         },
@@ -40,7 +40,7 @@ export default function Tab() {
       />
       <BottomTab.Screen
         options={{
-          tabBarLabel: '工具',
+          tabBarLabel: '剧场',
           tabBarIcon: ({focused}) => (
             <Image
               source={
@@ -51,8 +51,8 @@ export default function Tab() {
             />
           ),
         }}
-        name="Tools"
-        component={Tools}
+        name="Theater"
+        component={Theater}
       />
       <BottomTab.Screen
         options={{

@@ -14,10 +14,9 @@ import userAction from '@/action/userAction';
 import {Avatar, Button, Text} from '@/component';
 import {ModalRef} from '@/component/modal';
 import Confirm from '@/component/modal/confirm';
-import Header from '@/component/navigation/header';
 import config from '@/config/config';
 import useNavigator from '@/hooks/useNavigator';
-import {CreatePage} from '@/utils';
+import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
 
 const Page = CreatePage({
@@ -54,21 +53,18 @@ const Page = CreatePage({
     };
 
     return (
-      <View>
-        <Header
-          title={''}
-          safeAreaHide={true}
-          style={{backgroundColor: 'rgba(0, 0, 0, 0)'}}
-          statusBarProps={{
-            barStyle: 'light-content',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-          }}
+      <View style={{flex: 1}}>
+        <LinearGradient
+          style={styles.bg}
+          colors={['rgb(242, 209, 178)', 'rgb(242, 248, 247)']}
+          start={{x: 0, y: 0}}
+          end={{x: 0, y: 0.5}}
         />
         <ScrollView
           contentContainerStyle={{paddingBottom: screen.calc(20)}}
           style={{
             flex: 1,
-            paddingTop: screen.calc(10),
+            paddingTop: screen.calc(100),
           }}
           refreshControl={
             <RefreshControl
@@ -88,96 +84,96 @@ const Page = CreatePage({
               </View>
               <View style={styles.codeView}>
                 <Text onPress={() => checkLogin()} style={styles.codeTitle}>
-                  {user.info ? 'AI代号' : '请先登录'}
+                  {user.info ? '用户名' : '请先登录'}
                 </Text>
                 <View style={styles.code}>
-                  <Text style={styles.codeText}>{user.info?.code}</Text>
+                  <Text style={styles.codeText}>ID：{user.info?.code}</Text>
                 </View>
               </View>
             </View>
-            {user.info?.vip ? (
-              <View style={styles.vipView}>
-                <LinearGradient
-                  style={styles.vipViewTop}
-                  colors={['#FFFCF0', '#FFF7DE', '#FFEAA8']}
-                  start={{x: 0, y: 0}}
-                  end={{x: 0, y: 1}}>
-                  <Text style={styles.vipViewTitle}>AI会员</Text>
-                  <Text style={styles.vipViewDate}>
-                    有效期至 {user.info?.vipExpiry}
+            <View style={styles.vipView}>
+              <View style={styles.vipImageView} />
+              <View style={styles.vipViewBuyView}>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: Screen.calc(14),
+                      fontWeight: '500',
+                      color: '#333',
+                    }}>
+                    账户余额
                   </Text>
-                </LinearGradient>
-                <View style={styles.vipViewBuyView}>
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => checkLogin(() => nav.push('BuyHashRate'))}
-                    style={styles.buyView}>
-                    <Text style={styles.buyText}>购买算力</Text>
-                  </TouchableOpacity>
-                  <View style={styles.line} />
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => checkLogin(() => nav.push('BuyVip'))}
-                    style={styles.buyView}>
-                    <Text style={styles.buyText}>会员续费</Text>
-                  </TouchableOpacity>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: Screen.calc(6),
+                      alignItems: 'flex-end',
+                    }}>
+                    <Text
+                      style={{
+                        color: '#333',
+                        fontSize: Screen.calc(17),
+                        fontWeight: '500',
+                      }}>
+                      0<Text style={{fontSize: Screen.calc(12)}}> 看币</Text>
+                    </Text>
+                    <Text
+                      style={{
+                        marginLeft: Screen.calc(30),
+                        fontSize: Screen.calc(12),
+                        color: 'rgb(242, 209, 178)',
+                      }}>
+                      查看详情 {'>'}
+                    </Text>
+                  </View>
                 </View>
+                <Button
+                  isRadius
+                  containerStyle={{
+                    width: Screen.calc(80),
+                    height: Screen.calc(36),
+                  }}
+                  style={{backgroundColor: 'red'}}
+                  title={'充值'}
+                />
               </View>
-            ) : (
-              <LinearGradient
-                style={styles.noVipView}
-                colors={['#C974FF', '#7E99FF']}
-                start={{x: 0, y: 0}}
-                end={{x: 0.5, y: 1}}>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => checkLogin(() => nav.push('BuyHashRate'))}
-                  style={styles.buyView}>
-                  <Text style={styles.buyText}>购买算力</Text>
-                </TouchableOpacity>
-                <View style={styles.line} />
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => checkLogin(() => nav.push('BuyVip'))}
-                  style={styles.buyView}>
-                  <Text style={styles.buyText}>会员充值</Text>
-                </TouchableOpacity>
-              </LinearGradient>
-            )}
-
-            <View style={styles.itemView}>
-              <Text style={styles.toolsTitle}>常用工具</Text>
             </View>
 
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => checkLogin(() => nav.push('Message'))}
-              style={[styles.itemView, styles.item]}>
-              <Text style={styles.itemText}>消息通知</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                nav.push('Protocol', {url: config.agreement, title: '用户协议'})
-              }
-              style={[styles.itemView, styles.item]}>
-              <Text style={styles.itemText}>用户协议</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                nav.push('Protocol', {url: config.privacy, title: '隐私协议'})
-              }
-              style={[styles.itemView, styles.item]}>
-              <Text style={styles.itemText}>隐私协议</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={[styles.itemView, styles.item]}
-              onPress={() => nav.push('About')}>
-              <Text style={styles.itemText}>关于我们</Text>
-            </TouchableOpacity>
+            <View style={[styles.menuView, {flexDirection: 'row'}]}>
+              <Text style={styles.dataText}>全部在追</Text>
+              <View style={styles.line} />
+              <Text style={styles.dataText}>历史观看</Text>
+              <View style={styles.line} />
+              <Text style={styles.dataText}>我的点赞</Text>
+            </View>
 
+            <View style={styles.menuView}>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() =>
+                  nav.push('Protocol', {
+                    url: config.agreement,
+                    title: '用户协议',
+                  })
+                }
+                style={[styles.itemView, styles.item]}>
+                <Text style={styles.itemText}>联系客服</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() =>
+                  nav.push('Protocol', {url: config.privacy, title: '隐私协议'})
+                }
+                style={[styles.itemView, styles.item]}>
+                <Text style={styles.itemText}>检查更新</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[styles.itemView, styles.item]}
+                onPress={() => nav.push('About')}>
+                <Text style={styles.itemText}>关于</Text>
+              </TouchableOpacity>
+            </View>
             {user.info && (
               <Button
                 isRadius
@@ -216,6 +212,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  bg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
+  },
   user: {
     flexDirection: 'row',
     paddingHorizontal: screen.calc(30),
@@ -227,62 +231,25 @@ const styles = StyleSheet.create({
     borderWidth: screen.calc(1),
     borderColor: '#fff',
     borderRadius: screen.calc(30),
-  },
-  crown: {
-    position: 'absolute',
-    right: screen.calc(-4),
-    top: screen.calc(-4),
+    backgroundColor: '#ccc',
   },
   codeView: {
     marginLeft: screen.calc(12),
     justifyContent: 'center',
   },
-  codeTitle: {color: '#fff', fontSize: screen.calc(17), fontWeight: '500'},
+  codeTitle: {color: '#333', fontSize: screen.calc(17), fontWeight: '500'},
   code: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: screen.calc(6),
   },
   codeText: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#333',
     fontSize: screen.calc(13),
     marginRight: screen.calc(4),
   },
-  noVipView: {
-    flexDirection: 'row',
-    borderRadius: screen.calc(12),
-    marginHorizontal: screen.calc(22),
-    height: screen.calc(45),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buyView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  buyText: {
-    color: '#fff',
-    fontSize: screen.calc(13),
-    marginLeft: screen.calc(3),
-  },
-  line: {
-    width: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff',
-    height: screen.calc(20),
-  },
+
   vipView: {marginHorizontal: screen.calc(18)},
-  vipViewTop: {
-    flexDirection: 'row',
-    height: screen.calc(40),
-    borderTopLeftRadius: screen.calc(22),
-    borderTopRightRadius: screen.calc(22),
-    borderBottomRightRadius: screen.calc(6),
-    borderBottomLeftRadius: screen.calc(6),
-    alignItems: 'center',
-    paddingHorizontal: screen.calc(12),
-  },
   vipViewTitle: {
     color: '#AE4800',
     fontSize: screen.calc(15),
@@ -292,55 +259,57 @@ const styles = StyleSheet.create({
   vipViewDate: {color: '#AE4800', fontSize: screen.calc(11)},
   vipViewBuyView: {
     flexDirection: 'row',
-    backgroundColor: '#1F1763',
+    backgroundColor: '#fff',
     borderBottomRightRadius: screen.calc(12),
     borderBottomLeftRadius: screen.calc(12),
-    height: screen.calc(45),
-    marginHorizontal: screen.calc(5),
+    paddingHorizontal: Screen.calc(20),
+    justifyContent: 'space-between',
+    paddingVertical: Screen.calc(15),
+  },
+  menuView: {
+    backgroundColor: '#fff',
+    borderRadius: screen.calc(12),
+    marginHorizontal: Screen.calc(15),
+    marginTop: Screen.calc(15),
   },
   itemView: {
     borderRadius: screen.calc(12),
-    backgroundColor: '#1F1763',
     paddingLeft: screen.calc(16),
     paddingRight: screen.calc(20),
     marginTop: screen.calc(10),
     paddingVertical: screen.calc(12),
-    marginHorizontal: screen.calc(22),
-  },
-  toolsTitle: {
-    color: '#fff',
-    fontSize: screen.calc(15),
-  },
-  toolsView: {
-    flexDirection: 'row',
-    marginTop: screen.calc(22),
-  },
-  toolsItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: screen.calc(16),
-  },
-  toolsImage: {
-    width: screen.calc(55),
-    height: screen.calc(55),
-    borderRadius: screen.calc(20),
-  },
-  toolsText: {
-    color: '#fff',
-    fontSize: screen.calc(12),
-    marginTop: screen.calc(10),
+    marginHorizontal: screen.calc(15),
   },
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   itemText: {
-    color: '#fff',
+    color: '#333',
     fontSize: screen.calc(15),
   },
   button: {
     width: screen.calc(200),
     alignSelf: 'center',
     marginTop: screen.calc(30),
+  },
+  vipImageView: {
+    backgroundColor: '#ccc',
+    width: '100%',
+    height: Screen.calc(50),
+    borderTopRightRadius: screen.calc(12),
+    borderTopLeftRadius: screen.calc(12),
+  },
+  dataText: {
+    flex: 1,
+    textAlign: 'center',
+    paddingVertical: Screen.calc(10),
+  },
+  line: {
+    width: StyleSheet.hairlineWidth,
+    height: Screen.calc(15),
+    backgroundColor: '#ccc',
+    alignSelf: 'center',
+    color: '#333',
   },
 });
