@@ -74,6 +74,7 @@ function App(): JSX.Element {
 
   let loginEmit: EmitterSubscription;
   const initSdk = () => {
+    initDb();
     initUser();
     Analytics.init(Config.UM.Appkey, Config.DEBUG);
     Share.init(Config.UM.Appkey, Config.UM.Share, Config.DEBUG);
@@ -124,7 +125,6 @@ function App(): JSX.Element {
   const updateModalRef = useRef<UpdateModalRef>(null);
 
   useLayoutEffect(() => {
-    initDb();
     init();
     setTimeout(() => {
       SplashScreen.hide();
