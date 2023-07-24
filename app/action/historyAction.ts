@@ -62,4 +62,27 @@ export default {
       }, ${data.duration}, '${new Date().toLocaleString()}')`,
     );
   },
+
+  addAd: async (data: {id: number; index: number}) => {
+    const results = await global.db?.executeSql(
+      'select * from Ad where id=? and current=?',
+      [data.id, data.index],
+    );
+    if (results?.[0].rows?.length === 0) {
+      global.db?.executeSql(
+        `insert into Ad(id, current) values(${data.id}, ${data.index})`,
+      );
+    }
+  },
+
+  adExists: async (data: {id: number; index: number}) => {
+    const results = await global.db?.executeSql(
+      'select * from Ad where id=? and current=?',
+      [data.id, data.index],
+    );
+    if (results?.[0].rows?.length > 0) {
+      return true;
+    }
+    return false;
+  },
 };
