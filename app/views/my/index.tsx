@@ -13,12 +13,11 @@ import {connect} from 'react-redux';
 
 import userAction from '@/action/userAction';
 import {Avatar, Button, Text} from '@/component';
-import {ModalRef} from '@/component/modal';
-import config from '@/config/config';
 import useNavigator from '@/hooks/useNavigator';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
 import {Image} from '@rneui/themed';
+import DeviceInfo from 'react-native-device-info';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -29,7 +28,6 @@ const Page = CreatePage({
   Component: (props: any) => {
     const nav = useNavigator();
     const {user} = props;
-    const logoutRef = useRef<ModalRef>(null);
 
     const checkLogin = (callback?: () => void) => {
       if (user.info) {
@@ -40,7 +38,9 @@ const Page = CreatePage({
     };
     const [refreshing, setRefreshing] = React.useState(false);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+      console.log(DeviceInfo.getAndroidIdSync());
+    }, []);
 
     const onRefresh = () => {
       checkLogin(() => {

@@ -32,6 +32,7 @@ import Route from '@/route';
 import LinkConfig from '@/route/route';
 import {Screen, Storage} from '@/utils';
 import config from '@/config';
+import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
@@ -96,9 +97,34 @@ function App(): JSX.Element {
     store.dispatch(userAction.userInfo());
   };
 
+  const initDb = () => {
+    SQLite.DEBUG(config.DEBUG);
+    global.db = SQLite.openDatabase(
+      {name: 'duanjiu'},
+      () => {},
+      () => {},
+    );
+    global.db.transaction((tx: SQLiteDatabase) => {
+      // tx.executeSql('DROP TABLE IF EXISTS History', []);
+      // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
+      // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS History(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
+      );
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS Follow(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
+      );
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS Ad(id INTEGER , current INTEGER)',
+      );
+    });
+    SQLite.enablePromise(true);
+  };
+
   const updateModalRef = useRef<UpdateModalRef>(null);
 
   useLayoutEffect(() => {
+    initDb();
     init();
     setTimeout(() => {
       SplashScreen.hide();

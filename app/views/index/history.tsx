@@ -1,13 +1,16 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
+import historyAction from 'action/historyAction';
+import {useNavigation} from '@react-navigation/native';
 
 type listType = {
   title: string;
   index: number;
 };
 export default () => {
+  const navgation = useNavigation();
   const [list, setList] = useState<listType[]>([]);
   useEffect(() => {
     setList([
@@ -16,7 +19,17 @@ export default () => {
       {title: 'sdsdsd', index: 1},
       {title: 'sdsdsd', index: 1},
     ]);
+    navgation.addListener('focus', getHistory);
+    return () => {
+      navgation.removeListener('focus', () => {});
+    };
   }, []);
+
+  const getHistory = async () => {
+    const history = await historyAction.getHistory();
+    console.log('history', history);
+  };
+
   return (
     <ListView
       style={styles.container}
@@ -24,16 +37,25 @@ export default () => {
       numColumns={3}
       data={list}
       renderItem={({item}) => (
-        <View style={styles.itemView}>
-          <View style={styles.itemImageView}>
-            <View style={styles.itemImage} />
-            <View style={styles.statusView}>
-              <Text style={styles.statusText}>已完结</Text>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            historyAction.addHistory({
+              id: 3,
+              index: 4,
+              duration: 50,
+            })
+          }>
+          <View style={styles.itemView}>
+            <View style={styles.itemImageView}>
+              <View style={styles.itemImage} />
+              <View style={styles.statusView}>
+                <Text style={styles.statusText}>已完结</Text>
+              </View>
             </View>
+            <Text style={styles.titleText}>{item.title}</Text>
+            <Text style={styles.lookText}>观看到第{item.index}集</Text>
           </View>
-          <Text style={styles.titleText}>{item.title}</Text>
-          <Text style={styles.lookText}>观看到第{item.index}集</Text>
-        </View>
+        </TouchableWithoutFeedback>
       )}
     />
   );
