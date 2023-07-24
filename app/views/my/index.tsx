@@ -161,12 +161,7 @@ const Page = CreatePage({
             <View style={styles.menuView}>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() =>
-                  nav.push('Protocol', {
-                    url: config.agreement,
-                    title: '用户协议',
-                  })
-                }
+                onPress={() => nav.push('Contact')}
                 style={[styles.itemView, styles.item]}>
                 <Text style={styles.itemText}>联系客服</Text>
               </TouchableOpacity>

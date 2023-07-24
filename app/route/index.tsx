@@ -7,6 +7,7 @@ import {Platform} from 'react-native';
 import {Screen} from '@/utils';
 import Tab from '@/views';
 import About from '@/views/about';
+import Contact from '@/views/contact';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default () => {
         }}
       />
       <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Contact" component={Contact} />
     </Stack.Navigator>
   );
 };
