@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.bytedance.sdk.dp.DPSdk;
 import com.bytedance.sdk.dp.DPSdkConfig;
-import com.duanju.BuildConfig;
-import com.duanju.ReactNativeFlipper;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;

@@ -13,11 +13,11 @@ import {connect} from 'react-redux';
 import userAction from '@/action/userAction';
 import {Avatar, Button, Text} from '@/component';
 import {ModalRef} from '@/component/modal';
-import Confirm from '@/component/modal/confirm';
 import config from '@/config/config';
 import useNavigator from '@/hooks/useNavigator';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
+import {Image} from '@rneui/themed';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -39,15 +39,7 @@ const Page = CreatePage({
     };
     const [refreshing, setRefreshing] = React.useState(false);
 
-    useEffect(() => {
-      nav.setOptions({
-        tabBarStyle: {
-          backgroundColor: 'red',
-          borderTopWidth: 0,
-          paddingTop: 3,
-        },
-      });
-    }, []);
+    useEffect(() => {}, []);
 
     const onRefresh = () => {
       checkLogin(() => {
@@ -102,59 +94,68 @@ const Page = CreatePage({
               </View>
             </View>
             <View style={styles.vipView}>
-              <View style={styles.vipImageView} />
-              <View style={styles.vipViewBuyView}>
-                <View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: Screen.calc(14),
+                    fontWeight: '500',
+                    color: '#333',
+                  }}>
+                  到期时间：
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: Screen.calc(6),
+                    alignItems: 'flex-end',
+                  }}>
                   <Text
                     style={{
-                      fontSize: Screen.calc(14),
-                      fontWeight: '500',
-                      color: '#333',
+                      color: '#999',
+                      fontSize: Screen.calc(12),
                     }}>
-                    账户余额
+                    开通VIP全场免费无广告
                   </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: Screen.calc(6),
-                      alignItems: 'flex-end',
-                    }}>
-                    <Text
-                      style={{
-                        color: '#333',
-                        fontSize: Screen.calc(17),
-                        fontWeight: '500',
-                      }}>
-                      0<Text style={{fontSize: Screen.calc(12)}}> 看币</Text>
-                    </Text>
-                    <Text
-                      style={{
-                        marginLeft: Screen.calc(30),
-                        fontSize: Screen.calc(12),
-                        color: 'rgb(242, 209, 178)',
-                      }}>
-                      查看详情 {'>'}
-                    </Text>
-                  </View>
                 </View>
-                <Button
-                  isRadius
-                  containerStyle={{
-                    width: Screen.calc(80),
-                    height: Screen.calc(36),
-                  }}
-                  style={{backgroundColor: 'red'}}
-                  title={'充值'}
-                />
               </View>
+              <Button
+                isRadius
+                containerStyle={{
+                  width: Screen.calc(80),
+                  height: Screen.calc(36),
+                }}
+                style={{backgroundColor: 'red'}}
+                title={'续费VIP'}
+              />
             </View>
 
-            <View style={[styles.menuView, {flexDirection: 'row'}]}>
-              <Text style={styles.dataText}>全部在追</Text>
-              <View style={styles.line} />
-              <Text style={styles.dataText}>历史观看</Text>
-              <View style={styles.line} />
-              <Text style={styles.dataText}>我的点赞</Text>
+            <View style={[styles.menuView, {paddingVertical: Screen.calc(15)}]}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: Screen.calc(15),
+                }}>
+                <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
+                  我的追剧
+                </Text>
+                <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
+                  查看全部
+                </Text>
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.followView}>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, k) => (
+                    <View style={styles.followViewItem} key={k}>
+                      <Image
+                        style={styles.followViewImage}
+                        source={{uri: 'aaa'}}
+                      />
+                      <Text style={styles.followViewTitle}>标题</Text>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
             </View>
 
             <View style={styles.menuView}>
@@ -171,41 +172,13 @@ const Page = CreatePage({
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() =>
-                  nav.push('Protocol', {url: config.privacy, title: '隐私协议'})
-                }
-                style={[styles.itemView, styles.item]}>
-                <Text style={styles.itemText}>检查更新</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={1}
                 style={[styles.itemView, styles.item]}
                 onPress={() => nav.push('About')}>
                 <Text style={styles.itemText}>关于</Text>
               </TouchableOpacity>
             </View>
-            {user.info && (
-              <Button
-                isRadius
-                gradient={{colors: ['#BC7AFF', '#7E99FF']}}
-                containerStyle={[styles.button]}
-                title={'退出登录'}
-                onPress={async () => {
-                  logoutRef.current?.show();
-                }}
-              />
-            )}
           </>
         </ScrollView>
-        <Confirm
-          ref={logoutRef}
-          title="提示"
-          content="确定退出登录吗？"
-          onPress={() => {
-            props.dispatch(userAction.logout());
-            logoutRef.current?.hide();
-          }}
-        />
       </View>
     );
   },
@@ -259,23 +232,16 @@ const styles = StyleSheet.create({
     marginRight: screen.calc(4),
   },
 
-  vipView: {marginHorizontal: screen.calc(18)},
-  vipViewTitle: {
-    color: '#AE4800',
-    fontSize: screen.calc(15),
-    paddingLeft: screen.calc(6),
-    flex: 1,
-  },
-  vipViewDate: {color: '#AE4800', fontSize: screen.calc(11)},
-  vipViewBuyView: {
+  vipView: {
+    marginHorizontal: screen.calc(18),
     flexDirection: 'row',
     backgroundColor: '#fff',
-    borderBottomRightRadius: screen.calc(12),
-    borderBottomLeftRadius: screen.calc(12),
+    borderRadius: screen.calc(12),
     paddingHorizontal: Screen.calc(20),
     justifyContent: 'space-between',
     paddingVertical: Screen.calc(15),
   },
+
   menuView: {
     backgroundColor: '#fff',
     borderRadius: screen.calc(12),
@@ -303,23 +269,24 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: screen.calc(30),
   },
-  vipImageView: {
-    backgroundColor: '#ccc',
-    width: '100%',
-    height: Screen.calc(50),
-    borderTopRightRadius: screen.calc(12),
-    borderTopLeftRadius: screen.calc(12),
+  followView: {
+    flexDirection: 'row',
+    paddingLeft: Screen.calc(15),
   },
-  dataText: {
-    flex: 1,
-    textAlign: 'center',
-    paddingVertical: Screen.calc(10),
+  followViewItem: {
+    marginTop: Screen.calc(15),
+    width: Screen.calc(80),
+    marginRight: Screen.calc(15),
   },
-  line: {
-    width: StyleSheet.hairlineWidth,
-    height: Screen.calc(15),
-    backgroundColor: '#ccc',
+  followViewImage: {
+    width: Screen.calc(80),
+    height: Screen.calc(100),
+    backgroundColor: 'red',
+    borderRadius: Screen.calc(8),
+  },
+  followViewTitle: {
     alignSelf: 'center',
-    color: '#333',
+    fontSize: Screen.calc(14),
+    marginTop: Screen.calc(4),
   },
 });
