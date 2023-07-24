@@ -3,7 +3,7 @@ package com.njrzm.pro;
 import androidx.annotation.NonNull;
 
 import com.njrzm.pro.module.RNTTAdSdkModule;
-import com.njrzm.pro.video.ReactCSJVideoManager;
+import com.njrzm.pro.view.video.ReactCSJVideoManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
