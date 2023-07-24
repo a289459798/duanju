@@ -1,4 +1,4 @@
-package com.duanju.view.video;
+package com.njrzm.pro.video;
 
 import androidx.fragment.app.Fragment;
 

@@ -1,19 +1,9 @@
-package com.duanju.module;
+package com.njrzm.pro.module;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.CSJAdError;
@@ -25,16 +15,12 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
-import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.duanju.BuildConfig;
-import com.duanju.R;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-
-import java.lang.ref.WeakReference;
 
 public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 

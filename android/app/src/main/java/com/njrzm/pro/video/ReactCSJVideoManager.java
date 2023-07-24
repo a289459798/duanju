@@ -1,4 +1,4 @@
-package com.duanju.view.video;
+package com.njrzm.pro.video;
 
 import android.view.Choreographer;
 import android.view.View;
@@ -7,13 +7,11 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bytedance.sdk.dp.DPDrama;
 import com.bytedance.sdk.dp.DPDramaDetailConfig;
 import com.bytedance.sdk.dp.DPSdk;
-import com.bytedance.sdk.dp.DPWidgetDramaCardParams;
 import com.bytedance.sdk.dp.DPWidgetDramaDetailParams;
 import com.bytedance.sdk.dp.IDPAdListener;
 import com.bytedance.sdk.dp.IDPDramaListener;
@@ -22,7 +20,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
-import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;

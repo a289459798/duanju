@@ -12,15 +12,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
-        android:name="com.duanju.openadsdk.permission.TT_PANGOLIN"
+        android:name="com.njrzm.pro.openadsdk.permission.TT_PANGOLIN"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.duanju.openadsdk.permission.TT_PANGOLIN" />
+    <uses-permission android:name="com.njrzm.pro.openadsdk.permission.TT_PANGOLIN" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
-        android:name=".MainApplication"
+        android:name="com.njrzm.pro.MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".MainActivity"
+            android:name="com.njrzm.pro.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:exported="true"
             android:label="@string/app_name"
@@ -42,19 +42,19 @@
 
         <!--微信-->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.njrzm.pro.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name="com.njrzm.pro.wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
-            android:authorities="com.duanju.TTFileProvider"
+            android:authorities="com.njrzm.pro.TTFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -63,7 +63,7 @@
         </provider>
         <provider
             android:name="com.bytedance.sdk.dp.act.DPProvider"
-            android:authorities="com.duanju.BDDPProvider"
+            android:authorities="com.njrzm.pro.BDDPProvider"
             android:exported="false" />
     </application>
 </manifest>

@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.duanju"
+    namespace "com.njrzm.pro"
     defaultConfig {
-        applicationId "com.duanju"
+        applicationId "com.njrzm.pro"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
