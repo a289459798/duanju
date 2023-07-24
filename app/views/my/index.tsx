@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -130,19 +131,21 @@ const Page = CreatePage({
             </View>
 
             <View style={[styles.menuView, {paddingVertical: Screen.calc(15)}]}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: Screen.calc(15),
-                }}>
-                <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
-                  我的追剧
-                </Text>
-                <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
-                  查看全部
-                </Text>
-              </View>
+              <TouchableWithoutFeedback onPress={() => nav.push('Follow')}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: Screen.calc(15),
+                  }}>
+                  <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
+                    我的追剧
+                  </Text>
+                  <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
+                    查看全部
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.followView}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, k) => (
