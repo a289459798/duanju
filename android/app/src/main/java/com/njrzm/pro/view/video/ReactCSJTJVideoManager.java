@@ -16,14 +16,18 @@ import com.bytedance.sdk.dp.DPWidgetDrawParams;
 import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.List;
 import java.util.Map;
@@ -120,6 +124,17 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
+    @Override
+    public Map getExportedCustomBubblingEventTypeConstants() {
+        return MapBuilder.builder()
+                .put(
+                        "topDPVideoPlay",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onDPVideoPlay")))
+                .build();
+    }
+
     /**
      * Replace your React Native view with a custom fragment
      */
@@ -127,20 +142,42 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
         ViewGroup parentView = (ViewGroup) root.findViewById(reactNativeViewId);
         setupLayout(parentView);
 
-        DPWidgetDrawParams params1 =  DPWidgetDrawParams.obtain();
+        DPWidgetDrawParams params1 = DPWidgetDrawParams.obtain();
         params1.mDrawChannelType = DPWidgetDrawParams.DRAW_CHANNEL_TYPE_RECOMMEND_THEATER;
         params1.mDrawContentType = DPWidgetDrawParams.DRAW_CONTENT_TYPE_ONLY_DRAMA;
         params1.mDisableLuckView = true;
         params1.mIsHideFollow = true;
         params1.mIsHideChannelName = true;
         params1.mIsHideClose = true;
-        params1.mDramaDetailConfig = DPDramaDetailConfig.obtain("common");
-        params1.dramaListener(new IDPDramaListener() {
-            @Override
-            public void onDramaGalleryClick(@Nullable Map<String, Object> map) {
+        params1.mIsHideDramaInfo = true;
+        params1.mIsHideDramaEnter = true;
+        DPDramaDetailConfig mDramaDetailConfig = DPDramaDetailConfig.obtain("specific");
 
+        params1.listener(new IDPDrawListener() {
+            @Override
+            public void onDPPageChange(int i, Map<String, Object> map) {
+                super.onDPPageChange(i, map);
+            }
+
+            @Override
+            public void onDPVideoPlay(Map<String, Object> map) {
+                super.onDPVideoPlay(map);
+
+                WritableMap event = Arguments.createMap();
+                event.putString("title", (String) map.get("map"));
+                event.putString("cover_image", (String) map.get("cover_image"));
+                event.putString("desc", (String) map.get("desc"));
+                event.putInt("index", (int) map.get("index"));
+                event.putInt("total", (int) map.get("total"));
+                event.putInt("status", (int) map.get("status"));
+                event.putString("drama_id", String.valueOf((long) map.get("drama_id")));
+                mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        reactNativeViewId,
+                        "topDPVideoPlay",
+                        event);
             }
         });
+        params1.mDramaDetailConfig = mDramaDetailConfig;
         IDPWidget widget = DPSdk.factory().createDraw(params1);
 
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
@@ -160,6 +197,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
             }
         });
     }
+
     /**
      * Layout all children properly
      */

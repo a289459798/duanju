@@ -31,6 +31,7 @@ const Page = CreatePage({
     const {user} = props;
     console.log('user1', user);
     const ref = useRef(null);
+    const [video, setVideo] = useState<any>({});
 
     useEffect(() => {
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
@@ -70,16 +71,23 @@ const Page = CreatePage({
     }, []);
 
     return (
-      <CSJTJVideoManager
-        ref={ref}
-        style={{
-          height: PixelRatio.getPixelSizeForLayoutSize(
-            Screen.height + (StatusBar.currentHeight || 0),
-          ),
-          // converts dpi to px, provide desired width
-          width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
-        }}
-      />
+      <View>
+        <CSJTJVideoManager
+          ref={ref}
+          style={{
+            height: PixelRatio.getPixelSizeForLayoutSize(
+              Screen.height + (StatusBar.currentHeight || 0),
+            ),
+            // converts dpi to px, provide desired width
+            width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
+          }}
+          onDPVideoPlay={(data: any) => {
+            console.log('onDPVideoPlay', data.nativeEvent);
+            setVideo(data.nativeEvent);
+          }}
+        />
+        {video?.drama_id && <View></View>}
+      </View>
     );
   },
 });
