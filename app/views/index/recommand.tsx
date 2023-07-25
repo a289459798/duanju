@@ -9,7 +9,7 @@ import {
 import {connect} from 'react-redux';
 import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
-import {CSJVideoManager} from '@/briage/view';
+import {CSJVideoManager, CSJTJVideoManager} from '@/briage/view';
 import {DPSdk, TTAdSdk} from 'briage/module';
 import config from 'config';
 
@@ -17,7 +17,7 @@ const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
     viewId,
     //@ts-ignore
-    UIManager.CSJVideoManager.Commands.create.toString(), // we are calling the 'create' command
+    UIManager.CSJTJVideoManager.Commands.create.toString(), // we are calling the 'create' command
     [viewId],
   );
 
@@ -31,15 +31,8 @@ const Page = CreatePage({
     const {user} = props;
     console.log('user1', user);
     const ref = useRef(null);
-    const [list, setList] = useState<any>([]);
-
-    const fetchList = async (page: number) => {
-      const list = await DPSdk.list(page);
-      setList(list);
-    };
 
     useEffect(() => {
-      fetchList(1);
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
         console.log('onAdShow');
       });
@@ -62,6 +55,9 @@ const Page = CreatePage({
         console.log('onSkippedVideo');
       });
 
+      const viewId = findNodeHandle(ref.current);
+      createFragment(viewId!);
+
       return () => {
         onAdShow?.remove();
         onAdVideoBarClick?.remove();
@@ -73,31 +69,17 @@ const Page = CreatePage({
       };
     }, []);
 
-    useEffect(() => {
-      if (list[0]) {
-        const viewId = findNodeHandle(ref.current);
-        createFragment(viewId!);
-      }
-    }, [list[0]]);
-
     return (
-      <View>
-        <CSJVideoManager
-          ref={ref}
-          style={{
-            height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height + (StatusBar.currentHeight || 0),
-            ),
-            width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
-          }}
-          id={list?.[0]?.id}
-          index={list?.[0]?.index}
-          config={{
-            mode: 'common',
-            infiniteScrollEnabled: true,
-          }}
-        />
-      </View>
+      <CSJTJVideoManager
+        ref={ref}
+        style={{
+          height: PixelRatio.getPixelSizeForLayoutSize(
+            Screen.height + (StatusBar.currentHeight || 0),
+          ),
+          // converts dpi to px, provide desired width
+          width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
+        }}
+      />
     );
   },
 });

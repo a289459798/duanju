@@ -111,6 +111,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         if (config.hasKey("infiniteScrollEnabled")) {
             detailConfig.mInfiniteScrollEnabled = config.getBoolean("infiniteScrollEnabled");
         }
+        detailConfig.mIsHideLeftTopTips = true;
 
     }
 
@@ -324,8 +325,6 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
         params.mDetailConfig = this.detailConfig;
         IDPWidget widget = DPSdk.factory().createDramaDetail(params);
-
-        final VideoFragment myFragment = new VideoFragment();
 
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
         activity.getSupportFragmentManager()

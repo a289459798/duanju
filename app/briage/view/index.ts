@@ -1,3 +1,4 @@
 import CSJVideoManager from './CSJVideoManager';
+import CSJTJVideoManager from './CSJTJVideoManager';
 
-export {CSJVideoManager};
+export {CSJVideoManager, CSJTJVideoManager};

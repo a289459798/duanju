@@ -58,6 +58,22 @@ public class RNDPSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void history(int page, int count,
+                     Promise promise) {
+        DPSdk.factory().getDramaHistory(page, count, new IDPWidgetFactory.DramaCallback() {
+            @Override
+            public void onError(int i, String s) {
+                promise.reject(i + "", s);
+            }
+
+            @Override
+            public void onSuccess(List<? extends DPDrama> list, Map<String, Object> map) {
+                promise.resolve(getData(list, map));
+            }
+        });
+    }
+
+    @ReactMethod
     public void listWithIds(List<Long> ids,
                             Callback successCallback, Callback errorCallback) {
         DPSdk.factory().requestDrama(ids, new IDPWidgetFactory.DramaCallback() {

@@ -75,7 +75,6 @@ function App(): JSX.Element {
 
   let loginEmit: EmitterSubscription;
   const initSdk = () => {
-    initDb();
     TTAdSdk.init(
       config.CSJ.AppId,
       config.AppName,
@@ -88,6 +87,7 @@ function App(): JSX.Element {
         console.log('穿山甲初始化失败：', status, error);
       },
     );
+    initDb();
     initUser();
     Analytics.init(Config.UM.Appkey, Config.DEBUG);
     Share.init(Config.UM.Appkey, Config.UM.Share, Config.DEBUG);
@@ -109,12 +109,8 @@ function App(): JSX.Element {
       () => {},
     );
     global.db.transaction((tx: SQLiteDatabase) => {
-      // tx.executeSql('DROP TABLE IF EXISTS History', []);
       // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
       // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS History(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
-      );
       tx.executeSql(
         'CREATE TABLE IF NOT EXISTS Follow(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
       );

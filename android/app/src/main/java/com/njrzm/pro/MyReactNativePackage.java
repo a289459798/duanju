@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.njrzm.pro.module.RNDPSdkModule;
 import com.njrzm.pro.module.RNTTAdSdkModule;
+import com.njrzm.pro.view.video.ReactCSJTJVideoManager;
 import com.njrzm.pro.view.video.ReactCSJVideoManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
@@ -29,6 +30,7 @@ public class MyReactNativePackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactApplicationContext) {
         List<ViewManager> viewManagers = new ArrayList<>();
+        viewManagers.add(new ReactCSJTJVideoManager(reactApplicationContext));
         viewManagers.add(new ReactCSJVideoManager(reactApplicationContext));
         return viewManagers;
     }

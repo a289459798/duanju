@@ -1,9 +1,10 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
-import historyAction from 'action/historyAction';
 import {useNavigation} from '@react-navigation/native';
+import {DPSdk} from 'briage/module';
+import {Image} from '@rneui/themed';
 
 type listType = {
   title: string;
@@ -13,12 +14,6 @@ export default () => {
   const navgation = useNavigation();
   const [list, setList] = useState<listType[]>([]);
   useEffect(() => {
-    setList([
-      {title: 'sdsdsd', index: 1},
-      {title: 'sdsdsd', index: 1},
-      {title: 'sdsdsd', index: 1},
-      {title: 'sdsdsd', index: 1},
-    ]);
     navgation.addListener('focus', getHistory);
     return () => {
       navgation.removeListener('focus', () => {});
@@ -26,33 +21,35 @@ export default () => {
   }, []);
 
   const getHistory = async () => {
-    const history = await historyAction.getHistory();
-    console.log('history', history);
+    const history = await DPSdk.history(1, 50);
+    setList(history);
   };
 
   return (
     <ListView
       style={styles.container}
-      columnWrapperStyle={{justifyContent: 'space-between'}}
+      contentContainerStyle={{
+        paddingBottom: Screen.calc(100),
+      }}
+      columnWrapperStyle={{
+        justifyContent: 'flex-start',
+      }}
       numColumns={3}
       data={list}
       renderItem={({item}) => (
-        <TouchableWithoutFeedback
-          onPress={() =>
-            historyAction.addHistory({
-              id: 3,
-              index: 4,
-              duration: 50,
-            })
-          }>
+        <TouchableWithoutFeedback onPress={() => {}}>
           <View style={styles.itemView}>
             <View style={styles.itemImageView}>
-              <View style={styles.itemImage} />
+              <Image style={styles.itemImage} source={{uri: item.coverImage}} />
               <View style={styles.statusView}>
-                <Text style={styles.statusText}>已完结</Text>
+                <Text style={styles.statusText}>
+                  {item.status === 0 ? '已完结' : '未完结'}
+                </Text>
               </View>
             </View>
-            <Text style={styles.titleText}>{item.title}</Text>
+            <Text style={styles.titleText} numberOfLines={1}>
+              {item.title}
+            </Text>
             <Text style={styles.lookText}>观看到第{item.index}集</Text>
           </View>
         </TouchableWithoutFeedback>
@@ -63,16 +60,18 @@ export default () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'rgb(65, 65, 65)',
-    paddingTop: Screen.calc(100),
+    paddingTop: Screen.calc(120),
     paddingHorizontal: Screen.calc(10),
   },
-  itemView: {flex: 1, marginTop: Screen.calc(20)},
-  itemImageView: {
+  itemView: {
+    marginBottom: Screen.calc(20),
     width: Screen.calc(110),
+    marginRight: Screen.calc(10),
   },
+  itemImageView: {},
   itemImage: {
-    backgroundColor: '#fff',
     width: Screen.calc(110),
     height: Screen.calc(160),
     borderRadius: Screen.calc(10),
