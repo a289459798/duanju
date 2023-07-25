@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {CreatePage, Screen} from '@/utils';
 import {SceneMap, TabView} from 'react-native-tab-view';
@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {DPSdk} from 'briage/module';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -23,16 +24,24 @@ const Page = CreatePage({
     const [index, setIndex] = useState(0);
     const [routes, setRoutes] = useState<any>([]);
     const [scene, setScene] = useState<any>({});
+    const scrollViewRef = useRef<ScrollView>(null);
 
+    const fetchCategory = async () => {
+      const category = await DPSdk.category();
+      let r = [];
+      let s: any = {};
+      for (let i = 0; i < category.length; i++) {
+        r.push({
+          key: category[i],
+          title: category[i],
+        });
+        s[category[i]] = () => <List category={category[i]} />;
+      }
+      setScene(s);
+      setRoutes(r);
+    };
     useEffect(() => {
-      setRoutes([
-        {key: 'dushi', title: '都市'},
-        {key: 'guzhuang', title: '古装'},
-      ]);
-      setScene({
-        dushi: List,
-        guzhuang: List,
-      });
+      fetchCategory();
     }, []);
     return (
       <View style={styles.container}>
@@ -42,19 +51,26 @@ const Page = CreatePage({
           start={{x: 0, y: 0}}
           end={{x: 0, y: 0.4}}
         />
-        <TabView
-          lazy
-          navigationState={{index, routes}}
-          renderScene={SceneMap(scene)}
-          onIndexChange={setIndex}
-          renderTabBar={(props: any) => {
-            const inputRange = props.navigationState.routes.map(
-              (_x: any, i: number) => i,
-            );
+        {routes?.length > 0 && (
+          <TabView
+            lazy
+            navigationState={{index, routes}}
+            renderScene={SceneMap(scene)}
+            onIndexChange={(i: number) => {
+              setIndex(i);
+              scrollViewRef.current?.scrollTo({x: i * 40});
+            }}
+            renderTabBar={(props: any) => {
+              const inputRange = props.navigationState.routes.map(
+                (_x: any, i: number) => i,
+              );
 
-            return (
-              <ScrollView style={styles.tabBar}>
-                <View style={styles.tabBarTop}>
+              return (
+                <ScrollView
+                  ref={scrollViewRef}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.tabBar}>
                   {props.navigationState.routes.map((route: any, i: number) => {
                     const opacity = props.position.interpolate({
                       inputRange,
@@ -88,11 +104,11 @@ const Page = CreatePage({
                       </TouchableOpacity>
                     );
                   })}
-                </View>
-              </ScrollView>
-            );
-          }}
-        />
+                </ScrollView>
+              );
+            }}
+          />
+        )}
       </View>
     );
   },
@@ -119,15 +135,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'transparent',
     zIndex: 99,
-    flexDirection: 'column',
     top: Screen.calc(20) + (StatusBar.currentHeight || 0),
     paddingHorizontal: Screen.calc(30),
+    left: 0,
+    right: 0,
   },
 
-  tabBarTop: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
   tabItem: {
     marginRight: Screen.calc(20),
   },
