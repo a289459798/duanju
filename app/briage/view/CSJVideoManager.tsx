@@ -1,4 +1,4 @@
-import {requireNativeComponent} from 'react-native';
+import {StyleProp, ViewStyle, requireNativeComponent} from 'react-native';
 export type CSJVideoProps = {
   id: number;
   index: number;
@@ -13,5 +13,6 @@ export type CSJVideoProps = {
     isHideMore?: boolean;
     infiniteScrollEnabled?: boolean;
   };
+  style?: StyleProp<ViewStyle> | undefined;
 };
 export default requireNativeComponent<CSJVideoProps>('CSJVideoManager');

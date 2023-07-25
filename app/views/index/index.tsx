@@ -32,6 +32,7 @@ const Page = CreatePage({
     return (
       <TabView
         lazy
+        swipeEnabled={false}
         navigationState={{index, routes}}
         renderScene={renderScene}
         onIndexChange={setIndex}

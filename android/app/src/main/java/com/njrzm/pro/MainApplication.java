@@ -64,6 +64,6 @@ public class MainApplication extends Application implements ReactApplication {
         ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
         final DPSdkConfig config = new DPSdkConfig.Builder().debug(BuildConfig.DEBUG).build();
-        DPSdk.init(this, "", config);
+        DPSdk.init(this, "SDK_Setting_5413022.json", config);
     }
 }

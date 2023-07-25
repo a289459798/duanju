@@ -23,6 +23,7 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.annotations.ReactPropGroup;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,9 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     private String fromGid;
     private int currentDuration;
     private DPDramaDetailConfig detailConfig;
+
+    private int propWidth;
+    private int propHeight;
 
     public ReactCSJVideoManager(ReactApplicationContext reactContext) {
         mCallerContext = reactContext;
@@ -110,6 +114,17 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
     }
 
+    @ReactPropGroup(names = {"width", "height"}, customType = "Style")
+    public void setStyle(FrameLayout view, int index, Integer value) {
+        if (index == 0) {
+            propWidth = value;
+        }
+
+        if (index == 1) {
+            propHeight = value;
+        }
+    }
+
     /**
      * Map the "create" command to an integer
      */
@@ -140,7 +155,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
      * Replace your React Native view with a custom fragment
      */
     public void createFragment(FrameLayout root, int reactNativeViewId) {
-        ViewGroup parentView = (ViewGroup) root.findViewById(reactNativeViewId).getParent();
+        ViewGroup parentView = (ViewGroup) root.findViewById(reactNativeViewId);
         setupLayout(parentView);
 
         DPWidgetDramaDetailParams params = DPWidgetDramaDetailParams.obtain();
@@ -310,6 +325,8 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         params.mDetailConfig = this.detailConfig;
         IDPWidget widget = DPSdk.factory().createDramaDetail(params);
 
+        final VideoFragment myFragment = new VideoFragment();
+
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
         activity.getSupportFragmentManager()
                 .beginTransaction()
@@ -321,22 +338,22 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
             @Override
             public void doFrame(long frameTimeNanos) {
-//                manuallyLayoutChildren(view);
+                manuallyLayoutChildren(view);
                 view.getViewTreeObserver().dispatchOnGlobalLayout();
                 Choreographer.getInstance().postFrameCallback(this);
             }
         });
     }
-//    /**
-//     * Layout all children properly
-//     */
-//    public void manuallyLayoutChildren(View view) {
-//        // propWidth and propHeight coming from react-native props
-//        int width = propWidth;
-//        int height = propHeight;
-//        view.measure(
-//                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-//                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
-//        view.layout(0, 0, width, height);
-//    }
+    /**
+     * Layout all children properly
+     */
+    public void manuallyLayoutChildren(View view) {
+        // propWidth and propHeight coming from react-native props
+        int width = propWidth;
+        int height = propHeight;
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
+        view.layout(0, 0, width, height);
+    }
 }

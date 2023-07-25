@@ -2,6 +2,7 @@ package com.njrzm.pro;
 
 import androidx.annotation.NonNull;
 
+import com.njrzm.pro.module.RNDPSdkModule;
 import com.njrzm.pro.module.RNTTAdSdkModule;
 import com.njrzm.pro.view.video.ReactCSJVideoManager;
 import com.facebook.react.ReactPackage;
@@ -20,6 +21,7 @@ public class MyReactNativePackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new RNSplashScreenModule(reactApplicationContext));
         modules.add(new RNTTAdSdkModule(reactApplicationContext));
+        modules.add(new RNDPSdkModule(reactApplicationContext));
         return modules;
     }
 

@@ -33,6 +33,7 @@ import LinkConfig from '@/route/route';
 import {Screen, Storage} from '@/utils';
 import config from '@/config';
 import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
+import DPSdk from 'briage/module/DPSdk';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
@@ -75,20 +76,22 @@ function App(): JSX.Element {
   let loginEmit: EmitterSubscription;
   const initSdk = () => {
     initDb();
-    initUser();
-    Analytics.init(Config.UM.Appkey, Config.DEBUG);
-    Share.init(Config.UM.Appkey, Config.UM.Share, Config.DEBUG);
     TTAdSdk.init(
       config.CSJ.AppId,
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
+        DPSdk.start();
         TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
       },
     );
+    initUser();
+    Analytics.init(Config.UM.Appkey, Config.DEBUG);
+    Share.init(Config.UM.Appkey, Config.UM.Share, Config.DEBUG);
+
     loginEmit = NativeAppEventEmitter.addListener('401', () => {
       console.log('login');
     });

@@ -1,10 +1,13 @@
 package com.njrzm.pro.module;
 
+import android.util.Log;
+
 import com.bytedance.sdk.dp.DPDrama;
 import com.bytedance.sdk.dp.DPSdk;
 import com.bytedance.sdk.dp.IDPWidgetFactory;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -29,17 +32,27 @@ public class RNDPSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void start() {
+        DPSdk.start(new DPSdk.StartListener() {
+            @Override
+            public void onStartComplete(boolean b, String s) {
+                Log.d("RNDPSdk", "onStartComplete:" + s);
+            }
+        });
+    }
+
+    @ReactMethod
     public void list(int page, int count, boolean order,
-                     Callback successCallback, Callback errorCallback) {
+                     Promise promise) {
         DPSdk.factory().requestAllDrama(page, count, order, new IDPWidgetFactory.DramaCallback() {
             @Override
             public void onError(int i, String s) {
-                errorCallback.invoke(i, s);
+                promise.reject(i + "", s);
             }
 
             @Override
             public void onSuccess(List<? extends DPDrama> list, Map<String, Object> map) {
-                successCallback.invoke(getData(list, map));
+                promise.resolve(getData(list, map));
             }
         });
     }
@@ -116,5 +129,15 @@ public class RNDPSdkModule extends ReactContextBaseJavaModule {
             params.pushMap(obj);
         }
         return params;
+    }
+
+    @ReactMethod
+    public void addListener(String eventName) {
+
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+
     }
 }
