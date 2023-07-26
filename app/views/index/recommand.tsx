@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useCallback, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
   View,
   UIManager,
@@ -9,11 +9,10 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {Text, ListView} from '@/component';
+import {Text} from '@/component';
 import {CreatePage, Screen} from '@/utils';
-import {CSJVideoManager, CSJTJVideoManager} from '@/briage/view';
-import {DPSdk, TTAdSdk} from 'briage/module';
-import config from 'config';
+import {CSJTJVideoManager} from '@/briage/view';
+import {TTAdSdk} from 'briage/module';
 import VideoAction from '@/component/custom/videoAction';
 import historyAction from 'action/historyAction';
 
