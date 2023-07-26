@@ -82,6 +82,13 @@ const Page = CreatePage({
       // 判断是否追剧
       const f = await historyAction.followExists({id: data.drama_id});
       setFollow(f);
+      if (f) {
+        historyAction.updateFollow({
+          id: data.drama_id,
+          index: data.index,
+          duration: 0,
+        });
+      }
     };
 
     const onFollow = async () => {

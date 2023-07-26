@@ -72,11 +72,6 @@ export default {
       );
       return;
     }
-    global.db?.executeSql(
-      `insert into Follow(id, current, duration, time) values(${data.id}, ${
-        data.index
-      }, ${data.duration}, '${new Date().toLocaleString()}')`,
-    );
   },
 
   followExists: async (data: {id: number}) => {
