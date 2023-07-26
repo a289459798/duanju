@@ -10,6 +10,7 @@ export type VideoActionProps = {
   onClickAdd?: () => void;
   onClickNext?: () => void;
   showButton: boolean;
+  follow: boolean;
 };
 
 export default (props: VideoActionProps) => {
@@ -21,7 +22,9 @@ export default (props: VideoActionProps) => {
       />
       <TouchableWithoutFeedback onPress={props.onClickAdd}>
         <View style={styles.addView}>
-          <Text style={{color: '#fff'}}>追剧</Text>
+          <Text style={{color: '#fff'}}>
+            {props.follow ? '取消追剧' : '追剧'}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={props.onClickShare}>

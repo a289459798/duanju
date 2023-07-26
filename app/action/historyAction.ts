@@ -49,6 +49,22 @@ export default {
       [data.id],
     );
     if (results?.[0].rows?.length > 0) {
+      global.db?.executeSql(`delete from Follow where id=${data.id}`);
+      return;
+    }
+    global.db?.executeSql(
+      `insert into Follow(id, current, duration, time) values(${data.id}, ${
+        data.index
+      }, ${data.duration}, '${new Date().toLocaleString()}')`,
+    );
+  },
+
+  updateFollow: async (data: {id: number; index: number; duration: number}) => {
+    const results = await global.db?.executeSql(
+      'select * from Follow where id=?',
+      [data.id],
+    );
+    if (results?.[0].rows?.length > 0) {
       global.db?.executeSql(
         `update Follow set duration=${data.duration},current = ${
           data.index
@@ -61,6 +77,17 @@ export default {
         data.index
       }, ${data.duration}, '${new Date().toLocaleString()}')`,
     );
+  },
+
+  followExists: async (data: {id: number}) => {
+    const results = await global.db?.executeSql(
+      'select * from Follow where id=?',
+      [data.id],
+    );
+    if (results?.[0].rows?.length > 0) {
+      return true;
+    }
+    return false;
   },
 
   addAd: async (data: {id: number; index: number}) => {

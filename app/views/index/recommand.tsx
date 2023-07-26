@@ -15,6 +15,7 @@ import {CSJVideoManager, CSJTJVideoManager} from '@/briage/view';
 import {DPSdk, TTAdSdk} from 'briage/module';
 import config from 'config';
 import VideoAction from '@/component/custom/videoAction';
+import historyAction from 'action/historyAction';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -36,6 +37,7 @@ const Page = CreatePage({
     const ref = useRef(null);
     const [video, setVideo] = useState<any>({});
     const [showButton, setShowButton] = useState(false);
+    const [follow, setFollow] = useState(false);
 
     useEffect(() => {
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
@@ -76,6 +78,21 @@ const Page = CreatePage({
 
     let timer: any;
 
+    const checkFollow = async (data: any) => {
+      // 判断是否追剧
+      const f = await historyAction.followExists({id: data.drama_id});
+      setFollow(f);
+    };
+
+    const onFollow = async () => {
+      await historyAction.addFollow({
+        id: video.drama_id,
+        index: video.index,
+        duration: 0,
+      });
+      checkFollow(video);
+    };
+
     return (
       <View style={{flex: 1}}>
         <CSJTJVideoManager
@@ -90,8 +107,10 @@ const Page = CreatePage({
           onDPVideoPlay={(data: any) => {
             timer && clearTimeout(timer);
             setShowButton(false);
+            setFollow(false);
             setVideo(data.nativeEvent);
             timer = setTimeout(() => setShowButton(true), 5000);
+            checkFollow(data.nativeEvent);
           }}
         />
         {video?.drama_id && (
@@ -112,9 +131,8 @@ const Page = CreatePage({
               <VideoAction
                 videoInfo={video}
                 showButton={showButton}
-                onClickAdd={() => {
-                  console.log('onClickAdd');
-                }}
+                follow={follow}
+                onClickAdd={onFollow}
                 onClickShare={() => {
                   console.log('onClickShare');
                 }}
