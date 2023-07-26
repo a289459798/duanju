@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {connect} from 'react-redux';
 import {CreatePage, Screen} from '@/utils';
 import {SceneMap, TabView} from 'react-native-tab-view';
@@ -12,11 +12,6 @@ import {
   View,
 } from 'react-native';
 
-const renderScene = SceneMap({
-  history: History,
-  recommand: Recommand,
-});
-
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
@@ -29,13 +24,19 @@ const Page = CreatePage({
       {key: 'history', title: '历史观看'},
       {key: 'recommand', title: '推荐'},
     ]);
+    const recommandRef = useRef(null);
     return (
       <TabView
         lazy
         swipeEnabled={false}
         navigationState={{index, routes}}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
+        renderScene={SceneMap({
+          history: History,
+          recommand: () => <Recommand ref={recommandRef} />,
+        })}
+        onIndexChange={(i: number) => {
+          setIndex(i);
+        }}
         renderTabBar={(props: any) => {
           const inputRange = props.navigationState.routes.map(
             (_x: any, i: number) => i,

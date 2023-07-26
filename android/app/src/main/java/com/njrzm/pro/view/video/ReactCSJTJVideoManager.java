@@ -17,6 +17,7 @@ import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
@@ -41,6 +42,8 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
     private int propWidth;
     private int propHeight;
 
+    IDPWidget widget;
+
     public ReactCSJTJVideoManager(ReactApplicationContext reactContext) {
         mCallerContext = reactContext;
     }
@@ -56,7 +59,15 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
         return new FrameLayout(mCallerContext);
     }
 
-//    @ReactProp(name = "config")
+    @Override
+    public void onDropViewInstance(@NonNull FrameLayout view) {
+        super.onDropViewInstance(view);
+        if (widget != null) {
+            widget.destroy();
+        }
+    }
+
+    //    @ReactProp(name = "config")
 //    public void setDetailConfig(FrameLayout view, @Nullable ReadableMap config) {
 //        if (config.hasKey("mode")) {
 //            detailConfig = DPDramaDetailConfig.obtain(config.getString("mode"));
@@ -164,7 +175,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
                 super.onDPVideoPlay(map);
 
                 WritableMap event = Arguments.createMap();
-                event.putString("title", (String) map.get("map"));
+                event.putString("title", (String) map.get("title"));
                 event.putString("cover_image", (String) map.get("cover_image"));
                 event.putString("desc", (String) map.get("desc"));
                 event.putInt("index", (int) map.get("index"));
@@ -178,7 +189,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
             }
         });
         params1.mDramaDetailConfig = mDramaDetailConfig;
-        IDPWidget widget = DPSdk.factory().createDraw(params1);
+        widget = DPSdk.factory().createDraw(params1);
 
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
         activity.getSupportFragmentManager()
