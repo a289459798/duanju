@@ -26,6 +26,10 @@ class DPSdk extends NativeEventEmitter {
   listWithcCategory(title: string, page: number, count: number = 24) {
     return RNDPSdk.listWithCategory(title, page, count);
   }
+
+  listWithIds(listWithIds: any[]) {
+    return RNDPSdk.listWithIds(listWithIds);
+  }
 }
 
 export default new DPSdk();

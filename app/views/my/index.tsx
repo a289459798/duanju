@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   NativeAppEventEmitter,
   RefreshControl,
@@ -18,6 +18,9 @@ import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
 import {Image} from '@rneui/themed';
 import DeviceInfo from 'react-native-device-info';
+import {useNavigation} from '@react-navigation/native';
+import historyAction from 'action/historyAction';
+import {DPSdk} from 'briage/module';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -28,6 +31,8 @@ const Page = CreatePage({
   Component: (props: any) => {
     const nav = useNavigator();
     const {user} = props;
+    const navgation = useNavigation();
+    const [follow, setFollow] = useState<any>([]);
 
     const checkLogin = (callback?: () => void) => {
       if (user.info) {
@@ -38,8 +43,29 @@ const Page = CreatePage({
     };
     const [refreshing, setRefreshing] = React.useState(false);
 
+    const getFollow = async () => {
+      const fl: any = await historyAction.getFollow(8);
+      if (fl?.length > 0) {
+        let ids = [];
+        let followMap: any = {};
+        for (let i = 0; i < fl?.length; i++) {
+          ids.push(fl[i].id);
+          followMap[fl[i].id] = fl[i];
+        }
+        let list = await DPSdk.listWithIds(ids);
+        for (let i = 0; i < list?.length; i++) {
+          list[i].index = followMap[list[i].id].current;
+        }
+        setFollow(list);
+      }
+    };
+
     useEffect(() => {
       console.log(DeviceInfo.getAndroidIdSync());
+      navgation.addListener('focus', getFollow);
+      return () => {
+        navgation.removeListener('focus', () => {});
+      };
     }, []);
 
     const onRefresh = () => {
@@ -130,36 +156,41 @@ const Page = CreatePage({
               />
             </View>
 
-            <View style={[styles.menuView, {paddingVertical: Screen.calc(15)}]}>
-              <TouchableWithoutFeedback onPress={() => nav.push('Follow')}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingHorizontal: Screen.calc(15),
-                  }}>
-                  <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
-                    我的追剧
-                  </Text>
-                  <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
-                    查看全部
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.followView}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, k) => (
-                    <View style={styles.followViewItem} key={k}>
-                      <Image
-                        style={styles.followViewImage}
-                        source={{uri: 'aaa'}}
-                      />
-                      <Text style={styles.followViewTitle}>标题</Text>
-                    </View>
-                  ))}
-                </View>
-              </ScrollView>
-            </View>
+            {follow?.length > 0 && (
+              <View
+                style={[styles.menuView, {paddingVertical: Screen.calc(15)}]}>
+                <TouchableWithoutFeedback onPress={() => nav.push('Follow')}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      paddingHorizontal: Screen.calc(15),
+                    }}>
+                    <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
+                      我的追剧
+                    </Text>
+                    <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
+                      查看全部
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <View style={styles.followView}>
+                    {follow?.map((v: any, k: any) => (
+                      <View style={styles.followViewItem} key={k}>
+                        <Image
+                          style={styles.followViewImage}
+                          source={{uri: v.coverImage}}
+                        />
+                        <Text numberOfLines={1} style={styles.followViewTitle}>
+                          {v.title}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+              </View>
+            )}
 
             <View style={styles.menuView}>
               <TouchableOpacity
@@ -279,7 +310,6 @@ const styles = StyleSheet.create({
   followViewImage: {
     width: Screen.calc(80),
     height: Screen.calc(100),
-    backgroundColor: 'red',
     borderRadius: Screen.calc(8),
   },
   followViewTitle: {

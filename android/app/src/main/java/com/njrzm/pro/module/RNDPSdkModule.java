@@ -11,9 +11,11 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,10 +80,14 @@ public class RNDPSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void listWithIds(List<Long> ids,
+    public void listWithIds(ReadableArray ids,
                             Promise promise) {
         if (DPSdk.isStartSuccess()) {
-            DPSdk.factory().requestDrama(ids, new IDPWidgetFactory.DramaCallback() {
+            List<Long> newIds = new ArrayList<>();
+            for (int i = 0; i < ids.size(); i++) {
+                newIds.add((long) ids.getDouble(i));
+            }
+            DPSdk.factory().requestDrama(newIds, new IDPWidgetFactory.DramaCallback() {
                 @Override
                 public void onError(int i, String s) {
                     promise.reject(i + "", s);

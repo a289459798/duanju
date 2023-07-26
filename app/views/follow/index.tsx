@@ -3,6 +3,9 @@ import {View, StyleSheet} from 'react-native';
 import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import {connect} from 'react-redux';
+import historyAction from 'action/historyAction';
+import {DPSdk} from 'briage/module';
+import {Image} from '@rneui/themed';
 
 type listType = {
   title: string;
@@ -14,13 +17,26 @@ const Page = CreatePage({
   }),
   Component: () => {
     const [list, setList] = useState<listType[]>([]);
+
+    const getFollow = async () => {
+      const fl: any = await historyAction.getFollow(100);
+      if (fl?.length > 0) {
+        let ids = [];
+        let followMap: any = {};
+        for (let i = 0; i < fl?.length; i++) {
+          ids.push(fl[i].id);
+          followMap[fl[i].id] = fl[i];
+        }
+        let tmp = await DPSdk.listWithIds(ids);
+        for (let i = 0; i < tmp?.length; i++) {
+          tmp[i].index = followMap[tmp[i].id].current;
+        }
+        setList(tmp);
+      }
+    };
+
     useEffect(() => {
-      setList([
-        {title: 'sdsdsd', index: 1},
-        {title: 'sdsdsd', index: 1},
-        {title: 'sdsdsd', index: 1},
-        {title: 'sdsdsd', index: 1},
-      ]);
+      getFollow();
     }, []);
     return (
       <ListView
@@ -31,7 +47,7 @@ const Page = CreatePage({
         renderItem={({item}) => (
           <View style={styles.itemView}>
             <View style={styles.itemImageView}>
-              <View style={styles.itemImage} />
+              <Image style={styles.itemImage} source={{uri: item.coverImage}} />
               <View style={styles.statusView}>
                 <Text style={styles.statusText}>已完结</Text>
               </View>
@@ -59,10 +75,9 @@ const styles = StyleSheet.create({
   },
   itemView: {flex: 1, marginTop: Screen.calc(20)},
   itemImageView: {
-    width: Screen.calc(110),
+    width: Screen.calc(160),
   },
   itemImage: {
-    backgroundColor: '#fff',
     width: Screen.calc(160),
     height: Screen.calc(220),
     borderRadius: Screen.calc(10),
