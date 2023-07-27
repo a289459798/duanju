@@ -12,7 +12,6 @@ import {
   EmitterSubscription,
   Linking,
   NativeAppEventEmitter,
-  StatusBar,
 } from 'react-native';
 import Spinner from 'react-native-spinkit';
 import {Analytics, Share} from 'react-native-umshare';
@@ -22,15 +21,12 @@ import thunk from 'redux-thunk';
 
 import userAction from '@/action/userAction';
 import {SplashScreen, TTAdSdk} from '@/briage/module';
-import {ModalRef} from '@/component/modal';
-import AgreementModal from '@/component/modal/agreementModal';
 import UpdateModal, {UpdateModalRef} from '@/component/modal/updateModal';
 import Config from '@/config';
 import reducers from '@/reducer';
 import {GlobalLoadingType} from '@/reducer/global';
 import Route from '@/route';
 import LinkConfig from '@/route/route';
-import {Screen, Storage} from '@/utils';
 import config from '@/config';
 import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
 import DPSdk from 'briage/module/DPSdk';
@@ -62,15 +58,8 @@ function App(): JSX.Element {
 
     config: LinkConfig,
   };
-  const agreementModalRef = useRef<ModalRef>(null);
   const init = () => {
-    Storage.get(Config.AgreementAlert).then(agreement => {
-      if (!agreement) {
-        agreementModalRef.current?.show();
-      } else {
-        initSdk();
-      }
-    });
+    initSdk();
   };
 
   let loginEmit: EmitterSubscription;
@@ -108,7 +97,7 @@ function App(): JSX.Element {
       () => {},
       () => {},
     );
-    global.db.transaction((tx: SQLiteDatabase) => {
+    global.db?.transaction((tx: SQLiteDatabase) => {
       // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
       // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
       tx.executeSql(
@@ -142,14 +131,6 @@ function App(): JSX.Element {
     <Provider store={store}>
       <NavigationContainer linking={linking}>
         <Route />
-        <AgreementModal
-          ref={agreementModalRef}
-          onPress={() => {
-            Storage.set(Config.AgreementAlert, '1');
-            initSdk();
-            agreementModalRef.current?.hide();
-          }}
-        />
         <UpdateModal ref={updateModalRef} />
         {loading?.visible && (
           <Spinner

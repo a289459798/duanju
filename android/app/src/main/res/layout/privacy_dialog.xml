@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+>
+
+    <LinearLayout
+        android:layout_width="300dp" android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="15sp"
+        android:background="#fff"
+    >
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="服务协议和隐私政策"
+                  android:textSize="17sp"
+                  android:textStyle="bold"
+                  android:textColor="#333"
+        />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="请你务必审慎阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了向你提供商品信息、智能推荐等服务，我们需要收集你的设备信息、操作日志、MAC地址、软件安装列表等个人信息。你可以在“设置“中查看、变更、删除个人信息并管理你的授权。你可阅读《服务协议》和《隐私政策》了解详细信息。如你同意，请点击”同意“开始接受我们的服务。"
+            android:textColor="#333"
+            android:textSize="14sp"
+            android:layout_marginTop="10sp"
+            android:lineHeight="18sp"
+            android:layout_marginHorizontal="15sp"
+        />
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="20dp"
+                      android:orientation="vertical"
+        >
+            <View
+                android:layout_width="match_parent" android:layout_height="0.5sp"
+                android:background="#F0F0F0"
+            />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+                          android:orientation="horizontal"
+            >
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="暂不同意"
+                    android:gravity="center"
+                    android:textSize="17sp"
+                    android:textColor="#666"
+                />
+                <View
+                    android:layout_width="0.5sp" android:layout_height="match_parent"
+                    android:background="#F0F0F0"
+                />
+                <TextView
+                    android:id="@+id/confirm"
+                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="同意"
+                    android:gravity="center"
+                    android:textSize="17sp"
+                    android:textColor="#3399FF"
+                />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
