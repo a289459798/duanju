@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
 import {DPSdk} from 'briage/module';
 import FastImage from 'react-native-fast-image';
+import useNavigator from 'hooks/useNavigator';
 
 type listType = {
   title: string;
@@ -14,6 +15,7 @@ export default (props: {category: string}) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
+  const nav = useNavigator();
 
   const fetchList = async (page: number) => {
     setLoading(true);
@@ -52,15 +54,21 @@ export default (props: {category: string}) => {
       hasMore={hasMore}
       onLoadMore={() => setPage(page + 1)}
       renderItem={({item}) => (
-        <View style={styles.itemView}>
-          <FastImage style={styles.itemImage} source={{uri: item.coverImage}} />
-          <Text style={styles.titleText} numberOfLines={1}>
-            {item.title}
-          </Text>
-          <Text style={styles.lookText}>
-            {item.status === 0 ? '已完结' : '未完结'} · 共{item.index}集
-          </Text>
-        </View>
+        <TouchableWithoutFeedback
+          onPress={() => nav.push('Play', {id: item.id, index: item.index})}>
+          <View style={styles.itemView}>
+            <FastImage
+              style={styles.itemImage}
+              source={{uri: item.coverImage}}
+            />
+            <Text style={styles.titleText} numberOfLines={1}>
+              {item.title}
+            </Text>
+            <Text style={styles.lookText}>
+              {item.status === 0 ? '已完结' : '未完结'} · 共{item.index}集
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       )}
     />
   );

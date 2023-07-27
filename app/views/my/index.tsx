@@ -177,15 +177,22 @@ const Page = CreatePage({
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <View style={styles.followView}>
                     {follow?.map((v: any, k: any) => (
-                      <View style={styles.followViewItem} key={k}>
-                        <Image
-                          style={styles.followViewImage}
-                          source={{uri: v.coverImage}}
-                        />
-                        <Text numberOfLines={1} style={styles.followViewTitle}>
-                          {v.title}
-                        </Text>
-                      </View>
+                      <TouchableWithoutFeedback
+                        onPress={() =>
+                          nav.push('Play', {id: v.id, index: v.index})
+                        }>
+                        <View style={styles.followViewItem} key={k}>
+                          <Image
+                            style={styles.followViewImage}
+                            source={{uri: v.coverImage}}
+                          />
+                          <Text
+                            numberOfLines={1}
+                            style={styles.followViewTitle}>
+                            {v.title}
+                          </Text>
+                        </View>
+                      </TouchableWithoutFeedback>
                     ))}
                   </View>
                 </ScrollView>

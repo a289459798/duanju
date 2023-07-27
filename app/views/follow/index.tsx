@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import {connect} from 'react-redux';
 import historyAction from 'action/historyAction';
 import {DPSdk} from 'briage/module';
 import {Image} from '@rneui/themed';
+import useNavigator from 'hooks/useNavigator';
 
 type listType = {
   title: string;
@@ -17,6 +18,7 @@ const Page = CreatePage({
   }),
   Component: () => {
     const [list, setList] = useState<listType[]>([]);
+    const nav = useNavigator();
 
     const getFollow = async () => {
       const fl: any = await historyAction.getFollow(100);
@@ -45,16 +47,22 @@ const Page = CreatePage({
         numColumns={2}
         data={list}
         renderItem={({item}) => (
-          <View style={styles.itemView}>
-            <View style={styles.itemImageView}>
-              <Image style={styles.itemImage} source={{uri: item.coverImage}} />
-              <View style={styles.statusView}>
-                <Text style={styles.statusText}>已完结</Text>
+          <TouchableWithoutFeedback
+            onPress={() => nav.push('Play', {id: item.id, index: item.index})}>
+            <View style={styles.itemView}>
+              <View style={styles.itemImageView}>
+                <Image
+                  style={styles.itemImage}
+                  source={{uri: item.coverImage}}
+                />
+                <View style={styles.statusView}>
+                  <Text style={styles.statusText}>已完结</Text>
+                </View>
               </View>
+              <Text style={styles.titleText}>{item.title}</Text>
+              <Text style={styles.lookText}>观看到第{item.index}集</Text>
             </View>
-            <Text style={styles.titleText}>{item.title}</Text>
-            <Text style={styles.lookText}>观看到第{item.index}集</Text>
-          </View>
+          </TouchableWithoutFeedback>
         )}
       />
     );

@@ -5,6 +5,7 @@ import {Screen} from '@/utils';
 import {useNavigation} from '@react-navigation/native';
 import {DPSdk} from 'briage/module';
 import {Image} from '@rneui/themed';
+import useNavigator from 'hooks/useNavigator';
 
 type listType = {
   title: string;
@@ -12,6 +13,7 @@ type listType = {
 };
 export default () => {
   const navgation = useNavigation();
+  const nav = useNavigator();
   const [list, setList] = useState<listType[]>([]);
   useEffect(() => {
     navgation.addListener('focus', getHistory);
@@ -37,7 +39,10 @@ export default () => {
       numColumns={3}
       data={list}
       renderItem={({item}) => (
-        <TouchableWithoutFeedback onPress={() => {}}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            nav.push('Play', {id: item.id, index: item.index});
+          }}>
           <View style={styles.itemView}>
             <View style={styles.itemImageView}>
               <Image style={styles.itemImage} source={{uri: item.coverImage}} />

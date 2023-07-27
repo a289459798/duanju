@@ -99,7 +99,7 @@ export default () => {
                 console.log('onClickShare');
               }}
               onClickNext={() => {
-                console.log('onClickNext');
+                nav.push('Play', {id: video.drama_id, index: video.index});
               }}
             />
           </View>
