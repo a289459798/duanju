@@ -1,4 +1,18 @@
+import {DPSdk} from 'briage/module';
+import types from 'reducer/types';
+
 export default {
+  fetchHistory: () => {
+    return (dispatch: Function) => {
+      const history = DPSdk.history(1, 50);
+      history.then((res: any) => {
+        dispatch({
+          type: types.history.list,
+          data: res,
+        });
+      });
+    };
+  },
   getHistory: async () => {
     const results = await global.db?.executeSql(
       'select * from History order by time desc',

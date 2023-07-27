@@ -31,6 +31,11 @@ export default (state = initialState, action: any) => {
         ...state,
         loading: {...state.loading, ...action.loading, visible: false},
       };
+    case types.global.dpstart:
+      return {
+        ...state,
+        dpstart: true,
+      };
     default:
       return state;
   }

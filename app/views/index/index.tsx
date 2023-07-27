@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {connect} from 'react-redux';
 import {CreatePage, Screen} from '@/utils';
-import {SceneMap, TabView} from 'react-native-tab-view';
+import {TabView} from 'react-native-tab-view';
 import History from './history';
 import Recommand from './recommand';
 import {
@@ -18,21 +18,27 @@ const Page = CreatePage({
     hideHeader: true,
     statusBar: {translucent: true, backgroundColor: 'transparent'},
   }),
-  Component: () => {
-    const [index, setIndex] = React.useState(0);
+  Component: (props: any) => {
+    const [index, setIndex] = React.useState(1);
     const [routes] = React.useState([
       {key: 'history', title: '历史观看'},
       {key: 'recommand', title: '推荐'},
     ]);
+    const {global, history, dispatch} = props;
+
     return (
       <TabView
         lazy
         swipeEnabled={false}
         navigationState={{index, routes}}
-        renderScene={SceneMap({
-          history: History,
-          recommand: Recommand,
-        })}
+        renderScene={({route}) => {
+          switch (route.key) {
+            case 'history':
+              return <History history={history.history} dispatch={dispatch} />;
+            case 'recommand':
+              return <Recommand dpstart={global.dpstart} />;
+          }
+        }}
         onIndexChange={(i: number) => {
           setIndex(i);
         }}
@@ -101,9 +107,11 @@ const Page = CreatePage({
 });
 
 export default connect((state: any) => {
-  const {user} = state;
+  const {user, global, history} = state;
   return {
     user,
+    global,
+    history,
   };
 })(Page);
 

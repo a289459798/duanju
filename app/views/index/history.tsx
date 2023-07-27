@@ -3,29 +3,25 @@ import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
 import {useNavigation} from '@react-navigation/native';
-import {DPSdk} from 'briage/module';
 import {Image} from '@rneui/themed';
 import useNavigator from 'hooks/useNavigator';
+import historyAction from 'action/historyAction';
 
-type listType = {
-  title: string;
-  index: number;
+type HistoryProps = {
+  history: [];
+  dispatch: Function;
 };
-export default () => {
+export default (props: HistoryProps) => {
   const navgation = useNavigation();
   const nav = useNavigator();
-  const [list, setList] = useState<listType[]>([]);
   useEffect(() => {
-    navgation.addListener('focus', getHistory);
+    navgation.addListener('focus', () =>
+      props.dispatch(historyAction.fetchHistory()),
+    );
     return () => {
       navgation.removeListener('focus', () => {});
     };
   }, []);
-
-  const getHistory = async () => {
-    const history = await DPSdk.history(1, 50);
-    setList(history);
-  };
 
   return (
     <ListView
@@ -37,7 +33,7 @@ export default () => {
         justifyContent: 'flex-start',
       }}
       numColumns={3}
-      data={list}
+      data={props.history}
       renderItem={({item}) => (
         <TouchableWithoutFeedback
           onPress={() => {

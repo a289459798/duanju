@@ -23,7 +23,10 @@ const createFragment = (viewId: number | null) =>
     [viewId],
   );
 
-export default () => {
+type RecommandProps = {
+  dpstart: boolean;
+};
+export default (props: RecommandProps) => {
   const ref = useRef(null);
   const [video, setVideo] = useState<any>({});
   const [showButton, setShowButton] = useState(false);
@@ -31,11 +34,13 @@ export default () => {
   const nav = useNavigator();
 
   useEffect(() => {
-    const viewId = findNodeHandle(ref.current);
-    if (viewId) {
-      createFragment(viewId!);
+    if (props.dpstart) {
+      const viewId = findNodeHandle(ref.current);
+      if (viewId) {
+        createFragment(viewId!);
+      }
     }
-  }, []);
+  }, [props.dpstart]);
 
   let timer: any;
 

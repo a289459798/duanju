@@ -30,6 +30,8 @@ import LinkConfig from '@/route/route';
 import config from '@/config';
 import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
 import DPSdk from 'briage/module/DPSdk';
+import types from 'reducer/types';
+import historyAction from 'action/historyAction';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
@@ -71,6 +73,12 @@ function App(): JSX.Element {
         console.log('穿山甲初始成功');
         DPSdk.start();
         TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
+        setTimeout(() => {
+          store.dispatch({
+            type: types.global.dpstart,
+          });
+          store.dispatch(historyAction.fetchHistory());
+        }, 500);
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
