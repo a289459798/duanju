@@ -82,7 +82,7 @@ const Page = CreatePage({
                   lineLeft = props.position.interpolate({
                     inputRange,
                     outputRange: inputRange.map((inputIndex: number) =>
-                      inputIndex === 0 ? Screen.calc(26) : Screen.calc(88),
+                      inputIndex === 0 ? Screen.calc(32) : Screen.calc(94),
                     ),
                   });
 
@@ -104,7 +104,7 @@ const Page = CreatePage({
                             fontSize:
                               props.navigationState.index === i
                                 ? Screen.calc(20)
-                                : Screen.calc(15),
+                                : Screen.calc(16),
                             fontWeight:
                               props.navigationState.index === i
                                 ? '500'
@@ -159,12 +159,13 @@ const styles = StyleSheet.create({
   },
   tabBarItemText: {
     color: '#fff',
+    fontWeight: 'bold',
   },
   tabBarLine: {
-    width: Screen.calc(30),
-    height: Screen.calc(3),
+    width: Screen.calc(23),
+    height: Screen.calc(4),
     backgroundColor: '#fff',
-    marginTop: Screen.calc(2),
+    marginTop: Screen.calc(6),
     borderRadius: Screen.calc(1.5),
   },
 });

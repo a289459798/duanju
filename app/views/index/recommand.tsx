@@ -121,7 +121,7 @@ export default React.forwardRef(
                   {video.desc}
                 </Text>
                 <Text style={styles.videoCount}>
-                  第{video.index}集 · 共{video.total}集
+                  第{video.index}集 | 共{video.total}集 {'>'}
                 </Text>
               </View>
               <VideoAction
@@ -160,13 +160,18 @@ const styles = StyleSheet.create({
   },
   videoTitle: {
     color: '#fff',
+    fontWeight: 'bold',
+    fontSize: Screen.calc(18),
   },
   videoDesc: {
-    color: 'rgba(255, 255,255, 0.5)',
-    lineHeight: Screen.calc(20),
-    marginVertical: Screen.calc(5),
+    color: '#fff',
+    lineHeight: Screen.calc(19),
+    marginTop: Screen.calc(12),
+    fontSize: Screen.calc(14),
+    marginBottom: Screen.calc(18),
   },
   videoCount: {
     color: '#fff',
+    fontSize: Screen.calc(14),
   },
 });

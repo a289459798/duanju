@@ -34,6 +34,10 @@ export default (props: VideoActionProps) => {
         <Button
           onPress={props.onClickNext}
           style={styles.button}
+          containerStyle={{
+            marginTop: Screen.calc(10),
+          }}
+          titleStyle={{fontSize: Screen.calc(13)}}
           title={'观看全集'}
         />
       )}
@@ -57,6 +61,8 @@ const styles = StyleSheet.create({
     marginVertical: Screen.calc(10),
   },
   button: {
-    marginTop: Screen.calc(10),
+    backgroundColor: '#FF5501',
+    height: Screen.calc(36),
+    borderRadius: Screen.calc(6),
   },
 });
