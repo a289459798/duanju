@@ -94,7 +94,7 @@ export default React.forwardRef(
           ref={videorRef}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height + (StatusBar.currentHeight || 0),
+              Screen.height - (StatusBar.currentHeight || 0),
             ),
             // converts dpi to px, provide desired width
             width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     width: '100%',
-    bottom: Screen.calc(40),
+    bottom: Screen.calc(50),
   },
   videoInfo: {
     flex: 1,
