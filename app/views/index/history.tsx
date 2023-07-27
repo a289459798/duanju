@@ -51,20 +51,19 @@ export default (props: HistoryProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(65, 65, 65)',
-    paddingTop: Screen.calc(120),
-    paddingHorizontal: Screen.calc(10),
+    paddingTop: Screen.calc(100),
+    paddingHorizontal: Screen.calc(12),
   },
   itemView: {
-    marginBottom: Screen.calc(20),
+    marginBottom: Screen.calc(16),
     width: Screen.calc(110),
     marginRight: Screen.calc(10),
   },
   itemImageView: {},
   itemImage: {
     width: Screen.calc(110),
-    height: Screen.calc(160),
-    borderRadius: Screen.calc(10),
+    height: Screen.calc(147),
+    borderRadius: Screen.calc(6),
   },
   statusView: {
     position: 'absolute',
@@ -80,13 +79,15 @@ const styles = StyleSheet.create({
     fontSize: Screen.calc(10),
   },
   titleText: {
-    color: '#fff',
-    fontSize: Screen.calc(14),
-    fontWeight: '500',
-    marginTop: Screen.calc(8),
+    color: '#222',
+    fontSize: Screen.calc(16),
+    marginTop: Screen.calc(11),
+    lineHeight: Screen.calc(19),
   },
   lookText: {
-    color: '#aaa',
-    fontSize: Screen.calc(11),
+    color: '#999',
+    fontSize: Screen.calc(12),
+    lineHeight: Screen.calc(19),
+    marginTop: Screen.calc(3),
   },
 });

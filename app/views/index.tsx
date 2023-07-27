@@ -14,13 +14,13 @@ export default function Tab() {
       screenOptions={{
         header: () => null,
         tabBarStyle: {
-          backgroundColor: 'rgb(37, 37, 37)',
+          backgroundColor: '#fff',
           borderTopWidth: 0,
           paddingTop: 3,
         },
         lazy: true,
-        tabBarActiveTintColor: '#fff',
-        // tabBarInactiveTintColor: '#fff',
+        tabBarActiveTintColor: '#000',
+        tabBarInactiveTintColor: '#000',
       }}>
       <BottomTab.Screen
         options={{

@@ -122,7 +122,7 @@ export default (props: NavigationProps) => {
   const view = (
     <>
       <StatusBar
-        barStyle={statusBar?.barStyle || 'light-content'}
+        barStyle={statusBar?.barStyle || 'dark-content'}
         backgroundColor={statusBar?.backgroundColor || '#1B1B27'}
         translucent={statusBar?.translucent}
       />
@@ -138,7 +138,7 @@ export default (props: NavigationProps) => {
       style={[
         {
           flex: 1,
-          backgroundColor: '#1B1B27',
+          backgroundColor: '#fff',
           paddingBottom: safeAreaInsets.bottom,
         },
         safeAreaViewStyle,

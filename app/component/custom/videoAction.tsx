@@ -28,18 +28,17 @@ export default (props: VideoActionProps) => {
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={props.onClickShare}>
-        <Text style={{color: '#fff'}}>分享</Text>
+        <Text style={{color: '#fff', marginBottom: Screen.calc(10)}}>分享</Text>
       </TouchableWithoutFeedback>
-      {props.showButton && (
+      {props.showButton ? (
         <Button
           onPress={props.onClickNext}
           style={styles.button}
-          containerStyle={{
-            marginTop: Screen.calc(10),
-          }}
           titleStyle={{fontSize: Screen.calc(13)}}
           title={'观看全集'}
         />
+      ) : (
+        <View style={{height: Screen.calc(36)}} />
       )}
     </View>
   );

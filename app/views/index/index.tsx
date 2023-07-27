@@ -21,7 +21,7 @@ const Page = CreatePage({
     statusBar: {translucent: true, backgroundColor: 'transparent'},
   }),
   Component: (props: any) => {
-    const [index, setIndex] = React.useState(1);
+    const [index, setIndex] = React.useState(0);
     const commandRef = useRef<RecommandRef>(null);
     const navgation = useNavigation();
     const [routes] = React.useState([
@@ -33,6 +33,7 @@ const Page = CreatePage({
     useEffect(() => {
       navgation.addListener('focus', () => {
         props.dispatch(historyAction.fetchHistory());
+        changeStatusBar(index);
         if (index === 1) {
           commandResume();
         }
@@ -44,6 +45,19 @@ const Page = CreatePage({
 
     const commandResume = () => {
       commandRef.current?.resume();
+    };
+
+    const onTabChange = (i: number) => {
+      setIndex(i);
+      changeStatusBar(i);
+    };
+
+    const changeStatusBar = (i: number) => {
+      if (i === 0) {
+        StatusBar.setBarStyle('dark-content');
+      } else {
+        StatusBar.setBarStyle('light-content');
+      }
     };
 
     return (
@@ -60,7 +74,7 @@ const Page = CreatePage({
           }
         }}
         onIndexChange={(i: number) => {
-          setIndex(i);
+          onTabChange(i);
         }}
         renderTabBar={(props: any) => {
           const inputRange = props.navigationState.routes.map(
@@ -91,7 +105,7 @@ const Page = CreatePage({
                       key={i}
                       style={styles.tabItem}
                       onPress={() => {
-                        setIndex(i);
+                        onTabChange(i);
                         if (i === 1) {
                           commandResume();
                         }
@@ -109,6 +123,10 @@ const Page = CreatePage({
                               props.navigationState.index === i
                                 ? '500'
                                 : 'normal',
+                            color:
+                              props.navigationState.index === 1
+                                ? '#fff'
+                                : '#222',
                           },
                         ]}>
                         {route.title}
@@ -120,7 +138,11 @@ const Page = CreatePage({
               <Animated.View
                 style={[
                   styles.tabBarLine,
-                  {transform: [{translateX: lineLeft}]},
+                  {
+                    transform: [{translateX: lineLeft}],
+                    backgroundColor:
+                      props.navigationState.index === 1 ? '#fff' : '#FF5501',
+                  },
                 ]}
               />
             </View>

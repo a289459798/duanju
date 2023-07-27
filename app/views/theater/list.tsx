@@ -64,9 +64,7 @@ export default (props: {category: string}) => {
             <Text style={styles.titleText} numberOfLines={1}>
               {item.title}
             </Text>
-            <Text style={styles.lookText}>
-              {item.status === 0 ? '已完结' : '未完结'} · 共{item.index}集
-            </Text>
+            <Text style={styles.lookText}>共{item.total}集</Text>
           </View>
         </TouchableWithoutFeedback>
       )}
@@ -76,8 +74,7 @@ export default (props: {category: string}) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Screen.calc(100),
-    paddingHorizontal: Screen.calc(10),
+    paddingTop: Screen.calc(10),
   },
   itemView: {
     width: Screen.calc(110),
@@ -85,19 +82,19 @@ const styles = StyleSheet.create({
     marginRight: Screen.calc(10),
   },
   itemImage: {
-    backgroundColor: '#eee',
     width: Screen.calc(110),
-    height: Screen.calc(160),
-    borderRadius: Screen.calc(10),
+    height: Screen.calc(147),
+    borderRadius: Screen.calc(6),
   },
   titleText: {
-    color: '#666',
-    fontSize: Screen.calc(14),
-    fontWeight: '500',
-    marginTop: Screen.calc(8),
+    color: '#222',
+    fontSize: Screen.calc(16),
+    marginTop: Screen.calc(10),
+    lineHeight: Screen.calc(19),
   },
   lookText: {
     color: '#999',
-    fontSize: Screen.calc(11),
+    fontSize: Screen.calc(12),
+    lineHeight: Screen.calc(19),
   },
 });

@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {DPSdk} from 'briage/module';
 
 const Page = CreatePage({
@@ -45,12 +44,6 @@ const Page = CreatePage({
     }, []);
     return (
       <View style={styles.container}>
-        <LinearGradient
-          style={styles.bg}
-          colors={['rgb(242, 209, 178)', '#fff']}
-          start={{x: 0, y: 0}}
-          end={{x: 0, y: 0.4}}
-        />
         {routes?.length > 0 && (
           <TabView
             lazy
@@ -58,7 +51,7 @@ const Page = CreatePage({
             renderScene={SceneMap(scene)}
             onIndexChange={(i: number) => {
               setIndex(i);
-              scrollViewRef.current?.scrollTo({x: i * 40});
+              scrollViewRef.current?.scrollTo({x: i * 60});
             }}
             renderTabBar={(props: any) => {
               const inputRange = props.navigationState.routes.map(
@@ -70,6 +63,10 @@ const Page = CreatePage({
                   ref={scrollViewRef}
                   horizontal
                   showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{
+                    alignItems: 'center',
+                    height: Screen.calc(60),
+                  }}
                   style={styles.tabBar}>
                   {props.navigationState.routes.map((route: any, i: number) => {
                     const opacity = props.position.interpolate({
@@ -91,12 +88,16 @@ const Page = CreatePage({
                               opacity,
                               fontSize:
                                 props.navigationState.index === i
-                                  ? Screen.calc(16)
-                                  : Screen.calc(14),
+                                  ? Screen.calc(22)
+                                  : Screen.calc(15),
                               fontWeight:
                                 props.navigationState.index === i
                                   ? '500'
                                   : 'normal',
+                              color:
+                                props.navigationState.index === i
+                                  ? '#222'
+                                  : '#999',
                             },
                           ]}>
                           {route.title}
@@ -122,27 +123,15 @@ export default connect((state: any) => {
 })(Page);
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
-  bg: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
-  },
+  container: {flex: 1, paddingHorizontal: Screen.calc(12)},
   tabBar: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    zIndex: 99,
-    top: Screen.calc(20) + (StatusBar.currentHeight || 0),
-    paddingHorizontal: Screen.calc(30),
-    left: 0,
-    right: 0,
+    backgroundColor: 'red',
+    marginTop: Screen.calc(20) + (StatusBar.currentHeight || 0),
+    height: Screen.calc(60),
   },
 
   tabItem: {
-    marginRight: Screen.calc(20),
+    marginRight: Screen.calc(35),
   },
   tabBarItemText: {
     color: '#000',
