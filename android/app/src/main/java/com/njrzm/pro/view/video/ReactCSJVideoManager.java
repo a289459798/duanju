@@ -183,17 +183,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         if (this.detailConfig == null) {
             this.detailConfig = DPDramaDetailConfig.obtain("common");
         }
-
         this.detailConfig.listener(new IDPDramaListener() {
-            @Override
-            public void onDPSeekTo(int i, long l) {
-                super.onDPSeekTo(i, l);
-            }
-
-            @Override
-            public void onDPPageChange(int i, Map<String, Object> map) {
-                super.onDPPageChange(i, map);
-            }
 
             @Override
             public void onDPVideoPlay(Map<String, Object> map) {
@@ -214,68 +204,14 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
             }
 
             @Override
-            public void onDPVideoPause(Map<String, Object> map) {
-                super.onDPVideoPause(map);
-            }
-
-            @Override
-            public void onDPVideoContinue(Map<String, Object> map) {
-                super.onDPVideoContinue(map);
-            }
-
-            @Override
-            public void onDPVideoCompletion(Map<String, Object> map) {
-                super.onDPVideoCompletion(map);
-            }
-
-            @Override
-            public void onDPVideoOver(Map<String, Object> map) {
-                super.onDPVideoOver(map);
-            }
-
-            @Override
-            public void onDPClose() {
-                super.onDPClose();
-            }
-
-            @Override
-            public void onDPRequestStart(@Nullable Map<String, Object> map) {
-                super.onDPRequestStart(map);
-            }
-
-            @Override
-            public void onDPRequestFail(int i, String s, @Nullable Map<String, Object> map) {
-                super.onDPRequestFail(i, s, map);
-            }
-
-            @Override
-            public void onDPRequestSuccess(List<Map<String, Object>> list) {
-                super.onDPRequestSuccess(list);
-            }
-
-            @Override
             public boolean isNeedBlock(DPDrama dpDrama, int i, @Nullable Map<String, Object> map) {
-                return super.isNeedBlock(dpDrama, i, map);
+                return true;
             }
 
             @Override
             public void showAdIfNeeded(DPDrama dpDrama, Callback callback, @Nullable Map<String, Object> map) {
+                System.out.println("showAdIfNeeded");
                 super.showAdIfNeeded(dpDrama, callback, map);
-            }
-
-            @Override
-            public void onDramaSwitch(@Nullable Map<String, Object> map) {
-                super.onDramaSwitch(map);
-            }
-
-            @Override
-            public void onDramaGalleryShow(@Nullable Map<String, Object> map) {
-                super.onDramaGalleryShow(map);
-            }
-
-            @Override
-            public void onDramaGalleryClick(@Nullable Map<String, Object> map) {
-                super.onDramaGalleryClick(map);
             }
 
             @Override

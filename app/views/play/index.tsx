@@ -127,7 +127,7 @@ const Page = CreatePage({
           index={params.index || 1}
           currentDuration={params.duration || 0}
           config={{
-            mode: 'common',
+            mode: 'specific',
             isHideLeftTopTips: true,
             isHideMore: true,
             infiniteScrollEnabled: false,

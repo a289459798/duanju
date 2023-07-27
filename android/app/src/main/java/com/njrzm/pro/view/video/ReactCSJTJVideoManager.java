@@ -1,5 +1,6 @@
 package com.njrzm.pro.view.video;
 
+import android.content.Context;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bytedance.sdk.dp.DPDrama;
 import com.bytedance.sdk.dp.DPDramaDetailConfig;
 import com.bytedance.sdk.dp.DPSdk;
 import com.bytedance.sdk.dp.DPWidgetDramaDetailParams;
@@ -16,6 +18,7 @@ import com.bytedance.sdk.dp.DPWidgetDrawParams;
 import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
+import com.bytedance.sdk.dp.IDramaDetailEnterDelegate;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -33,11 +36,12 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import java.util.List;
 import java.util.Map;
 
-public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
+public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implements LifecycleEventListener {
 
     public static final String REACT_CLASS = "CSJTJVideoManager";
     public final int COMMAND_CREATE = 1;
     public final int COMMAND_RESUME = 2;
+    public final int COMMAND_PAUSE = 3;
     ReactApplicationContext mCallerContext;
 
     private int propWidth;
@@ -57,12 +61,14 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
     @NonNull
     @Override
     protected FrameLayout createViewInstance(@NonNull ThemedReactContext themedReactContext) {
+        mCallerContext.addLifecycleEventListener(this);
         return new FrameLayout(mCallerContext);
     }
 
     @Override
     public void onDropViewInstance(@NonNull FrameLayout view) {
         super.onDropViewInstance(view);
+        mCallerContext.removeLifecycleEventListener(this);
         if (widget != null) {
             widget.destroy();
         }
@@ -118,6 +124,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
     public Map<String, Integer> getCommandsMap() {
         Map map = MapBuilder.of("create", COMMAND_CREATE);
         map.put("resume", COMMAND_RESUME);
+        map.put("pause", COMMAND_PAUSE);
         return map;
     }
 
@@ -136,6 +143,11 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
             case COMMAND_RESUME:
                 if (widget != null) {
                     widget.resumeForWatchTogether();
+                }
+                break;
+            case COMMAND_PAUSE:
+                if (widget != null) {
+                    widget.pauseForWatchTogether();
                 }
                 break;
             default: {
@@ -171,6 +183,12 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
         params1.mIsHideDramaInfo = true;
         params1.mIsHideDramaEnter = true;
         DPDramaDetailConfig mDramaDetailConfig = DPDramaDetailConfig.obtain("specific");
+        mDramaDetailConfig.setEnterDelegate(new IDramaDetailEnterDelegate() {
+            @Override
+            public void onEnter(Context context, DPDrama dpDrama, int i) {
+                System.out.println("onEnter");
+            }
+        });
 
         params1.listener(new IDPDrawListener() {
             @Override
@@ -228,5 +246,24 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
                 View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         view.layout(0, 0, width, height);
+    }
+
+    @Override
+    public void onHostResume() {
+        if (widget != null) {
+            widget.resumeForWatchTogether();
+        }
+    }
+
+    @Override
+    public void onHostPause() {
+        if (widget != null) {
+            widget.pauseForWatchTogether();
+        }
+    }
+
+    @Override
+    public void onHostDestroy() {
+
     }
 }
