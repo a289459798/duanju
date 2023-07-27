@@ -15,9 +15,6 @@ export default (props: HistoryProps) => {
   return (
     <ListView
       style={styles.container}
-      contentContainerStyle={{
-        paddingBottom: Screen.calc(100),
-      }}
       columnWrapperStyle={{
         justifyContent: 'flex-start',
       }}
@@ -51,7 +48,7 @@ export default (props: HistoryProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Screen.calc(100),
+    marginTop: Screen.calc(100),
     paddingHorizontal: Screen.calc(12),
   },
   itemView: {
