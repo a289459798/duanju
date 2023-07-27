@@ -18,8 +18,7 @@ export default () => {
     <Stack.Navigator
       initialRouteName={'Home'}
       screenOptions={{
-        gestureEnabled: true,
-        gestureResponseDistance: Screen.width / 2,
+        gestureEnabled: false,
         headerTitleAlign: 'center',
         headerMode: 'screen',
         headerLeftContainerStyle: {paddingLeft: 5},

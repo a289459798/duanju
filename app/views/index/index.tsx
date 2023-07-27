@@ -49,7 +49,7 @@ const Page = CreatePage({
     return (
       <TabView
         lazy
-        swipeEnabled={false}
+        swipeEnabled={true}
         navigationState={{index, routes}}
         renderScene={({route}) => {
           switch (route.key) {

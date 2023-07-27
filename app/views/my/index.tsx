@@ -178,10 +178,11 @@ const Page = CreatePage({
                   <View style={styles.followView}>
                     {follow?.map((v: any, k: any) => (
                       <TouchableWithoutFeedback
+                        key={k}
                         onPress={() =>
                           nav.push('Play', {id: v.id, index: v.index})
                         }>
-                        <View style={styles.followViewItem} key={k}>
+                        <View style={styles.followViewItem}>
                           <Image
                             style={styles.followViewImage}
                             source={{uri: v.coverImage}}
