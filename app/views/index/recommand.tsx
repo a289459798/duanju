@@ -11,9 +11,9 @@ import {
 import {Text} from '@/component';
 import {Screen} from '@/utils';
 import {CSJTJVideoManager} from '@/briage/view';
-import {TTAdSdk} from 'briage/module';
 import VideoAction from '@/component/custom/videoAction';
 import historyAction from 'action/historyAction';
+import useNavigator from 'hooks/useNavigator';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -28,42 +28,13 @@ export default () => {
   const [video, setVideo] = useState<any>({});
   const [showButton, setShowButton] = useState(false);
   const [follow, setFollow] = useState(false);
+  const nav = useNavigator();
 
   useEffect(() => {
-    const onAdShow = TTAdSdk.addListener('onAdShow', () => {
-      console.log('onAdShow');
-    });
-    const onAdVideoBarClick = TTAdSdk.addListener('onAdVideoBarClick', () => {
-      console.log('onAdVideoBarClick');
-    });
-    const onAdClose = TTAdSdk.addListener('onAdClose', () => {
-      console.log('onAdClose');
-    });
-    const onVideoComplete = TTAdSdk.addListener('onVideoComplete', () => {
-      console.log('onVideoComplete');
-    });
-    const onVideoError = TTAdSdk.addListener('onVideoError', () => {
-      console.log('onVideoError');
-    });
-    const onRewardArrived = TTAdSdk.addListener('onRewardArrived', () => {
-      console.log('onRewardArrived');
-    });
-    const onSkippedVideo = TTAdSdk.addListener('onSkippedVideo', () => {
-      console.log('onSkippedVideo');
-    });
-
     const viewId = findNodeHandle(ref.current);
-    createFragment(viewId!);
-
-    return () => {
-      onAdShow?.remove();
-      onAdVideoBarClick?.remove();
-      onAdClose?.remove();
-      onVideoComplete?.remove();
-      onVideoError?.remove();
-      onRewardArrived?.remove();
-      onSkippedVideo?.remove();
-    };
+    if (viewId) {
+      createFragment(viewId!);
+    }
   }, []);
 
   let timer: any;
@@ -72,13 +43,6 @@ export default () => {
     // 判断是否追剧
     const f = await historyAction.followExists({id: data.drama_id});
     setFollow(f);
-    if (f) {
-      historyAction.updateFollow({
-        id: data.drama_id,
-        index: data.index,
-        duration: 0,
-      });
-    }
   };
 
   const onFollow = async () => {
@@ -102,6 +66,7 @@ export default () => {
           width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
         }}
         onDPVideoPlay={(data: any) => {
+          console.log('onDPVideoPlay');
           timer && clearTimeout(timer);
           setShowButton(false);
           setFollow(false);
@@ -113,7 +78,7 @@ export default () => {
       {video?.drama_id && (
         <TouchableWithoutFeedback
           onPress={() => {
-            console.log('click');
+            nav.push('Play', {id: video.drama_id, index: video.index});
           }}>
           <View style={styles.videoBottom}>
             <View style={styles.videoInfo}>

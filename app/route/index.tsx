@@ -9,6 +9,7 @@ import Tab from '@/views';
 import About from '@/views/about';
 import Contact from '@/views/contact';
 import Follow from '@/views/follow';
+import Play from '@/views/play';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,11 @@ export default () => {
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Contact" component={Contact} />
       <Stack.Screen name="Follow" component={Follow} />
+      <Stack.Screen
+        name="Play"
+        component={Play}
+        options={{header: () => null}}
+      />
     </Stack.Navigator>
   );
 };

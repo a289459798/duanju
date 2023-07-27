@@ -16,14 +16,17 @@ import com.bytedance.sdk.dp.DPWidgetDramaDetailParams;
 import com.bytedance.sdk.dp.IDPAdListener;
 import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPWidget;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.List;
 import java.util.Map;
@@ -152,6 +155,17 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
+    @Override
+    public Map getExportedCustomBubblingEventTypeConstants() {
+        return MapBuilder.builder()
+                .put(
+                        "topDPVideoPlay",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onDPVideoPlay")))
+                .build();
+    }
+
     /**
      * Replace your React Native view with a custom fragment
      */
@@ -184,6 +198,19 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
             @Override
             public void onDPVideoPlay(Map<String, Object> map) {
                 super.onDPVideoPlay(map);
+
+                WritableMap event = Arguments.createMap();
+                event.putString("title", (String) map.get("title"));
+                event.putString("cover_image", (String) map.get("cover_image"));
+                event.putString("desc", (String) map.get("desc"));
+                event.putInt("index", (int) map.get("index"));
+                event.putInt("total", (int) map.get("total"));
+                event.putInt("status", (int) map.get("status"));
+                event.putString("drama_id", String.valueOf((long) map.get("drama_id")));
+                mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        reactNativeViewId,
+                        "topDPVideoPlay",
+                        event);
             }
 
             @Override

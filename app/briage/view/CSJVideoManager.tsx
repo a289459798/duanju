@@ -14,5 +14,6 @@ export type CSJVideoProps = {
     infiniteScrollEnabled?: boolean;
   };
   style?: StyleProp<ViewStyle> | undefined;
+  onDPVideoPlay?: (data: any) => void;
 };
 export default requireNativeComponent<CSJVideoProps>('CSJVideoManager');
