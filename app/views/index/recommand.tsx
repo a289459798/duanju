@@ -13,6 +13,7 @@ import {
   PixelRatio,
   StyleSheet,
   TouchableWithoutFeedback,
+  PanResponder,
 } from 'react-native';
 import {Text} from '@/component';
 import {Screen} from '@/utils';
@@ -43,6 +44,8 @@ type RecommandProps = {
 export type RecommandRef = {
   resume: () => void;
 };
+
+let timer: any;
 export default React.forwardRef(
   (props: RecommandProps, ref: Ref<RecommandRef>) => {
     const videorRef = useRef(null);
@@ -71,8 +74,6 @@ export default React.forwardRef(
       }
     }, [props.dpstart]);
 
-    let timer: any;
-
     const checkFollow = async (data: any) => {
       // 判断是否追剧
       const f = await historyAction.followExists({id: data.drama_id});
@@ -88,10 +89,23 @@ export default React.forwardRef(
       checkFollow(video);
     };
 
+    const panResponder = useRef(
+      PanResponder.create({
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {},
+        onPanResponderRelease: () => {},
+      }),
+    ).current;
+
+    const play = () => {
+      nav.push('Play', {id: video.drama_id, index: video.index});
+    };
+
     return (
       <View style={{flex: 1}}>
         <CSJTJVideoManager
           ref={videorRef}
+          {...panResponder.panHandlers}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
               Screen.height - (StatusBar.currentHeight || 0),
@@ -110,34 +124,32 @@ export default React.forwardRef(
           }}
         />
         {video?.drama_id && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              nav.push('Play', {id: video.drama_id, index: video.index});
-            }}>
-            <View style={styles.videoBottom}>
-              <View style={styles.videoInfo}>
-                <Text style={styles.videoTitle}>{video.title}</Text>
-                <Text style={styles.videoDesc} numberOfLines={2}>
-                  {video.desc}
-                </Text>
-                <Text style={styles.videoCount}>
-                  第{video.index}集 | 共{video.total}集 {'>'}
-                </Text>
-              </View>
-              <VideoAction
-                videoInfo={video}
-                showButton={showButton}
-                follow={follow}
-                onClickAdd={onFollow}
-                onClickShare={() => {
-                  console.log('onClickShare');
-                }}
-                onClickNext={() => {
-                  nav.push('Play', {id: video.drama_id, index: video.index});
-                }}
-              />
+          <View style={styles.videoBottom} pointerEvents="box-none">
+            <View style={styles.videoInfo}>
+              <Text style={styles.videoTitle} onPress={() => play()}>
+                {video.title}
+              </Text>
+              <Text
+                style={styles.videoDesc}
+                numberOfLines={2}
+                onPress={() => play()}>
+                {video.desc}
+              </Text>
+              <Text style={styles.videoCount} onPress={() => play()}>
+                第{video.index}集 | 共{video.total}集 {'>'}
+              </Text>
             </View>
-          </TouchableWithoutFeedback>
+            <VideoAction
+              videoInfo={video}
+              showButton={showButton}
+              follow={follow}
+              onClickAdd={onFollow}
+              onClickShare={() => {
+                console.log('onClickShare');
+              }}
+              onClickNext={() => play()}
+            />
+          </View>
         )}
       </View>
     );

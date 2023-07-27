@@ -182,7 +182,13 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
         params1.mIsHideClose = true;
         params1.mIsHideDramaInfo = true;
         params1.mIsHideDramaEnter = true;
-        DPDramaDetailConfig mDramaDetailConfig = DPDramaDetailConfig.obtain("common");
+        DPDramaDetailConfig mDramaDetailConfig = DPDramaDetailConfig.obtain("specific");
+        mDramaDetailConfig.setEnterDelegate(new IDramaDetailEnterDelegate() {
+            @Override
+            public void onEnter(Context context, DPDrama dpDrama, int i) {
+                System.out.println("onEnter");
+            }
+        });
 
         params1.listener(new IDPDrawListener() {
             @Override

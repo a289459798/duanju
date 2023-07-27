@@ -16,20 +16,28 @@ export type VideoActionProps = {
 export default (props: VideoActionProps) => {
   return (
     <View style={styles.container}>
-      <FastImage
-        style={styles.image}
-        source={{uri: props.videoInfo.cover_image}}
-      />
-      <TouchableWithoutFeedback onPress={props.onClickAdd}>
-        <View style={styles.addView}>
-          <Text style={{color: '#fff'}}>
-            {props.follow ? '取消追剧' : '追剧'}
+      <View
+        style={{
+          alignItems: 'center',
+          marginLeft: Screen.calc(20),
+        }}>
+        <FastImage
+          style={styles.image}
+          source={{uri: props.videoInfo.cover_image}}
+        />
+        <TouchableWithoutFeedback onPress={props.onClickAdd}>
+          <View style={styles.addView}>
+            <Text style={{color: '#fff'}}>
+              {props.follow ? '取消追剧' : '追剧'}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={props.onClickShare}>
+          <Text style={{color: '#fff', marginBottom: Screen.calc(10)}}>
+            分享
           </Text>
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={props.onClickShare}>
-        <Text style={{color: '#fff', marginBottom: Screen.calc(10)}}>分享</Text>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </View>
       {props.showButton ? (
         <Button
           onPress={props.onClickNext}
@@ -46,9 +54,8 @@ export default (props: VideoActionProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: Screen.calc(10),
-    alignItems: 'center',
-    marginLeft: Screen.calc(20),
+    marginRight: Screen.calc(15),
+    alignItems: 'flex-end',
   },
 
   image: {

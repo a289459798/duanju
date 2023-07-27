@@ -21,7 +21,7 @@ const Page = CreatePage({
     statusBar: {translucent: true, backgroundColor: 'transparent'},
   }),
   Component: (props: any) => {
-    const [index, setIndex] = React.useState(0);
+    const [index, setIndex] = React.useState(1);
     const commandRef = useRef<RecommandRef>(null);
     const navgation = useNavigation();
     const [routes] = React.useState([
@@ -63,6 +63,7 @@ const Page = CreatePage({
     return (
       <TabView
         lazy
+        animationEnabled={false}
         swipeEnabled={true}
         navigationState={{index, routes}}
         renderScene={({route}) => {
