@@ -5,6 +5,7 @@ import {
   PixelRatio,
   StatusBar,
   StyleSheet,
+  TouchableWithoutFeedback,
   UIManager,
   View,
   findNodeHandle,
@@ -14,6 +15,8 @@ import VideoAction from 'component/custom/videoAction';
 import {TTAdSdk} from 'briage/module';
 import historyAction from 'action/historyAction';
 import {useRoute} from '@react-navigation/native';
+import useNavigator from 'hooks/useNavigator';
+import {IconArrow} from 'public/iconfont';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -35,7 +38,7 @@ const Page = CreatePage({
     const [follow, setFollow] = useState(false);
     const route = useRoute();
     const params: any = route.params;
-    console.log('params', params);
+    const nav = useNavigator();
 
     useEffect(() => {
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
@@ -98,6 +101,19 @@ const Page = CreatePage({
 
     return (
       <View style={{flex: 1}}>
+        <View style={styles.header}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              nav.pop();
+            }}>
+            <IconArrow
+              style={{
+                transform: [{rotate: '180deg'}],
+              }}
+              color={'#fff'}
+            />
+          </TouchableWithoutFeedback>
+        </View>
         <CSJVideoManager
           ref={ref}
           style={{
@@ -148,6 +164,13 @@ export default connect((state: any) => {
 })(Page);
 
 const styles = StyleSheet.create({
+  header: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    left: Screen.calc(10),
+    top: (StatusBar.currentHeight || 0) + Screen.calc(10),
+    zIndex: 999,
+  },
   videoBottom: {
     position: 'absolute',
     zIndex: 999,
