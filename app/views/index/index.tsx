@@ -24,7 +24,6 @@ const Page = CreatePage({
       {key: 'history', title: '历史观看'},
       {key: 'recommand', title: '推荐'},
     ]);
-    const recommandRef = useRef(null);
     return (
       <TabView
         lazy
@@ -32,7 +31,7 @@ const Page = CreatePage({
         navigationState={{index, routes}}
         renderScene={SceneMap({
           history: History,
-          recommand: () => <Recommand ref={recommandRef} />,
+          recommand: Recommand,
         })}
         onIndexChange={(i: number) => {
           setIndex(i);

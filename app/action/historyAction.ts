@@ -33,8 +33,7 @@ export default {
 
   getFollow: async (limit: number) => {
     const results = await global.db?.executeSql(
-      'select * from Follow order by time desc limit 0,?',
-      [limit],
+      `select * from Follow order by time desc limit 0,${limit}`,
     );
     if (results?.[0].rows?.length > 0) {
       let res = [];
