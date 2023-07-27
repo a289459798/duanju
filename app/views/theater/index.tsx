@@ -59,53 +59,68 @@ const Page = CreatePage({
               );
 
               return (
-                <ScrollView
-                  ref={scrollViewRef}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{
-                    alignItems: 'center',
-                    height: Screen.calc(60),
-                  }}
-                  style={styles.tabBar}>
-                  {props.navigationState.routes.map((route: any, i: number) => {
-                    const opacity = props.position.interpolate({
-                      inputRange,
-                      outputRange: inputRange.map((inputIndex: number) =>
-                        inputIndex === i ? 1 : 0.5,
-                      ),
-                    });
+                <View>
+                  <ScrollView
+                    ref={scrollViewRef}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{
+                      alignItems: 'center',
+                      paddingVertical: Screen.calc(10),
+                    }}
+                    style={styles.tabBar}>
+                    {props.navigationState.routes.map(
+                      (route: any, i: number) => {
+                        const opacity = props.position.interpolate({
+                          inputRange,
+                          outputRange: inputRange.map((inputIndex: number) =>
+                            inputIndex === i ? 1 : 0.5,
+                          ),
+                        });
 
-                    return (
-                      <TouchableOpacity
-                        key={i}
-                        style={styles.tabItem}
-                        onPress={() => setIndex(i)}>
-                        <Animated.Text
-                          style={[
-                            styles.tabBarItemText,
-                            {
-                              opacity,
-                              fontSize:
-                                props.navigationState.index === i
-                                  ? Screen.calc(22)
-                                  : Screen.calc(15),
-                              fontWeight:
-                                props.navigationState.index === i
-                                  ? '500'
-                                  : 'normal',
-                              color:
-                                props.navigationState.index === i
-                                  ? '#222'
-                                  : '#999',
-                            },
-                          ]}>
-                          {route.title}
-                        </Animated.Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </ScrollView>
+                        return (
+                          <TouchableOpacity
+                            key={i}
+                            style={styles.tabItem}
+                            onPress={() => setIndex(i)}>
+                            <Animated.Text
+                              style={[
+                                styles.tabBarItemText,
+                                {
+                                  opacity,
+                                  fontSize:
+                                    props.navigationState.index === i
+                                      ? Screen.calc(22)
+                                      : Screen.calc(15),
+                                  fontWeight:
+                                    props.navigationState.index === i
+                                      ? '500'
+                                      : 'normal',
+                                  color:
+                                    props.navigationState.index === i
+                                      ? '#222'
+                                      : '#999',
+                                },
+                              ]}>
+                              {route.title}
+                            </Animated.Text>
+                            <View
+                              style={[
+                                styles.line,
+                                {
+                                  backgroundColor:
+                                    props.navigationState.index === i
+                                      ? '#FF5501'
+                                      : 'transparent',
+                                },
+                              ]}
+                            />
+                          </TouchableOpacity>
+                        );
+                      },
+                    )}
+                  </ScrollView>
+                </View>
               );
             }}
           />
@@ -125,15 +140,20 @@ export default connect((state: any) => {
 const styles = StyleSheet.create({
   container: {flex: 1, paddingHorizontal: Screen.calc(12)},
   tabBar: {
-    backgroundColor: 'red',
-    marginTop: Screen.calc(20) + (StatusBar.currentHeight || 0),
-    height: Screen.calc(60),
+    backgroundColor: 'transparent',
+    marginTop: Screen.calc(10) + (StatusBar.currentHeight || 0),
   },
 
   tabItem: {
     marginRight: Screen.calc(35),
+    alignItems: 'center',
   },
   tabBarItemText: {
     color: '#000',
+  },
+  line: {
+    width: Screen.calc(24),
+    height: Screen.calc(5),
+    marginTop: Screen.calc(4),
   },
 });

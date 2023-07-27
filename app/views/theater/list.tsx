@@ -44,9 +44,6 @@ export default (props: {category: string}) => {
   return (
     <ListView
       loading={loading}
-      contentContainerStyle={{
-        paddingBottom: Screen.calc(100),
-      }}
       showsVerticalScrollIndicator={false}
       style={styles.container}
       numColumns={3}
@@ -78,7 +75,7 @@ const styles = StyleSheet.create({
   },
   itemView: {
     width: Screen.calc(110),
-    marginTop: Screen.calc(20),
+    marginBottom: Screen.calc(17),
     marginRight: Screen.calc(10),
   },
   itemImage: {
