@@ -37,6 +37,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
 
     public static final String REACT_CLASS = "CSJTJVideoManager";
     public final int COMMAND_CREATE = 1;
+    public final int COMMAND_RESUME = 2;
     ReactApplicationContext mCallerContext;
 
     private int propWidth;
@@ -115,7 +116,9 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
     @Nullable
     @Override
     public Map<String, Integer> getCommandsMap() {
-        return MapBuilder.of("create", COMMAND_CREATE);
+        Map map = MapBuilder.of("create", COMMAND_CREATE);
+        map.put("resume", COMMAND_RESUME);
+        return map;
     }
 
     /**
@@ -129,6 +132,11 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
         switch (commandIdInt) {
             case COMMAND_CREATE:
                 createFragment(root, reactNativeViewId);
+                break;
+            case COMMAND_RESUME:
+                if (widget != null) {
+                    widget.resumeForWatchTogether();
+                }
                 break;
             default: {
             }

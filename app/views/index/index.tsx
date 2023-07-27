@@ -1,9 +1,9 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {CreatePage, Screen} from '@/utils';
 import {TabView} from 'react-native-tab-view';
 import History from './history';
-import Recommand from './recommand';
+import Recommand, {RecommandRef} from './recommand';
 import {
   Animated,
   StatusBar,
@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import historyAction from 'action/historyAction';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -20,11 +22,29 @@ const Page = CreatePage({
   }),
   Component: (props: any) => {
     const [index, setIndex] = React.useState(1);
+    const commandRef = useRef<RecommandRef>(null);
+    const navgation = useNavigation();
     const [routes] = React.useState([
       {key: 'history', title: '历史观看'},
       {key: 'recommand', title: '推荐'},
     ]);
     const {global, history, dispatch} = props;
+
+    useEffect(() => {
+      navgation.addListener('focus', () => {
+        props.dispatch(historyAction.fetchHistory());
+        if (index === 1) {
+          commandResume();
+        }
+      });
+      return () => {
+        navgation.removeListener('focus', () => {});
+      };
+    }, []);
+
+    const commandResume = () => {
+      commandRef.current?.resume();
+    };
 
     return (
       <TabView
@@ -36,7 +56,7 @@ const Page = CreatePage({
             case 'history':
               return <History history={history.history} dispatch={dispatch} />;
             case 'recommand':
-              return <Recommand dpstart={global.dpstart} />;
+              return <Recommand ref={commandRef} dpstart={global.dpstart} />;
           }
         }}
         onIndexChange={(i: number) => {
@@ -70,7 +90,12 @@ const Page = CreatePage({
                     <TouchableOpacity
                       key={i}
                       style={styles.tabItem}
-                      onPress={() => setIndex(i)}>
+                      onPress={() => {
+                        setIndex(i);
+                        if (i === 1) {
+                          commandResume();
+                        }
+                      }}>
                       <Animated.Text
                         style={[
                           styles.tabBarItemText,

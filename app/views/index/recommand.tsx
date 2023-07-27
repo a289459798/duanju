@@ -1,4 +1,10 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  Ref,
+  useImperativeHandle,
+} from 'react';
 import {
   View,
   UIManager,
@@ -23,96 +29,120 @@ const createFragment = (viewId: number | null) =>
     [viewId],
   );
 
+const resume = (viewId: number | null) =>
+  UIManager.dispatchViewManagerCommand(
+    viewId,
+    //@ts-ignore
+    UIManager.CSJTJVideoManager.Commands.resume.toString(), // we are calling the 'create' command
+    [viewId],
+  );
+
 type RecommandProps = {
   dpstart: boolean;
 };
-export default (props: RecommandProps) => {
-  const ref = useRef(null);
-  const [video, setVideo] = useState<any>({});
-  const [showButton, setShowButton] = useState(false);
-  const [follow, setFollow] = useState(false);
-  const nav = useNavigator();
-
-  useEffect(() => {
-    if (props.dpstart) {
-      const viewId = findNodeHandle(ref.current);
-      if (viewId) {
-        createFragment(viewId!);
-      }
-    }
-  }, [props.dpstart]);
-
-  let timer: any;
-
-  const checkFollow = async (data: any) => {
-    // 判断是否追剧
-    const f = await historyAction.followExists({id: data.drama_id});
-    setFollow(f);
-  };
-
-  const onFollow = async () => {
-    await historyAction.addFollow({
-      id: video.drama_id,
-      index: video.index,
-      duration: 0,
-    });
-    checkFollow(video);
-  };
-
-  return (
-    <View style={{flex: 1}}>
-      <CSJTJVideoManager
-        ref={ref}
-        style={{
-          height: PixelRatio.getPixelSizeForLayoutSize(
-            Screen.height + (StatusBar.currentHeight || 0),
-          ),
-          // converts dpi to px, provide desired width
-          width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
-        }}
-        onDPVideoPlay={(data: any) => {
-          console.log('onDPVideoPlay');
-          timer && clearTimeout(timer);
-          setShowButton(false);
-          setFollow(false);
-          setVideo(data.nativeEvent);
-          timer = setTimeout(() => setShowButton(true), 5000);
-          checkFollow(data.nativeEvent);
-        }}
-      />
-      {video?.drama_id && (
-        <TouchableWithoutFeedback
-          onPress={() => {
-            nav.push('Play', {id: video.drama_id, index: video.index});
-          }}>
-          <View style={styles.videoBottom}>
-            <View style={styles.videoInfo}>
-              <Text style={styles.videoTitle}>{video.title}</Text>
-              <Text style={styles.videoDesc} numberOfLines={2}>
-                {video.desc}
-              </Text>
-              <Text style={styles.videoCount}>
-                第{video.index}集 · 共{video.total}集
-              </Text>
-            </View>
-            <VideoAction
-              videoInfo={video}
-              showButton={showButton}
-              follow={follow}
-              onClickAdd={onFollow}
-              onClickShare={() => {
-                console.log('onClickShare');
-              }}
-              onClickNext={() => {
-                nav.push('Play', {id: video.drama_id, index: video.index});
-              }}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      )}
-    </View>
-  );
+export type RecommandRef = {
+  resume: () => void;
 };
+export default React.forwardRef(
+  (props: RecommandProps, ref: Ref<RecommandRef>) => {
+    const videorRef = useRef(null);
+    const [video, setVideo] = useState<any>({});
+    const [showButton, setShowButton] = useState(false);
+    const [follow, setFollow] = useState(false);
+    const nav = useNavigator();
+
+    useImperativeHandle(ref, () => ({
+      resume: () => {
+        setTimeout(() => {
+          const viewId = findNodeHandle(videorRef.current);
+          if (viewId) {
+            resume(viewId!);
+          }
+        }, 1000);
+      },
+    }));
+
+    useEffect(() => {
+      if (props.dpstart) {
+        const viewId = findNodeHandle(videorRef.current);
+        if (viewId) {
+          createFragment(viewId!);
+        }
+      }
+    }, [props.dpstart]);
+
+    let timer: any;
+
+    const checkFollow = async (data: any) => {
+      // 判断是否追剧
+      const f = await historyAction.followExists({id: data.drama_id});
+      setFollow(f);
+    };
+
+    const onFollow = async () => {
+      await historyAction.addFollow({
+        id: video.drama_id,
+        index: video.index,
+        duration: 0,
+      });
+      checkFollow(video);
+    };
+
+    return (
+      <View style={{flex: 1}}>
+        <CSJTJVideoManager
+          ref={videorRef}
+          style={{
+            height: PixelRatio.getPixelSizeForLayoutSize(
+              Screen.height + (StatusBar.currentHeight || 0),
+            ),
+            // converts dpi to px, provide desired width
+            width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
+          }}
+          onDPVideoPlay={(data: any) => {
+            console.log('onDPVideoPlay');
+            timer && clearTimeout(timer);
+            setShowButton(false);
+            setFollow(false);
+            setVideo(data.nativeEvent);
+            timer = setTimeout(() => setShowButton(true), 5000);
+            checkFollow(data.nativeEvent);
+          }}
+        />
+        {video?.drama_id && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              nav.push('Play', {id: video.drama_id, index: video.index});
+            }}>
+            <View style={styles.videoBottom}>
+              <View style={styles.videoInfo}>
+                <Text style={styles.videoTitle}>{video.title}</Text>
+                <Text style={styles.videoDesc} numberOfLines={2}>
+                  {video.desc}
+                </Text>
+                <Text style={styles.videoCount}>
+                  第{video.index}集 · 共{video.total}集
+                </Text>
+              </View>
+              <VideoAction
+                videoInfo={video}
+                showButton={showButton}
+                follow={follow}
+                onClickAdd={onFollow}
+                onClickShare={() => {
+                  console.log('onClickShare');
+                }}
+                onClickNext={() => {
+                  nav.push('Play', {id: video.drama_id, index: video.index});
+                }}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   videoBottom: {

@@ -2,26 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
-import {useNavigation} from '@react-navigation/native';
 import {Image} from '@rneui/themed';
 import useNavigator from 'hooks/useNavigator';
-import historyAction from 'action/historyAction';
 
 type HistoryProps = {
   history: [];
   dispatch: Function;
 };
 export default (props: HistoryProps) => {
-  const navgation = useNavigation();
   const nav = useNavigator();
-  useEffect(() => {
-    navgation.addListener('focus', () =>
-      props.dispatch(historyAction.fetchHistory()),
-    );
-    return () => {
-      navgation.removeListener('focus', () => {});
-    };
-  }, []);
 
   return (
     <ListView
