@@ -5,10 +5,15 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+  useRoute,
+} from '@react-navigation/native';
 import type {LinkingOptions} from '@react-navigation/native';
 import React, {useLayoutEffect, useRef, useState} from 'react';
 import {
+  AppState,
   EmitterSubscription,
   Linking,
   NativeAppEventEmitter,
@@ -119,13 +124,25 @@ function App(): JSX.Element {
 
   const updateModalRef = useRef<UpdateModalRef>(null);
 
+  const navigationRef = useNavigationContainerRef();
   useLayoutEffect(() => {
     init();
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        if (navigationRef.isReady()) {
+          NativeAppEventEmitter.emit(
+            'AppStateActive',
+            navigationRef.getCurrentRoute()?.name,
+          );
+        }
+      }
+    });
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);
     return () => {
       loginEmit?.remove();
+      subscription.remove();
     };
   }, []);
 
@@ -136,7 +153,7 @@ function App(): JSX.Element {
 
   return (
     <Provider store={store}>
-      <NavigationContainer linking={linking}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <Route />
         <UpdateModal ref={updateModalRef} />
         {loading?.visible && (

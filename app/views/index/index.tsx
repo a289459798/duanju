@@ -6,6 +6,8 @@ import History from './history';
 import Recommand, {RecommandRef} from './recommand';
 import {
   Animated,
+  AppState,
+  NativeAppEventEmitter,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -33,23 +35,44 @@ const Page = CreatePage({
     useEffect(() => {
       navgation.addListener('focus', () => {
         props.dispatch(historyAction.fetchHistory());
-        changeStatusBar(index);
-        if (index === 1) {
-          commandResume();
-        }
+        onTabChange(index);
       });
+      navgation.addListener('blur', () => {
+        commandPause();
+      });
+      const subscription = NativeAppEventEmitter.addListener(
+        'AppStateActive',
+        routeName => {
+          if (routeName !== 'Index' || index !== 1) {
+            commandRef.current?.pause();
+          }
+        },
+      );
+
       return () => {
         navgation.removeListener('focus', () => {});
+        navgation.removeListener('blur', () => {});
+        subscription.remove();
       };
     }, []);
 
     const commandResume = () => {
       commandRef.current?.resume();
     };
+    const commandPause = () => {
+      setTimeout(() => {
+        commandRef.current?.pause();
+      }, 1000);
+    };
 
     const onTabChange = (i: number) => {
       setIndex(i);
       changeStatusBar(i);
+      if (i === 1) {
+        commandResume();
+      } else {
+        commandPause();
+      }
     };
 
     const changeStatusBar = (i: number) => {
@@ -113,9 +136,6 @@ const Page = CreatePage({
                       style={styles.tabItem}
                       onPress={() => {
                         onTabChange(i);
-                        if (i === 1) {
-                          commandResume();
-                        }
                       }}>
                       <Animated.Text
                         style={[

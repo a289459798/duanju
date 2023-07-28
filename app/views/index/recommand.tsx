@@ -9,7 +9,6 @@ import {
   View,
   UIManager,
   findNodeHandle,
-  StatusBar,
   PixelRatio,
   StyleSheet,
   PanResponder,
@@ -56,6 +55,7 @@ type RecommandProps = {
 };
 export type RecommandRef = {
   resume: () => void;
+  pause: () => void;
 };
 
 let timer: any;
@@ -70,12 +70,10 @@ export default React.forwardRef(
 
     useImperativeHandle(ref, () => ({
       resume: () => {
-        setTimeout(() => {
-          const viewId = findNodeHandle(videorRef.current);
-          if (viewId) {
-            resume(viewId!);
-          }
-        }, 1000);
+        resume(findNodeHandle(videorRef.current));
+      },
+      pause: () => {
+        pause(findNodeHandle(videorRef.current));
       },
     }));
 
@@ -117,8 +115,7 @@ export default React.forwardRef(
     ).current;
 
     const play = () => {
-      // nav.push('Play', {id: video.drama_id, index: video.index});
-      pause(findNodeHandle(videorRef.current));
+      nav.push('Play', {id: video.drama_id, index: video.index});
     };
 
     const checkHistory = (data: any) => {

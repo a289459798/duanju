@@ -135,12 +135,12 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
                 break;
             case COMMAND_RESUME:
                 if (widget != null) {
-                    widget.resumeForWatchTogether();
+                    mFragment.onHiddenChanged(false);
                 }
                 break;
             case COMMAND_PAUSE:
                 if (widget != null) {
-                    mFragment.onStop();
+                    mFragment.onHiddenChanged(true);
                 }
                 break;
             default: {
