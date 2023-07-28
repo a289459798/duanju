@@ -25,7 +25,7 @@ export default () => {
         headerTitleStyle: {
           fontSize: Screen.calc(17),
           color: '#010101',
-          fontWeight: 'bold',
+          fontWeight: '500',
         },
         headerShadowVisible: false,
         transitionSpec: {

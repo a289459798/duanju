@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import {Text} from '@/component';
 import config from '@/config';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
-import {Image} from '@rneui/themed';
 
 export default CreatePage({
   navigationProps: () => ({
@@ -15,28 +14,31 @@ export default CreatePage({
   Component: () => {
     return (
       <View style={styles.container}>
-        <Image style={styles.logo} source={{uri: ''}} />
+        <Image
+          style={styles.logo}
+          source={require('@/public/images/sy-logo.png')}
+        />
         <Text
           style={{
-            color: '#fff',
-            fontSize: screen.calc(16),
+            color: '#222',
+            fontSize: screen.calc(20),
             marginTop: screen.calc(20),
           }}>
           {config.AppName}
         </Text>
         <Text
           style={{
-            color: '#666',
-            fontSize: screen.calc(14),
-            marginBottom: screen.calc(20),
+            color: '#999',
+            fontSize: screen.calc(17),
+            marginTop: screen.calc(20),
           }}>
           精彩短剧尽在{config.AppName}
         </Text>
         <Text
           style={{
-            color: '#fff',
-            fontSize: screen.calc(14),
-            marginBottom: screen.calc(20),
+            color: '#999',
+            fontSize: screen.calc(17),
+            marginTop: screen.calc(5),
           }}>
           v{DeviceInfo.getVersion()}
         </Text>
@@ -46,7 +48,7 @@ export default CreatePage({
             flex: 1,
             justifyContent: 'flex-end',
             alignItems: 'center',
-            paddingBottom: Screen.calc(100),
+            paddingBottom: Screen.calc(24),
           }}>
           <Text style={styles.proto}>《用户协议》</Text>
           <Text style={styles.proto}>《隐私政策》</Text>
@@ -62,15 +64,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: Screen.calc(30),
+    paddingTop: Screen.calc(90),
   },
-  logo: {
-    width: Screen.calc(100),
-    height: Screen.calc(100),
-    backgroundColor: 'red',
-  },
+  logo: {},
   proto: {
-    color: 'blue',
+    color: '#2989E3',
     marginTop: Screen.calc(10),
+    fontSize: Screen.calc(15),
   },
 });

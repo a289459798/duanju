@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 
 import {Text} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
-import {Image} from '@rneui/themed';
 
 export default CreatePage({
   navigationProps: () => ({
@@ -13,14 +12,22 @@ export default CreatePage({
   Component: () => {
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: ''}} />
+        <View
+          style={{
+            borderRadius: Screen.calc(8),
+            padding: Screen.calc(10),
+            borderWidth: Screen.calc(1.5),
+            borderColor: '#ccc',
+          }}>
+          <Image style={styles.image} source={{uri: ''}} />
+        </View>
         <Text
           style={{
-            color: '#fff',
-            fontSize: screen.calc(14),
+            color: '#222',
+            fontSize: screen.calc(16),
             textAlign: 'center',
-            marginTop: Screen.calc(20),
-            lineHeight: Screen.calc(30),
+            marginTop: Screen.calc(36),
+            lineHeight: Screen.calc(23),
           }}>
           截图 - 微信扫一扫 - 相册{'\n'}联系客服
         </Text>
@@ -36,8 +43,7 @@ const styles = StyleSheet.create({
     paddingTop: Screen.calc(50),
   },
   image: {
-    width: Screen.calc(300),
-    height: Screen.calc(400),
-    backgroundColor: 'red',
+    width: Screen.calc(180),
+    height: Screen.calc(180),
   },
 });
