@@ -106,8 +106,9 @@ export default React.forwardRef(
     };
 
     const checkHistory = (data: any) => {
+      recommandModalRef.current?.hide();
       for (let i = 0; i < props.history?.length; i++) {
-        if (props.history[i].id === data.drama_id) {
+        if (parseInt(props.history[i].id, 10) === parseInt(data.drama_id, 10)) {
           if (props.history[i].index > 1) {
             data.index = props.history[i].index;
             recommandModalRef.current?.show(data);
@@ -168,9 +169,10 @@ export default React.forwardRef(
         )}
         <RecommandModal
           ref={recommandModalRef}
-          onPress={(data: any) =>
-            nav.push('Play', {id: data.drama_id, index: data.index})
-          }
+          onPress={(data: any) => {
+            nav.push('Play', {id: data.drama_id, index: data.index});
+            recommandModalRef.current?.hide();
+          }}
         />
       </View>
     );
