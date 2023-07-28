@@ -64,13 +64,14 @@ export default {
     );
     if (results?.[0].rows?.length > 0) {
       global.db?.executeSql(`delete from Follow where id=${data.id}`);
-      return;
+      return false;
     }
     global.db?.executeSql(
       `insert into Follow(id, current, duration, time) values(${data.id}, ${
         data.index
       }, ${data.duration}, '${new Date().toLocaleString()}')`,
     );
+    return true;
   },
 
   updateFollow: async (data: {id: number; index: number; duration: number}) => {

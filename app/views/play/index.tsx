@@ -18,6 +18,8 @@ import historyAction from 'action/historyAction';
 import {useRoute} from '@react-navigation/native';
 import useNavigator from 'hooks/useNavigator';
 import {IconArrow} from 'public/iconfont';
+import Episode, {EpisodeRef} from './episode';
+import Toast from '@attacks/react-native-toast';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -48,9 +50,10 @@ const Page = CreatePage({
     const route = useRoute();
     const params: any = route.params;
     const nav = useNavigator();
+    const episodeRef = useRef<EpisodeRef>(null);
 
     const freeSize = 10;
-    const lockSize = 3;
+    const unlockSize = 3;
     const isVip = false;
 
     useEffect(() => {
@@ -104,12 +107,17 @@ const Page = CreatePage({
     };
 
     const onFollow = async () => {
-      await historyAction.addFollow({
+      const f = await historyAction.addFollow({
         id: video.drama_id,
         index: video.index,
         duration: 0,
       });
       checkFollow(video);
+      if (f) {
+        Toast.show('加入追剧成功');
+      } else {
+        Toast.show('取消追剧成功');
+      }
     };
 
     const onShowAdIfNeeded = (data: any) => {
@@ -178,11 +186,12 @@ const Page = CreatePage({
           </View>
         )}
         {video && (
-          <View style={styles.videoInfo} pointerEvents={'none'}>
+          <View style={styles.videoInfo} pointerEvents={'box-none'}>
             <Text style={styles.titleText}>
               {video.title} · 正在播第{video.index}集
             </Text>
-            <TouchableWithoutFeedback onPress={() => console.log('选集')}>
+            <TouchableWithoutFeedback
+              onPress={() => episodeRef.current?.show()}>
               <View style={styles.chooseIndex}>
                 <Text style={styles.chooseeText}>选集</Text>
                 <IconArrow color={'#fff'} />
@@ -190,6 +199,18 @@ const Page = CreatePage({
             </TouchableWithoutFeedback>
           </View>
         )}
+        <Episode
+          ref={episodeRef}
+          freeSize={freeSize}
+          follow={follow}
+          video={video}
+          unlock={{}}
+          isVip={false}
+          onChoose={index => {
+            console.log('1111', index);
+          }}
+          onFollow={onFollow}
+        />
       </View>
     );
   },
@@ -224,7 +245,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 5,
     paddingBottom: Screen.calc(40),
     left: 0,
     right: 0,
