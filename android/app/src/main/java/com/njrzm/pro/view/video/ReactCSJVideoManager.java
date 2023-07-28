@@ -35,6 +35,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
     public static final String REACT_CLASS = "CSJVideoManager";
     public final int COMMAND_CREATE = 1;
+    public final int COMMAND_PLAY = 2;
     ReactApplicationContext mCallerContext;
 
     private double id;
@@ -46,6 +47,8 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
     private int propWidth;
     private int propHeight;
+
+    IDPDramaListener.Callback mCallback;
 
     public ReactCSJVideoManager(ReactApplicationContext reactContext) {
         mCallerContext = reactContext;
@@ -135,7 +138,9 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     @Nullable
     @Override
     public Map<String, Integer> getCommandsMap() {
-        return MapBuilder.of("create", COMMAND_CREATE);
+        Map map = MapBuilder.of("create", COMMAND_CREATE);
+        map.put("play", COMMAND_PLAY);
+        return map;
     }
 
     /**
@@ -150,6 +155,11 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
             case COMMAND_CREATE:
                 createFragment(root, reactNativeViewId);
                 break;
+            case COMMAND_PLAY:
+                if (mCallback != null) {
+                    mCallback.onDramaRewardArrived();
+                }
+                break;
             default: {
             }
         }
@@ -163,6 +173,11 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                         MapBuilder.of(
                                 "phasedRegistrationNames",
                                 MapBuilder.of("bubbled", "onDPVideoPlay")))
+                .put(
+                        "topShowAdIfNeeded",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onShowAdIfNeeded")))
                 .build();
     }
 
@@ -174,7 +189,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         setupLayout(parentView);
 
         DPWidgetDramaDetailParams params = DPWidgetDramaDetailParams.obtain();
-        params.id = (long)this.id;
+        params.id = (long) this.id;
         params.index = this.index;
         params.mIsFromCard = this.isFromCard;
         params.mFromGid = this.fromGid;
@@ -210,8 +225,19 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
 
             @Override
             public void showAdIfNeeded(DPDrama dpDrama, Callback callback, @Nullable Map<String, Object> map) {
-                System.out.println("showAdIfNeeded");
-                super.showAdIfNeeded(dpDrama, callback, map);
+                mCallback = callback;
+                WritableMap event = Arguments.createMap();
+                event.putString("title", (String) map.get("title"));
+                event.putString("cover_image", (String) map.get("cover_image"));
+                event.putString("desc", (String) map.get("desc"));
+                event.putInt("index", (int) map.get("index"));
+                event.putInt("total", (int) map.get("total"));
+                event.putInt("status", (int) map.get("status"));
+                event.putString("id", String.valueOf((long) map.get("drama_id")));
+                mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        reactNativeViewId,
+                        "topShowAdIfNeeded",
+                        event);
             }
 
             @Override
@@ -306,6 +332,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
             }
         });
     }
+
     /**
      * Layout all children properly
      */

@@ -5,6 +5,7 @@ import {
   PixelRatio,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableWithoutFeedback,
   UIManager,
   View,
@@ -26,6 +27,14 @@ const createFragment = (viewId: number | null) =>
     [viewId],
   );
 
+const play = (viewId: number | null) =>
+  UIManager.dispatchViewManagerCommand(
+    viewId,
+    //@ts-ignore
+    UIManager.CSJVideoManager.Commands.play.toString(), // we are calling the 'create' command
+    [viewId],
+  );
+
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
@@ -39,6 +48,10 @@ const Page = CreatePage({
     const route = useRoute();
     const params: any = route.params;
     const nav = useNavigator();
+
+    const freeSize = 10;
+    const lockSize = 3;
+    const isVip = false;
 
     useEffect(() => {
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
@@ -99,6 +112,18 @@ const Page = CreatePage({
       checkFollow(video);
     };
 
+    const onShowAdIfNeeded = (data: any) => {
+      const v = data.nativeEvent;
+      console.log('onShowAdIfNeeded', v);
+      if (v.index <= freeSize || isVip) {
+        // 判断是否已经看过广告
+        if (true) {
+          play(findNodeHandle(ref.current));
+        } else {
+        }
+      }
+    };
+
     return (
       <View style={{flex: 1}}>
         <View style={styles.header}>
@@ -137,6 +162,7 @@ const Page = CreatePage({
             setVideo(data.nativeEvent);
             checkFollow(data.nativeEvent);
           }}
+          onShowAdIfNeeded={onShowAdIfNeeded}
         />
         {video && (
           <View style={styles.videoBottom}>
@@ -149,6 +175,19 @@ const Page = CreatePage({
                 console.log('onClickShare');
               }}
             />
+          </View>
+        )}
+        {video && (
+          <View style={styles.videoInfo} pointerEvents={'none'}>
+            <Text style={styles.titleText}>
+              {video.title} · 正在播第{video.index}集
+            </Text>
+            <TouchableWithoutFeedback onPress={() => console.log('选集')}>
+              <View style={styles.chooseIndex}>
+                <Text style={styles.chooseeText}>选集</Text>
+                <IconArrow color={'#fff'} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         )}
       </View>
@@ -179,5 +218,31 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     bottom: Screen.calc(100),
     right: 0,
+  },
+  videoInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 999,
+    paddingBottom: Screen.calc(40),
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    paddingHorizontal: Screen.calc(12),
+    paddingVertical: Screen.calc(15),
+  },
+  chooseIndex: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  titleText: {
+    color: '#fff',
+    fontSize: Screen.calc(16),
+  },
+  chooseeText: {
+    color: '#fff',
+    fontSize: Screen.calc(16),
   },
 });

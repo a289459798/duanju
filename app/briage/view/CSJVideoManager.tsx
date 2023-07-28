@@ -15,5 +15,6 @@ export type CSJVideoProps = {
   };
   style?: StyleProp<ViewStyle> | undefined;
   onDPVideoPlay?: (data: any) => void;
+  onShowAdIfNeeded?: (data: any) => void;
 };
 export default requireNativeComponent<CSJVideoProps>('CSJVideoManager');
