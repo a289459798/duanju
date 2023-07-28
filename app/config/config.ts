@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 
 export default {
   AppName: '甜瓜剧场',
-  Scheme: 'tianguapro://',
+  Scheme: 'tiangua://',
   EncrpytHash: 'CxdK3xTJ2Z6Bcyp3WGp5wTxU1BlkMd2l',
   UM: {
     Appkey:
