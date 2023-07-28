@@ -1,8 +1,8 @@
-import {Button} from 'component';
 import React from 'react';
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, View, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Screen} from 'utils';
+import CustomButton from './customButton';
 
 export type VideoActionProps = {
   videoInfo: any;
@@ -10,6 +10,7 @@ export type VideoActionProps = {
   onClickAdd?: () => void;
   onClickNext?: () => void;
   showButton: boolean;
+  hideImageAndFollow?: boolean;
   follow: boolean;
 };
 
@@ -19,31 +20,44 @@ export default (props: VideoActionProps) => {
       <View
         style={{
           alignItems: 'center',
-          marginLeft: Screen.calc(20),
+          marginLeft: Screen.calc(40),
         }}>
-        <FastImage
-          style={styles.image}
-          source={{uri: props.videoInfo.cover_image}}
-        />
-        <TouchableWithoutFeedback onPress={props.onClickAdd}>
-          <View style={styles.addView}>
-            <Text style={{color: '#fff'}}>
-              {props.follow ? '取消追剧' : '追剧'}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
+        {!props.hideImageAndFollow && (
+          <FastImage
+            style={styles.image}
+            source={{uri: props.videoInfo.cover_image}}
+          />
+        )}
+        {!props.hideImageAndFollow && (
+          <TouchableWithoutFeedback onPress={props.onClickAdd}>
+            <View pointerEvents={'box-only'}>
+              <Image
+                style={styles.addView}
+                source={
+                  props.follow
+                    ? require('@/public/images/sy-zjdl.png')
+                    : require('@/public/images/sy-zj.png')
+                }
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
         <TouchableWithoutFeedback onPress={props.onClickShare}>
-          <Text style={{color: '#fff', marginBottom: Screen.calc(10)}}>
-            分享
-          </Text>
+          <View style={{paddingHorizontal: Screen.calc(5)}}>
+            <Image
+              style={styles.shareView}
+              source={require('@/public/images/sy-fx.png')}
+            />
+          </View>
         </TouchableWithoutFeedback>
       </View>
       {props.showButton ? (
-        <Button
+        <CustomButton
           onPress={props.onClickNext}
           style={styles.button}
-          titleStyle={{fontSize: Screen.calc(13)}}
+          textStyle={{fontSize: Screen.calc(13)}}
           title={'观看全集'}
+          image={require('@/public/images/sy-kxj.png')}
         />
       ) : (
         <View style={{height: Screen.calc(36)}} />
@@ -62,13 +76,18 @@ const styles = StyleSheet.create({
     width: Screen.calc(50),
     height: Screen.calc(50),
     borderRadius: Screen.calc(25),
+    borderWidth: Screen.calc(2),
+    borderColor: '#fff',
   },
   addView: {
-    marginVertical: Screen.calc(10),
+    marginVertical: Screen.calc(24),
   },
   button: {
     backgroundColor: '#FF5501',
     height: Screen.calc(36),
     borderRadius: Screen.calc(6),
+  },
+  shareView: {
+    marginBottom: Screen.calc(25),
   },
 });

@@ -1,11 +1,11 @@
 import React, {Ref, useImperativeHandle, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, View, Image} from 'react-native';
 
-import {Button, Text} from '@/component';
-import {IconClose} from '@/public/iconfont';
+import {Text} from '@/component';
 import screen from '@/utils/screen';
-import {Image} from '@rneui/themed';
 import {Screen} from 'utils';
+import CustomButton from './customButton';
+import FastImage from 'react-native-fast-image';
 
 export type RecommandModalRef = {
   show: ({}) => void;
@@ -31,7 +31,7 @@ export default React.forwardRef(
     }
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: video?.cover_image}} />
+        <FastImage style={styles.image} source={{uri: video?.cover_image}} />
         <View style={styles.rightView}>
           <Text style={styles.titleText}>{video?.title}</Text>
           <Text style={styles.statusText}>
@@ -39,19 +39,21 @@ export default React.forwardRef(
           </Text>
           <View style={styles.bottomView}>
             <Text style={styles.lookText}>上次观看到第{video.index}集</Text>
-            <Button
-              titleStyle={{fontSize: Screen.calc(15)}}
+            <CustomButton
+              textStyle={{fontSize: Screen.calc(15)}}
               style={styles.button}
               title={'继续播放'}
               onPress={() => props.onPress(video)}
+              image={require('@/public/images/ecqd-jx.png')}
             />
           </View>
         </View>
-        <IconClose
-          color={'#fff'}
-          style={styles.colse}
-          onPress={() => setVisiable(false)}
-        />
+        <TouchableWithoutFeedback onPress={() => setVisiable(false)}>
+          <Image
+            style={styles.colse}
+            source={require('@/public/images/ecqd-gb.png')}
+          />
+        </TouchableWithoutFeedback>
       </View>
     );
   },
@@ -109,5 +111,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: Screen.calc(10),
     top: Screen.calc(10),
+    zIndex: 999,
   },
 });

@@ -48,6 +48,8 @@ const playIndex = (viewId: number | null, index: number) =>
 
 let adIndex: number = 0;
 
+let timer: any;
+
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
@@ -64,6 +66,7 @@ const Page = CreatePage({
     const nav = useNavigator();
     const episodeRef = useRef<EpisodeRef>(null);
     const [unlock, setUnLock] = useState<any>({});
+    const [hideImageAndFollow, setHideImageAndFollow] = useState(false);
 
     const freeSize = 10;
     const unlockSize = 3;
@@ -224,6 +227,13 @@ const Page = CreatePage({
             setFollow(false);
             setVideo(data.nativeEvent);
             checkFollow(data.nativeEvent);
+            timer && clearTimeout(timer);
+            timer = setTimeout(() => setHideImageAndFollow(true), 2000);
+          }}
+          onDPVideoPause={() => setHideImageAndFollow(false)}
+          onDPVideoContinue={() => {
+            timer && clearTimeout(timer);
+            timer = setTimeout(() => setHideImageAndFollow(true), 2000);
           }}
           onShowAdIfNeeded={onShowAdIfNeeded}
         />
@@ -233,6 +243,7 @@ const Page = CreatePage({
               videoInfo={video}
               showButton={false}
               follow={follow}
+              hideImageAndFollow={hideImageAndFollow}
               onClickAdd={onFollow}
               onClickShare={() => {
                 console.log('onClickShare');

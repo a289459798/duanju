@@ -13,7 +13,7 @@ import {
 import {Screen} from 'utils';
 
 export type CustomButtonProps = {
-  onPress: () => void;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   imageProps?: StyleProp<ImageStyle>;
   textStyle?: StyleProp<TextStyle>;
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: Screen.calc(6),
     paddingVertical: Screen.calc(8),
-    paddingHorizontal: Screen.calc(15),
+    paddingHorizontal: Screen.calc(12),
   },
   image: {
     marginRight: Screen.calc(2),

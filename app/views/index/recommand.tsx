@@ -13,6 +13,7 @@ import {
   PixelRatio,
   StyleSheet,
   PanResponder,
+  Image,
 } from 'react-native';
 import {Text} from '@/component';
 import {Screen} from '@/utils';
@@ -151,9 +152,12 @@ export default React.forwardRef(
                 onPress={() => play()}>
                 {video.desc}
               </Text>
-              <Text style={styles.videoCount} onPress={() => play()}>
-                第{video.index}集 | 共{video.total}集 {'>'}
-              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image source={require('@/public/images/sy-js.png')} />
+                <Text style={styles.videoCount} onPress={() => play()}>
+                  第{video.index}集 | 共{video.total}集 {'>'}
+                </Text>
+              </View>
             </View>
             <VideoAction
               videoInfo={video}
@@ -208,5 +212,6 @@ const styles = StyleSheet.create({
   videoCount: {
     color: '#fff',
     fontSize: Screen.calc(14),
+    marginLeft: Screen.calc(5),
   },
 });

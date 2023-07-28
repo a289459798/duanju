@@ -188,6 +188,16 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                         MapBuilder.of(
                                 "phasedRegistrationNames",
                                 MapBuilder.of("bubbled", "onShowAdIfNeeded")))
+                .put(
+                        "topDPVideoPause",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onDPVideoPause")))
+                .put(
+                        "topDPVideoContinue",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onDPVideoContinue")))
                 .build();
     }
 
@@ -225,6 +235,26 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                 mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
                         reactNativeViewId,
                         "topDPVideoPlay",
+                        event);
+            }
+
+            @Override
+            public void onDPVideoPause(Map<String, Object> map) {
+                super.onDPVideoPause(map);
+                WritableMap event = Arguments.createMap();
+                mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        reactNativeViewId,
+                        "topDPVideoPause",
+                        event);
+            }
+
+            @Override
+            public void onDPVideoContinue(Map<String, Object> map) {
+                super.onDPVideoContinue(map);
+                WritableMap event = Arguments.createMap();
+                mCallerContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        reactNativeViewId,
+                        "topDPVideoContinue",
                         event);
             }
 
