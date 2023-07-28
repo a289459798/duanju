@@ -37,6 +37,13 @@ const play = (viewId: number | null) =>
     [viewId],
   );
 
+const playIndex = (viewId: number | null, index: number) =>
+  UIManager.dispatchViewManagerCommand(
+    viewId,
+    //@ts-ignore
+    UIManager.CSJVideoManager.Commands.playIndex.toString(), // we are calling the 'create' command
+    [viewId, index],
+  );
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
@@ -207,7 +214,7 @@ const Page = CreatePage({
           unlock={{}}
           isVip={false}
           onChoose={index => {
-            console.log('1111', index);
+            playIndex(findNodeHandle(ref.current), index);
           }}
           onFollow={onFollow}
         />

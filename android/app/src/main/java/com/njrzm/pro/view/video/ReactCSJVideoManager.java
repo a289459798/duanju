@@ -36,6 +36,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     public static final String REACT_CLASS = "CSJVideoManager";
     public final int COMMAND_CREATE = 1;
     public final int COMMAND_PLAY = 2;
+    public final int COMMAND_PLAY_INDEX = 3;
     ReactApplicationContext mCallerContext;
 
     private double id;
@@ -49,6 +50,8 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     private int propHeight;
 
     IDPDramaListener.Callback mCallback;
+
+    IDPWidget widget;
 
     public ReactCSJVideoManager(ReactApplicationContext reactContext) {
         mCallerContext = reactContext;
@@ -140,6 +143,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     public Map<String, Integer> getCommandsMap() {
         Map map = MapBuilder.of("create", COMMAND_CREATE);
         map.put("play", COMMAND_PLAY);
+        map.put("playIndex", COMMAND_PLAY_INDEX);
         return map;
     }
 
@@ -158,6 +162,12 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
             case COMMAND_PLAY:
                 if (mCallback != null) {
                     mCallback.onDramaRewardArrived();
+                }
+                break;
+            case COMMAND_PLAY_INDEX:
+                if (widget != null) {
+                    int index = args.getInt(1);
+                    widget.setCurrentDramaIndex(index);
                 }
                 break;
             default: {
@@ -313,7 +323,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
         });
 
         params.mDetailConfig = this.detailConfig;
-        IDPWidget widget = DPSdk.factory().createDramaDetail(params);
+        widget = DPSdk.factory().createDramaDetail(params);
 
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
         activity.getSupportFragmentManager()
