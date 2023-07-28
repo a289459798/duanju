@@ -71,7 +71,13 @@ const Page = CreatePage({
             case 'history':
               return <History history={history.history} dispatch={dispatch} />;
             case 'recommand':
-              return <Recommand ref={commandRef} dpstart={global.dpstart} />;
+              return (
+                <Recommand
+                  ref={commandRef}
+                  history={history.history}
+                  dpstart={global.dpstart}
+                />
+              );
           }
         }}
         onIndexChange={(i: number) => {

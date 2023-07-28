@@ -12,13 +12,15 @@ import {
   StatusBar,
   PixelRatio,
   StyleSheet,
-  TouchableWithoutFeedback,
   PanResponder,
 } from 'react-native';
 import {Text} from '@/component';
 import {Screen} from '@/utils';
 import {CSJTJVideoManager} from '@/briage/view';
 import VideoAction from '@/component/custom/videoAction';
+import RecommandModal, {
+  RecommandModalRef,
+} from '@/component/custom/recommandModal';
 import historyAction from 'action/historyAction';
 import useNavigator from 'hooks/useNavigator';
 
@@ -40,6 +42,7 @@ const resume = (viewId: number | null) =>
 
 type RecommandProps = {
   dpstart: boolean;
+  history: any[];
 };
 export type RecommandRef = {
   resume: () => void;
@@ -49,6 +52,7 @@ let timer: any;
 export default React.forwardRef(
   (props: RecommandProps, ref: Ref<RecommandRef>) => {
     const videorRef = useRef(null);
+    const recommandModalRef = useRef<RecommandModalRef>(null);
     const [video, setVideo] = useState<any>({});
     const [showButton, setShowButton] = useState(false);
     const [follow, setFollow] = useState(false);
@@ -101,6 +105,17 @@ export default React.forwardRef(
       nav.push('Play', {id: video.drama_id, index: video.index});
     };
 
+    const checkHistory = (data: any) => {
+      for (let i = 0; i < props.history?.length; i++) {
+        if (props.history[i].id === data.drama_id) {
+          if (props.history[i].index > 1) {
+            data.index = props.history[i].index;
+            recommandModalRef.current?.show(data);
+          }
+          break;
+        }
+      }
+    };
     return (
       <View style={{flex: 1}}>
         <CSJTJVideoManager
@@ -114,11 +129,11 @@ export default React.forwardRef(
             width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
           }}
           onDPVideoPlay={(data: any) => {
-            console.log('onDPVideoPlay');
             timer && clearTimeout(timer);
             setShowButton(false);
             setFollow(false);
             setVideo(data.nativeEvent);
+            checkHistory(data.nativeEvent);
             timer = setTimeout(() => setShowButton(true), 5000);
             checkFollow(data.nativeEvent);
           }}
@@ -151,6 +166,12 @@ export default React.forwardRef(
             />
           </View>
         )}
+        <RecommandModal
+          ref={recommandModalRef}
+          onPress={(data: any) =>
+            nav.push('Play', {id: data.drama_id, index: data.index})
+          }
+        />
       </View>
     );
   },
@@ -159,7 +180,7 @@ export default React.forwardRef(
 const styles = StyleSheet.create({
   videoBottom: {
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 9,
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
