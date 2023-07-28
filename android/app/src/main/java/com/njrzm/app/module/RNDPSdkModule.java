@@ -1,4 +1,4 @@
-package com.njrzm.pro.module;
+package com.njrzm.app.module;
 
 import android.util.Log;
 

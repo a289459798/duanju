@@ -1,4 +1,4 @@
-package com.njrzm.pro;
+package com.njrzm.app;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;

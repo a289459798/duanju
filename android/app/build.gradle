@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.njrzm.pro"
+    namespace "com.njrzm.app"
     defaultConfig {
-        applicationId "com.njrzm.pro"
+        applicationId "com.njrzm.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -87,13 +87,13 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('prod')
+            storeFile file('app')
             storePassword 'njrzm.com'
             keyAlias 'njrzm'
             keyPassword 'njrzm.com'
         }
         release {
-            storeFile file('prod')
+            storeFile file('app')
             storePassword 'njrzm.com'
             keyAlias 'njrzm'
             keyPassword 'njrzm.com'

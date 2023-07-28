@@ -1,4 +1,4 @@
-package com.njrzm.pro.view.video;
+package com.njrzm.app.view.video;
 
 import android.view.Choreographer;
 import android.view.View;

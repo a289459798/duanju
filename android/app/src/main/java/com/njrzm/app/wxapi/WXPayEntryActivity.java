@@ -1,4 +1,4 @@
-package com.njrzm.pro.wxapi;
+package com.njrzm.app.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;

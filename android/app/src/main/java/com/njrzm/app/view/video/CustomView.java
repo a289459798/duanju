@@ -1,4 +1,4 @@
-package com.njrzm.pro.view.video;
+package com.njrzm.app.view.video;
 
 import android.content.Context;
 import android.graphics.Color;

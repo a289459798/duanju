@@ -1,14 +1,13 @@
-package com.njrzm.pro.view.video;
+package com.njrzm.app.view.video;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.njrzm.pro.R;
+import com.njrzm.app.R;
 
 public class VideoFragment extends Fragment {
     CustomView customView;

@@ -1,8 +1,8 @@
-package com.njrzm.pro;
+package com.njrzm.app;
 
 import android.os.Bundle;
 
-import com.njrzm.pro.module.RNSplashScreenModule;
+import com.njrzm.app.module.RNSplashScreenModule;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;

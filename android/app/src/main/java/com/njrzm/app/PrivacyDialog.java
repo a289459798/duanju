@@ -1,4 +1,4 @@
-package com.njrzm.pro;
+package com.njrzm.app;
 
 import android.app.Dialog;
 import android.content.Context;
