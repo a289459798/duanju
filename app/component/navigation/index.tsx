@@ -72,12 +72,12 @@ export default (props: NavigationProps) => {
                 style={{
                   transform: [{rotate: '180deg'}],
                 }}
-                color={'#fff'}
+                color={'#000'}
               />
             </TouchableWithoutFeedback>
           ),
         headerStyle: {
-          backgroundColor: '#1B1B27',
+          backgroundColor: '#fff',
           height: 44 + safeAreaInsets.top,
           ...headerStyle,
         },
@@ -123,7 +123,7 @@ export default (props: NavigationProps) => {
     <>
       <StatusBar
         barStyle={statusBar?.barStyle || 'dark-content'}
-        backgroundColor={statusBar?.backgroundColor || '#1B1B27'}
+        backgroundColor={statusBar?.backgroundColor || '#fff'}
         translucent={statusBar?.translucent}
       />
       {children}

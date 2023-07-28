@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
 import {Text, ListView} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import {connect} from 'react-redux';
 import historyAction from 'action/historyAction';
 import {DPSdk} from 'briage/module';
-import {Image} from '@rneui/themed';
 import useNavigator from 'hooks/useNavigator';
+import FastImage from 'react-native-fast-image';
 
 type listType = {
   title: string;
@@ -43,23 +43,32 @@ const Page = CreatePage({
     return (
       <ListView
         style={styles.container}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
-        numColumns={2}
+        numColumns={3}
+        columnWrapperStyle={{
+          justifyContent: 'flex-start',
+        }}
         data={list}
         renderItem={({item}) => (
           <TouchableWithoutFeedback
             onPress={() => nav.push('Play', {id: item.id, index: item.index})}>
             <View style={styles.itemView}>
               <View style={styles.itemImageView}>
-                <Image
+                <FastImage
                   style={styles.itemImage}
                   source={{uri: item.coverImage}}
                 />
-                <View style={styles.statusView}>
-                  <Text style={styles.statusText}>已完结</Text>
-                </View>
+                <Image
+                  style={styles.statusView}
+                  source={
+                    item.status === 0
+                      ? require('@/public/images/ls-ywj.png')
+                      : require('@/public/images/ls-lzz.png')
+                  }
+                />
               </View>
-              <Text style={styles.titleText}>{item.title}</Text>
+              <Text style={styles.titleText} numberOfLines={1}>
+                {item.title}
+              </Text>
               <Text style={styles.lookText}>观看到第{item.index}集</Text>
             </View>
           </TouchableWithoutFeedback>
@@ -78,39 +87,38 @@ export default connect((state: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgb(65, 65, 65)',
-    paddingHorizontal: Screen.calc(10),
+    flex: 1,
+    paddingHorizontal: Screen.calc(12),
+    paddingTop: Screen.calc(20),
   },
-  itemView: {flex: 1, marginTop: Screen.calc(20)},
-  itemImageView: {
-    width: Screen.calc(160),
+  itemView: {
+    marginBottom: Screen.calc(16),
+    width: Screen.calc(110),
+    marginRight: Screen.calc(10),
   },
+  itemImageView: {},
   itemImage: {
-    width: Screen.calc(160),
-    height: Screen.calc(220),
-    borderRadius: Screen.calc(10),
+    width: Screen.calc(110),
+    height: Screen.calc(147),
+    borderRadius: Screen.calc(6),
   },
   statusView: {
     position: 'absolute',
-    bottom: Screen.calc(5),
-    right: Screen.calc(5),
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    borderRadius: Screen.calc(4),
-    paddingHorizontal: Screen.calc(5),
-    paddingVertical: Screen.calc(2),
+    top: Screen.calc(6),
+    left: 0,
+    zIndex: 9,
   },
-  statusText: {
-    color: '#fff',
-    fontSize: Screen.calc(10),
-  },
+
   titleText: {
-    color: '#fff',
-    fontSize: Screen.calc(14),
-    fontWeight: '500',
-    marginTop: Screen.calc(8),
+    color: '#222',
+    fontSize: Screen.calc(16),
+    marginTop: Screen.calc(11),
+    lineHeight: Screen.calc(19),
   },
   lookText: {
-    color: '#aaa',
-    fontSize: Screen.calc(11),
+    color: '#999',
+    fontSize: Screen.calc(12),
+    lineHeight: Screen.calc(19),
+    marginTop: Screen.calc(3),
   },
 });

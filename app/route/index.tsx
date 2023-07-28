@@ -23,8 +23,9 @@ export default () => {
         headerMode: 'screen',
         headerLeftContainerStyle: {paddingLeft: 5},
         headerTitleStyle: {
-          fontSize: Screen.calc(16),
-          color: '#fff',
+          fontSize: Screen.calc(17),
+          color: '#010101',
+          fontWeight: 'bold',
         },
         headerShadowVisible: false,
         transitionSpec: {

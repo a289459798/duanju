@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
-import {Image} from '@rneui/themed';
 import useNavigator from 'hooks/useNavigator';
+import FastImage from 'react-native-fast-image';
 
 type HistoryProps = {
   history: [];
@@ -27,12 +27,18 @@ export default (props: HistoryProps) => {
           }}>
           <View style={styles.itemView}>
             <View style={styles.itemImageView}>
-              <Image style={styles.itemImage} source={{uri: item.coverImage}} />
-              <View style={styles.statusView}>
-                <Text style={styles.statusText}>
-                  {item.status === 0 ? '已完结' : '未完结'}
-                </Text>
-              </View>
+              <FastImage
+                style={styles.itemImage}
+                source={{uri: item.coverImage}}
+              />
+              <Image
+                style={styles.statusView}
+                source={
+                  item.status === 0
+                    ? require('@/public/images/ls-ywj.png')
+                    : require('@/public/images/ls-lzz.png')
+                }
+              />
             </View>
             <Text style={styles.titleText} numberOfLines={1}>
               {item.title}
@@ -64,16 +70,9 @@ const styles = StyleSheet.create({
   },
   statusView: {
     position: 'absolute',
-    bottom: Screen.calc(5),
-    right: Screen.calc(5),
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    borderRadius: Screen.calc(4),
-    paddingHorizontal: Screen.calc(5),
-    paddingVertical: Screen.calc(2),
-  },
-  statusText: {
-    color: '#fff',
-    fontSize: Screen.calc(10),
+    top: Screen.calc(6),
+    left: 0,
+    zIndex: 9,
   },
   titleText: {
     color: '#222',

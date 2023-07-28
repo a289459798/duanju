@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
 import {Text, ListView} from '@/component';
 import {Screen} from '@/utils';
 import {DPSdk} from 'briage/module';
@@ -54,10 +54,21 @@ export default (props: {category: string}) => {
         <TouchableWithoutFeedback
           onPress={() => nav.push('Play', {id: item.id, index: item.index})}>
           <View style={styles.itemView}>
-            <FastImage
-              style={styles.itemImage}
-              source={{uri: item.coverImage}}
-            />
+            <View>
+              <FastImage
+                style={styles.itemImage}
+                source={{uri: item.coverImage}}
+              />
+              <Image
+                style={styles.statusView}
+                source={
+                  item.status === 0
+                    ? require('@/public/images/ls-ywj.png')
+                    : require('@/public/images/ls-lzz.png')
+                }
+              />
+            </View>
+
             <Text style={styles.titleText} numberOfLines={1}>
               {item.title}
             </Text>
@@ -93,5 +104,11 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: Screen.calc(12),
     lineHeight: Screen.calc(19),
+  },
+  statusView: {
+    position: 'absolute',
+    top: Screen.calc(6),
+    left: 0,
+    zIndex: 9,
   },
 });

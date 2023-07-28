@@ -45,8 +45,8 @@ export default function Tab() {
             <Image
               source={
                 focused
-                  ? require('../public/images/tab/tools_select.png')
-                  : require('../public/images/tab/tools.png')
+                  ? require('../public/images/tab/jc_select.png')
+                  : require('../public/images/tab/jc.png')
               }
             />
           ),
