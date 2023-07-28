@@ -1,5 +1,6 @@
 import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import React, {
+  Ref,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -26,7 +27,7 @@ export type EpisodeProps = {
   onFollow: ({}) => void;
 };
 
-export default React.forwardRef((props: EpisodeProps, ref: EpisodeRef) => {
+export default React.forwardRef((props: EpisodeProps, ref: Ref<EpisodeRef>) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [visiable, setVisible] = useState(false);
 
@@ -39,13 +40,12 @@ export default React.forwardRef((props: EpisodeProps, ref: EpisodeRef) => {
   const [list, setList] = useState<any>([]);
 
   useEffect(() => {
-    console.log('props.video', props.video);
     let l = [];
     for (let i = 0; i < props.video.total; i++) {
       l.push({
         index: i + 1,
         playing: i + 1 === props.video.index,
-        unlock: i + 1 < props.freeSize || props.unlock[i + 1],
+        unlock: i + 1 <= props.freeSize || props.unlock[i + 1],
       });
     }
     setList(l);

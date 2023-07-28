@@ -21,7 +21,7 @@ export default {
     AppId: '5413022',
     Code: {
       Splash: '888391456',
-      Video: '952966978',
+      Video: '952982086',
     },
   },
   // 用户协议
@@ -37,4 +37,5 @@ export default {
   CodePush: true,
   AppKey: '74Bdht7',
   H5_Domain: 'https://chat.smuai.com/',
+  isPro: false,
 };

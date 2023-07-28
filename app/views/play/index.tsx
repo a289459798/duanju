@@ -20,6 +20,7 @@ import useNavigator from 'hooks/useNavigator';
 import {IconArrow} from 'public/iconfont';
 import Episode, {EpisodeRef} from './episode';
 import Toast from '@attacks/react-native-toast';
+import config from 'config';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -44,12 +45,16 @@ const playIndex = (viewId: number | null, index: number) =>
     UIManager.CSJVideoManager.Commands.playIndex.toString(), // we are calling the 'create' command
     [viewId, index],
   );
+
+let adIndex: number = 0;
+
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
     hideHeader: true,
     statusBar: {translucent: true, backgroundColor: 'transparent'},
   }),
+
   Component: () => {
     const ref = useRef(null);
     const [video, setVideo] = useState<any>({});
@@ -58,6 +63,7 @@ const Page = CreatePage({
     const params: any = route.params;
     const nav = useNavigator();
     const episodeRef = useRef<EpisodeRef>(null);
+    const [unlock, setUnLock] = useState<any>({});
 
     const freeSize = 10;
     const unlockSize = 3;
@@ -127,16 +133,58 @@ const Page = CreatePage({
       }
     };
 
-    const onShowAdIfNeeded = (data: any) => {
+    const onShowAdIfNeeded = async (data: any) => {
       const v = data.nativeEvent;
-      console.log('onShowAdIfNeeded', v);
       if (v.index <= freeSize || isVip) {
-        // 判断是否已经看过广告
-        if (true) {
-          play(findNodeHandle(ref.current));
+        play(findNodeHandle(ref.current));
+        return;
+      }
+      // 判断是否已经看过广告
+      adIndex = v.index;
+      if (!(await checkAd())) {
+        if (config.isPro) {
         } else {
+          // 直接播放广告
+          TTAdSdk.loadAd(
+            config.CSJ.Code.Video,
+            Screen.width,
+            Screen.height,
+            () => {
+              TTAdSdk.showAd();
+            },
+            async (_code: number, message: string) => {
+              Toast.show('广告加载失败:' + message);
+              console.log(message);
+              await adLookSuccess();
+              checkAd();
+            },
+          );
         }
       }
+    };
+
+    const checkAd = async () => {
+      const exists = await historyAction.adExists({
+        id: params.id,
+        index: adIndex,
+      });
+      if (exists) {
+        play(findNodeHandle(ref.current));
+        return true;
+      }
+      return false;
+    };
+
+    const adLookSuccess = async () => {
+      await historyAction.addAd({id: params.id, index: adIndex});
+    };
+
+    const episodeShow = async () => {
+      const unlockMap = await historyAction.adList({
+        id: params.id,
+      });
+      setUnLock(unlockMap);
+      episodeRef.current?.show();
     };
 
     return (
@@ -197,8 +245,7 @@ const Page = CreatePage({
             <Text style={styles.titleText}>
               {video.title} · 正在播第{video.index}集
             </Text>
-            <TouchableWithoutFeedback
-              onPress={() => episodeRef.current?.show()}>
+            <TouchableWithoutFeedback onPress={() => episodeShow()}>
               <View style={styles.chooseIndex}>
                 <Text style={styles.chooseeText}>选集</Text>
                 <IconArrow color={'#fff'} />
@@ -211,7 +258,7 @@ const Page = CreatePage({
           freeSize={freeSize}
           follow={follow}
           video={video}
-          unlock={{}}
+          unlock={unlock}
           isVip={false}
           onChoose={index => {
             playIndex(findNodeHandle(ref.current), index);

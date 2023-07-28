@@ -100,6 +100,21 @@ export default {
     return false;
   },
 
+  adList: async (data: {id: number}) => {
+    const results = await global.db?.executeSql('select * from Ad where id=?', [
+      data.id,
+    ]);
+    if (results?.[0].rows?.length === 0) {
+      return {};
+    } else {
+      let res: any = {};
+      for (let i = 0; i < results?.[0].rows?.length; i++) {
+        res[results?.[0].rows.item(i).current] = true;
+      }
+      return res;
+    }
+  },
+
   addAd: async (data: {id: number; index: number}) => {
     const results = await global.db?.executeSql(
       'select * from Ad where id=? and current=?',
