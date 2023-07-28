@@ -7,20 +7,20 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {connect} from 'react-redux';
 
-import userAction from '@/action/userAction';
 import {Avatar, Button, Text} from '@/component';
 import useNavigator from '@/hooks/useNavigator';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
-import {Image} from '@rneui/themed';
-import DeviceInfo from 'react-native-device-info';
 import {useNavigation} from '@react-navigation/native';
 import historyAction from 'action/historyAction';
 import {DPSdk} from 'briage/module';
+import config from 'config';
+import FastImage from 'react-native-fast-image';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -61,31 +61,23 @@ const Page = CreatePage({
     };
 
     useEffect(() => {
-      console.log(DeviceInfo.getAndroidIdSync());
       navgation.addListener('focus', getFollow);
       return () => {
         navgation.removeListener('focus', () => {});
       };
     }, []);
 
-    const onRefresh = () => {
-      checkLogin(() => {
-        setRefreshing(true);
-        props.dispatch(
-          userAction.userInfo({
-            onComplete: () => {
-              setRefreshing(false);
-            },
-          }),
-        );
-      });
+    const onRefresh = async () => {
+      setRefreshing(true);
+      await getFollow();
+      setRefreshing(false);
     };
 
     return (
       <View style={{flex: 1}}>
         <LinearGradient
           style={styles.bg}
-          colors={['rgb(242, 209, 178)', 'rgb(242, 248, 247)']}
+          colors={['#FF6701', '#FF6701']}
           start={{x: 0, y: 0}}
           end={{x: 0, y: 0.5}}
         />
@@ -93,7 +85,7 @@ const Page = CreatePage({
           contentContainerStyle={{paddingBottom: screen.calc(20)}}
           style={{
             flex: 1,
-            paddingTop: screen.calc(100),
+            paddingTop: screen.calc(60),
           }}
           refreshControl={
             <RefreshControl
@@ -109,52 +101,55 @@ const Page = CreatePage({
                   onPress={() => checkLogin()}
                   rounded
                   containerStyle={styles.avatar}
+                  source={require('@/public/images/wd-tx.png')}
                 />
               </View>
               <View style={styles.codeView}>
                 <Text onPress={() => checkLogin()} style={styles.codeTitle}>
-                  {user.info ? '用户名' : '请先登录'}
+                  {user.info ? '用户名' : '点击登录'}
                 </Text>
                 <View style={styles.code}>
                   <Text style={styles.codeText}>ID：{user.info?.code}</Text>
                 </View>
               </View>
             </View>
-            <View style={styles.vipView}>
-              <View>
-                <Text
-                  style={{
-                    fontSize: Screen.calc(14),
-                    fontWeight: '500',
-                    color: '#333',
-                  }}>
-                  到期时间：
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginTop: Screen.calc(6),
-                    alignItems: 'flex-end',
-                  }}>
+            {config.isPro && (
+              <View style={styles.vipView}>
+                <View>
                   <Text
                     style={{
-                      color: '#999',
-                      fontSize: Screen.calc(12),
+                      fontSize: Screen.calc(14),
+                      fontWeight: '500',
+                      color: '#333',
                     }}>
-                    开通VIP全场免费无广告
+                    到期时间：
                   </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: Screen.calc(6),
+                      alignItems: 'flex-end',
+                    }}>
+                    <Text
+                      style={{
+                        color: '#999',
+                        fontSize: Screen.calc(12),
+                      }}>
+                      开通VIP全场免费无广告
+                    </Text>
+                  </View>
                 </View>
+                <Button
+                  isRadius
+                  containerStyle={{
+                    width: Screen.calc(80),
+                    height: Screen.calc(36),
+                  }}
+                  style={{backgroundColor: 'red'}}
+                  title={'续费VIP'}
+                />
               </View>
-              <Button
-                isRadius
-                containerStyle={{
-                  width: Screen.calc(80),
-                  height: Screen.calc(36),
-                }}
-                style={{backgroundColor: 'red'}}
-                title={'续费VIP'}
-              />
-            </View>
+            )}
 
             {follow?.length > 0 && (
               <View
@@ -166,10 +161,19 @@ const Page = CreatePage({
                       justifyContent: 'space-between',
                       paddingHorizontal: Screen.calc(15),
                     }}>
-                    <Text style={{fontSize: Screen.calc(14), color: '#333'}}>
-                      我的追剧
-                    </Text>
-                    <Text style={{fontSize: Screen.calc(12), color: '#666'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Image source={require('@/public/images/wd-wdzj.png')} />
+                      <Text
+                        style={{
+                          fontSize: Screen.calc(18),
+                          color: '#222',
+                          fontWeight: '500',
+                          marginLeft: Screen.calc(6),
+                        }}>
+                        我的追剧
+                      </Text>
+                    </View>
+                    <Text style={{fontSize: Screen.calc(15), color: '#999'}}>
                       查看全部
                     </Text>
                   </View>
@@ -183,7 +187,7 @@ const Page = CreatePage({
                           nav.push('Play', {id: v.id, index: v.index})
                         }>
                         <View style={styles.followViewItem}>
-                          <Image
+                          <FastImage
                             style={styles.followViewImage}
                             source={{uri: v.coverImage}}
                           />
@@ -204,14 +208,16 @@ const Page = CreatePage({
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => nav.push('Contact')}
-                style={[styles.itemView, styles.item]}>
+                style={[styles.itemView, styles.itemBottom]}>
                 <Text style={styles.itemText}>联系客服</Text>
+                <Image source={require('@/public/images/wd-jt.png')} />
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
-                style={[styles.itemView, styles.item]}
+                style={[styles.itemView]}
                 onPress={() => nav.push('About')}>
                 <Text style={styles.itemText}>关于</Text>
+                <Image source={require('@/public/images/wd-jt.png')} />
               </TouchableOpacity>
             </View>
           </>
@@ -231,13 +237,14 @@ export default connect((state: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#EEE',
   },
   bg: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    height: Screen.calc(140),
     zIndex: -1,
   },
   user: {
@@ -246,27 +253,22 @@ const styles = StyleSheet.create({
     marginBottom: screen.calc(15),
   },
   avatar: {
-    width: screen.calc(60),
-    height: screen.calc(60),
-    borderWidth: screen.calc(1),
-    borderColor: '#fff',
-    borderRadius: screen.calc(30),
-    backgroundColor: '#ccc',
+    width: screen.calc(56),
+    height: screen.calc(56),
   },
   codeView: {
-    marginLeft: screen.calc(12),
+    marginLeft: screen.calc(11),
     justifyContent: 'center',
   },
-  codeTitle: {color: '#333', fontSize: screen.calc(17), fontWeight: '500'},
+  codeTitle: {color: '#fff', fontSize: screen.calc(18), fontWeight: '500'},
   code: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: screen.calc(6),
   },
   codeText: {
-    color: '#333',
-    fontSize: screen.calc(13),
-    marginRight: screen.calc(4),
+    color: '#fff',
+    fontSize: screen.calc(15),
   },
 
   vipView: {
@@ -281,30 +283,21 @@ const styles = StyleSheet.create({
 
   menuView: {
     backgroundColor: '#fff',
-    borderRadius: screen.calc(12),
-    marginHorizontal: Screen.calc(15),
-    marginTop: Screen.calc(15),
+    marginBottom: Screen.calc(10),
   },
   itemView: {
-    borderRadius: screen.calc(12),
-    paddingLeft: screen.calc(16),
-    paddingRight: screen.calc(20),
-    marginTop: screen.calc(10),
-    paddingVertical: screen.calc(12),
-    marginHorizontal: screen.calc(15),
-  },
-  item: {
+    marginHorizontal: screen.calc(12),
+    paddingVertical: screen.calc(23),
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  itemBottom: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#D1D1D1',
+  },
   itemText: {
     color: '#333',
-    fontSize: screen.calc(15),
-  },
-  button: {
-    width: screen.calc(200),
-    alignSelf: 'center',
-    marginTop: screen.calc(30),
+    fontSize: screen.calc(17),
   },
   followView: {
     flexDirection: 'row',
@@ -316,13 +309,14 @@ const styles = StyleSheet.create({
     marginRight: Screen.calc(15),
   },
   followViewImage: {
-    width: Screen.calc(80),
-    height: Screen.calc(100),
-    borderRadius: Screen.calc(8),
+    width: Screen.calc(90),
+    height: Screen.calc(120),
+    borderRadius: Screen.calc(6),
   },
   followViewTitle: {
     alignSelf: 'center',
-    fontSize: Screen.calc(14),
+    fontSize: Screen.calc(15),
     marginTop: Screen.calc(4),
+    color: '#222',
   },
 });
