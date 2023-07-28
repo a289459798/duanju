@@ -24,6 +24,7 @@ import RecommandModal, {
 } from '@/component/custom/recommandModal';
 import historyAction from 'action/historyAction';
 import useNavigator from 'hooks/useNavigator';
+import Toast from '@attacks/react-native-toast';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -38,6 +39,14 @@ const resume = (viewId: number | null) =>
     viewId,
     //@ts-ignore
     UIManager.CSJTJVideoManager.Commands.resume.toString(), // we are calling the 'create' command
+    [viewId],
+  );
+
+const pause = (viewId: number | null) =>
+  UIManager.dispatchViewManagerCommand(
+    viewId,
+    //@ts-ignore
+    UIManager.CSJTJVideoManager.Commands.pause.toString(), // we are calling the 'create' command
     [viewId],
   );
 
@@ -86,12 +95,17 @@ export default React.forwardRef(
     };
 
     const onFollow = async () => {
-      await historyAction.addFollow({
+      const f = await historyAction.addFollow({
         id: video.drama_id,
         index: video.index,
         duration: 0,
       });
       checkFollow(video);
+      if (f) {
+        Toast.show('添加追剧成功');
+      } else {
+        Toast.show('取消追剧成功');
+      }
     };
 
     const panResponder = useRef(
@@ -103,7 +117,8 @@ export default React.forwardRef(
     ).current;
 
     const play = () => {
-      nav.push('Play', {id: video.drama_id, index: video.index});
+      // nav.push('Play', {id: video.drama_id, index: video.index});
+      pause(findNodeHandle(videorRef.current));
     };
 
     const checkHistory = (data: any) => {
@@ -125,7 +140,7 @@ export default React.forwardRef(
           {...panResponder.panHandlers}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height - (StatusBar.currentHeight || 0),
+              Screen.height - Screen.calc(22),
             ),
             // converts dpi to px, provide desired width
             width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),

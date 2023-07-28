@@ -8,35 +8,29 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bytedance.sdk.dp.DPDrama;
 import com.bytedance.sdk.dp.DPDramaDetailConfig;
 import com.bytedance.sdk.dp.DPSdk;
-import com.bytedance.sdk.dp.DPWidgetDramaDetailParams;
 import com.bytedance.sdk.dp.DPWidgetDrawParams;
-import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
 import com.bytedance.sdk.dp.IDramaDetailEnterDelegate;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
-import java.util.List;
 import java.util.Map;
 
-public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implements LifecycleEventListener {
+public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
 
     public static final String REACT_CLASS = "CSJTJVideoManager";
     public final int COMMAND_CREATE = 1;
@@ -48,6 +42,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
     private int propHeight;
 
     IDPWidget widget;
+    Fragment mFragment;
 
     public ReactCSJTJVideoManager(ReactApplicationContext reactContext) {
         mCallerContext = reactContext;
@@ -61,14 +56,12 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
     @NonNull
     @Override
     protected FrameLayout createViewInstance(@NonNull ThemedReactContext themedReactContext) {
-        mCallerContext.addLifecycleEventListener(this);
         return new FrameLayout(mCallerContext);
     }
 
     @Override
     public void onDropViewInstance(@NonNull FrameLayout view) {
         super.onDropViewInstance(view);
-        mCallerContext.removeLifecycleEventListener(this);
         if (widget != null) {
             widget.destroy();
         }
@@ -147,7 +140,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
                 break;
             case COMMAND_PAUSE:
                 if (widget != null) {
-                    widget.pauseForWatchTogether();
+                    mFragment.onStop();
                 }
                 break;
             default: {
@@ -174,7 +167,7 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
         setupLayout(parentView);
 
         DPWidgetDrawParams params1 = DPWidgetDrawParams.obtain();
-        params1.mDrawChannelType = DPWidgetDrawParams.DRAW_CHANNEL_TYPE_RECOMMEND_THEATER;
+        params1.mDrawChannelType = DPWidgetDrawParams.DRAW_CHANNEL_TYPE_RECOMMEND;
         params1.mDrawContentType = DPWidgetDrawParams.DRAW_CONTENT_TYPE_ONLY_DRAMA;
         params1.mDisableLuckView = true;
         params1.mIsHideFollow = true;
@@ -217,10 +210,11 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
         params1.mDramaDetailConfig = mDramaDetailConfig;
         widget = DPSdk.factory().createDraw(params1);
 
+        mFragment = widget.getFragment();
         FragmentActivity activity = (FragmentActivity) mCallerContext.getCurrentActivity();
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(reactNativeViewId, widget.getFragment(), String.valueOf(reactNativeViewId))
+                .replace(reactNativeViewId, mFragment, String.valueOf(reactNativeViewId))
                 .commit();
     }
 
@@ -246,24 +240,5 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
                 View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         view.layout(0, 0, width, height);
-    }
-
-    @Override
-    public void onHostResume() {
-        if (widget != null) {
-            widget.resumeForWatchTogether();
-        }
-    }
-
-    @Override
-    public void onHostPause() {
-        if (widget != null) {
-            widget.pauseForWatchTogether();
-        }
-    }
-
-    @Override
-    public void onHostDestroy() {
-
     }
 }

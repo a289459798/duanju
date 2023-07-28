@@ -38,7 +38,7 @@ const Page = CreatePage({
       if (user.info) {
         callback?.();
       } else {
-        NativeAppEventEmitter.emit('401');
+        nav.push('Login');
       }
     };
     const [refreshing, setRefreshing] = React.useState(false);

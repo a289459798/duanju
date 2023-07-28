@@ -7,8 +7,8 @@ class DPSdk extends NativeEventEmitter {
     super(RNDPSdk);
   }
 
-  start() {
-    RNDPSdk.start();
+  start(onStartComplete?: () => void) {
+    RNDPSdk.start(onStartComplete);
   }
 
   list(page: number, count: number = 20, order: boolean = true) {

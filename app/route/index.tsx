@@ -10,6 +10,7 @@ import About from '@/views/about';
 import Contact from '@/views/contact';
 import Follow from '@/views/follow';
 import Play from '@/views/play';
+import Login from '@/views/login';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,7 @@ export default () => {
         component={Play}
         options={{header: () => null}}
       />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 };

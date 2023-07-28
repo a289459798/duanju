@@ -71,14 +71,13 @@ function App(): JSX.Element {
       config.AppName,
       () => {
         console.log('穿山甲初始成功');
-        DPSdk.start();
-        TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
-        setTimeout(() => {
+        DPSdk.start(() => {
           store.dispatch({
             type: types.global.dpstart,
           });
           store.dispatch(historyAction.fetchHistory());
-        }, 500);
+        });
+        TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
