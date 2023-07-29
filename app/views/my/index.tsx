@@ -101,7 +101,12 @@ const Page = CreatePage({
                   onPress={() => checkLogin()}
                   rounded
                   containerStyle={styles.avatar}
-                  source={require('@/public/images/wd-tx.png')}
+                  avatarStyle={{borderRadius: screen.calc(28)}}
+                  source={
+                    user.info?.avatar
+                      ? {uri: user.info?.avatar}
+                      : require('@/public/images/wd-tx.png')
+                  }
                 />
               </View>
               <View style={styles.codeView}>
