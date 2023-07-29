@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
 import com.bytedance.sdk.dp.IDramaDetailEnterDelegate;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -30,7 +32,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.Map;
 
-public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
+public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implements LifecycleEventListener {
 
     public static final String REACT_CLASS = "CSJTJVideoManager";
     public final int COMMAND_CREATE = 1;
@@ -56,12 +58,14 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
     @NonNull
     @Override
     protected FrameLayout createViewInstance(@NonNull ThemedReactContext themedReactContext) {
+        mCallerContext.addLifecycleEventListener(this);
         return new FrameLayout(mCallerContext);
     }
 
     @Override
     public void onDropViewInstance(@NonNull FrameLayout view) {
         super.onDropViewInstance(view);
+        mCallerContext.removeLifecycleEventListener(this);
         if (widget != null) {
             widget.destroy();
         }
@@ -240,5 +244,19 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> {
                 View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         view.layout(0, 0, width, height);
+    }
+
+    @Override
+    public void onHostResume() {
+        mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    @Override
+    public void onHostPause() {
+    }
+
+    @Override
+    public void onHostDestroy() {
+
     }
 }
