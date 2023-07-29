@@ -29,7 +29,6 @@ const getParams = async (method: string, options?: RequestOptions) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: user?.token,
-      'App-Key': config.AppKey,
       timestamp: timestamp,
       sign: md5.hex_md5(`${user?.uid}-${timestamp}-${user?.token}`),
       ...options?.headers,
