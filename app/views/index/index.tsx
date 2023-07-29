@@ -61,7 +61,7 @@ const Page = CreatePage({
     const commandPause = () => {
       setTimeout(() => {
         commandRef.current?.pause();
-      }, 1000);
+      }, 300);
     };
 
     const onTabChange = (i: number) => {
