@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 
 import {Button, Text} from '@/component';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
+import {Share} from 'react-native-umshare';
+import Toast from '@attacks/react-native-toast';
+import userAction from 'action/userAction';
+import useNavigator from 'hooks/useNavigator';
+import {connect} from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 
-export default CreatePage({
+const Page = CreatePage({
   navigationProps: () => ({
     title: '微信授权登录',
   }),
-  Component: () => {
+  Component: (props: any) => {
+    const [loading, setLoading] = useState(false);
+    const nav = useNavigator();
+    console.log(props);
     return (
       <View style={styles.container}>
         <Image
@@ -21,6 +30,34 @@ export default CreatePage({
           titleStyle={{fontSize: Screen.calc(16)}}
           style={styles.button}
           containerStyle={{marginTop: Screen.calc(112)}}
+          loading={loading}
+          onPress={async () => {
+            setLoading(true);
+            try {
+              // const info: any = await Share.loginWX();
+              // console.log('info', info);
+              // 登录
+              props.dispatch(
+                userAction.login({
+                  onSuccess: () => {
+                    nav.pop();
+                  },
+                  onComplete: () => {
+                    setLoading(false);
+                  },
+                  openId: '12121212',
+                  unionId: '23232323',
+                  nickname: '121212',
+                  avatar: '2322323',
+                  androidId: DeviceInfo.getAndroidIdSync(),
+                }),
+              );
+            } catch (e) {
+              console.log(e);
+              setLoading(false);
+              Toast.show('登录失败');
+            }
+          }}
         />
         <Text
           style={{
@@ -36,6 +73,13 @@ export default CreatePage({
     );
   },
 });
+
+export default connect((state: any) => {
+  const {user} = state;
+  return {
+    user,
+  };
+})(Page);
 
 const styles = StyleSheet.create({
   container: {

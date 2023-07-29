@@ -7,16 +7,21 @@ export default {
   login: (data: {
     openId: String;
     unionId: String;
-    channel?: String;
+    androidId?: String;
+    nickname: String;
+    avatar: String;
     onSuccess?: Function;
+    onComplete?: Function;
   }) => {
     return (dispatch: Function) => {
       request
-        .post('users/login-app', {
+        .post('users/login', {
           data: {
             openId: data.openId,
             unionId: data.unionId,
-            channel: data.channel,
+            nickname: data.nickname,
+            androidId: data.androidId,
+            avatar: data.avatar,
           },
         })
         .then(
@@ -36,9 +41,13 @@ export default {
               },
               err => Toast.show(err.message),
             );
-            data.onSuccess && data.onSuccess();
+            data.onSuccess?.();
+            data.onComplete?.();
           },
-          err => Toast.show(err.message),
+          err => {
+            Toast.show(err.message);
+            data.onComplete?.();
+          },
         );
     };
   },

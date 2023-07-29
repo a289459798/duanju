@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 
 export default {
-  HOST: 'https://api.smuai.com/',
+  HOST: 'http://192.168.31.120:8877/',
   DEBUG: true,
   Push: {
     AppId:

@@ -20,6 +20,7 @@ import historyAction from 'action/historyAction';
 import {DPSdk} from 'briage/module';
 import config from 'config';
 import FastImage from 'react-native-fast-image';
+import DeviceInfo from 'react-native-device-info';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -105,10 +106,12 @@ const Page = CreatePage({
               </View>
               <View style={styles.codeView}>
                 <Text onPress={() => checkLogin()} style={styles.codeTitle}>
-                  {user.info ? '用户名' : '点击登录'}
+                  {user.info ? user.info.nickname : '点击登录'}
                 </Text>
                 <View style={styles.code}>
-                  <Text style={styles.codeText}>ID：{user.info?.code}</Text>
+                  <Text style={styles.codeText}>
+                    ID：{DeviceInfo.getAndroidIdSync()}
+                  </Text>
                 </View>
               </View>
             </View>
