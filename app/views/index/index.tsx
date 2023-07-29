@@ -6,7 +6,6 @@ import History from './history';
 import Recommand, {RecommandRef} from './recommand';
 import {
   Animated,
-  AppState,
   NativeAppEventEmitter,
   StatusBar,
   StyleSheet,
