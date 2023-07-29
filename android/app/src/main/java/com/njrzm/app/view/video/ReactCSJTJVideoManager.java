@@ -140,11 +140,13 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
             case COMMAND_RESUME:
                 if (widget != null) {
                     mFragment.onHiddenChanged(false);
+                    mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 break;
             case COMMAND_PAUSE:
                 if (widget != null) {
                     mFragment.onHiddenChanged(true);
+                    mCallerContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 break;
             default: {
@@ -209,6 +211,19 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
                         reactNativeViewId,
                         "topDPVideoPlay",
                         event);
+                mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
+            @Override
+            public void onDPVideoContinue(Map<String, Object> map) {
+                super.onDPVideoContinue(map);
+                mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
+            @Override
+            public void onDPVideoPause(Map<String, Object> map) {
+                super.onDPVideoPause(map);
+                mCallerContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
         params1.mDramaDetailConfig = mDramaDetailConfig;
@@ -248,7 +263,6 @@ public class ReactCSJTJVideoManager extends ViewGroupManager<FrameLayout> implem
 
     @Override
     public void onHostResume() {
-        mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.njrzm.app.view.video;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.bytedance.sdk.dp.IDPAdListener;
 import com.bytedance.sdk.dp.IDPDramaListener;
 import com.bytedance.sdk.dp.IDPWidget;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -31,7 +33,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import java.util.List;
 import java.util.Map;
 
-public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
+public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> implements LifecycleEventListener {
 
     public static final String REACT_CLASS = "CSJVideoManager";
     public final int COMMAND_CREATE = 1;
@@ -66,6 +68,12 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
     @Override
     protected FrameLayout createViewInstance(@NonNull ThemedReactContext themedReactContext) {
         return new FrameLayout(mCallerContext);
+    }
+
+    @Override
+    public void onDropViewInstance(@NonNull FrameLayout view) {
+        super.onDropViewInstance(view);
+        mCallerContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @ReactProp(name = "id")
@@ -236,6 +244,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                         reactNativeViewId,
                         "topDPVideoPlay",
                         event);
+                mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
 
             @Override
@@ -256,6 +265,7 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                         reactNativeViewId,
                         "topDPVideoContinue",
                         event);
+                mCallerContext.getCurrentActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
 
             @Override
@@ -384,5 +394,18 @@ public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> {
                 View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         view.layout(0, 0, width, height);
+    }
+
+    @Override
+    public void onHostResume() {
+    }
+
+    @Override
+    public void onHostPause() {
+    }
+
+    @Override
+    public void onHostDestroy() {
+
     }
 }

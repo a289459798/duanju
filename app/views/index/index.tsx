@@ -15,6 +15,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import historyAction from 'action/historyAction';
 
+let currentIdex = 1;
 const Page = CreatePage({
   navigationProps: () => ({
     hideSafe: true,
@@ -34,7 +35,7 @@ const Page = CreatePage({
     useEffect(() => {
       navgation.addListener('focus', () => {
         props.dispatch(historyAction.fetchHistory());
-        onTabChange(index);
+        onTabChange(currentIdex);
       });
       navgation.addListener('blur', () => {
         commandPause();
@@ -42,7 +43,7 @@ const Page = CreatePage({
       const subscription = NativeAppEventEmitter.addListener(
         'AppStateActive',
         routeName => {
-          if (routeName !== 'Index' || index !== 1) {
+          if (routeName !== 'Index' || currentIdex !== 1) {
             commandRef.current?.pause();
           }
         },
@@ -65,6 +66,7 @@ const Page = CreatePage({
     };
 
     const onTabChange = (i: number) => {
+      currentIdex = i;
       setIndex(i);
       changeStatusBar(i);
       if (i === 1) {
