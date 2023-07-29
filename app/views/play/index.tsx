@@ -21,7 +21,7 @@ import {IconArrow} from 'public/iconfont';
 import Episode, {EpisodeRef} from './episode';
 import Toast from '@attacks/react-native-toast';
 import config from 'config';
-import dramAction from 'action/dramAction';
+import dramaAction from 'action/dramaAction';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -75,7 +75,7 @@ const Page = CreatePage({
 
     const getConfig = async () => {
       try {
-        const c: any = await dramAction.config({id: params.id});
+        const c: any = await dramaAction.config({id: params.id});
         if (c) {
           console.log('c', c);
           setFreeSize(c.freeSize);

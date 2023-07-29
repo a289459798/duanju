@@ -5,6 +5,7 @@ import {Screen} from '@/utils';
 import {DPSdk} from 'briage/module';
 import FastImage from 'react-native-fast-image';
 import useNavigator from 'hooks/useNavigator';
+import dramaAction from '@/action/dramaAction';
 
 type listType = {
   title: string;
@@ -32,6 +33,9 @@ export default (props: {category: string}) => {
       setList(l);
     }
     setLoading(false);
+
+    // 同步数据到服务端
+    dramaAction.sync(data);
   };
 
   useEffect(() => {
