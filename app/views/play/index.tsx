@@ -21,6 +21,7 @@ import {IconArrow} from 'public/iconfont';
 import Episode, {EpisodeRef} from './episode';
 import Toast from '@attacks/react-native-toast';
 import config from 'config';
+import dramAction from 'action/dramAction';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -68,11 +69,23 @@ const Page = CreatePage({
     const [unlock, setUnLock] = useState<any>({});
     const [hideImageAndFollow, setHideImageAndFollow] = useState(false);
 
-    const freeSize = 10;
-    const unlockSize = 3;
+    const [freeSize, setFreeSize] = useState(10);
+    const [unlockSize, setUnlockSize] = useState(3);
     const isVip = false;
 
+    const getConfig = async () => {
+      try {
+        const c: any = await dramAction.config({id: params.id});
+        if (c) {
+          console.log('c', c);
+          setFreeSize(c.freeSize);
+          setUnlockSize(c.unlockSize);
+        }
+      } catch (e) {}
+    };
+
     useEffect(() => {
+      getConfig();
       const onAdShow = TTAdSdk.addListener('onAdShow', () => {
         console.log('onAdShow');
       });
