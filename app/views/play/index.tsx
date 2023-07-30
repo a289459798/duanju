@@ -160,6 +160,8 @@ const Page = CreatePage({
       if (!(await checkAd())) {
         if (config.isPro) {
         } else {
+          const unlockInfo = getUnlockInfo();
+          Toast.show(`看广告解锁${unlockInfo.join('、')}集`);
           // 直接播放广告
           TTAdSdk.loadAd(
             config.CSJ.Code.Video,
@@ -170,13 +172,28 @@ const Page = CreatePage({
             },
             async (_code: number, message: string) => {
               Toast.show('广告加载失败:' + message);
-              console.log(message);
-              await adLookSuccess();
+              await adLookSuccess(v);
               checkAd();
             },
           );
         }
       }
+    };
+
+    const getUnlockInfo = () => {
+      let size = 0;
+      let unlockInfo = [];
+      for (let i = adIndex; i <= video.total; i++) {
+        if (unlock?.[i]) {
+          continue;
+        }
+        unlockInfo.push(i);
+        size++;
+        if (size === unlockSize) {
+          break;
+        }
+      }
+      return unlockInfo;
     };
 
     const checkAd = async () => {
@@ -192,7 +209,10 @@ const Page = CreatePage({
     };
 
     const adLookSuccess = async () => {
-      await historyAction.addAd({id: params.id, index: adIndex});
+      const unlockInfo = getUnlockInfo();
+      for (let i = 0; i < unlockInfo.length; i++) {
+        await historyAction.addAd({id: params.id, index: unlockInfo[i]});
+      }
     };
 
     const episodeShow = async () => {
