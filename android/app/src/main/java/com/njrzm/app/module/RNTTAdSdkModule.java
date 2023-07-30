@@ -175,7 +175,7 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void loadSplashAd(String codeId) {
+    public void loadSplashAd(String codeId, Callback callback) {
         DisplayMetrics dm = new DisplayMetrics();
         dm = new DisplayMetrics();
         getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -195,12 +195,12 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onSplashLoadSuccess() {
-
+                callback.invoke();
             }
 
             @Override
             public void onSplashLoadFail(CSJAdError csjAdError) {
-
+                callback.invoke();
             }
 
             @Override

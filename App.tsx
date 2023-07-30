@@ -82,7 +82,9 @@ function App(): JSX.Element {
           });
           store.dispatch(historyAction.fetchHistory());
         });
-        TTAdSdk.loadSplashAd(config.CSJ.Code.Splash);
+        TTAdSdk.loadSplashAd(config.CSJ.Code.Splash, () => {
+          SplashScreen.hide();
+        });
       },
       (status: number, error: string) => {
         console.log('穿山甲初始化失败：', status, error);
