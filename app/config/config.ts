@@ -1,5 +1,3 @@
-import {Platform} from 'react-native';
-
 export default {
   AppName: '甜瓜剧场',
   Scheme: 'tiangua://',
