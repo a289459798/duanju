@@ -24,6 +24,8 @@ import RecommandModal, {
 import historyAction from 'action/historyAction';
 import useNavigator from 'hooks/useNavigator';
 import Toast from '@attacks/react-native-toast';
+import {Share} from 'react-native-umshare';
+import config from 'config';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -177,7 +179,12 @@ export default React.forwardRef(
               follow={follow}
               onClickAdd={onFollow}
               onClickShare={() => {
-                console.log('onClickShare');
+                Share.shareWX(
+                  video.title,
+                  video.desc,
+                  video.cover_image,
+                  `${config.ShareLink}?id=${video.id}&index=${video.index}`,
+                );
               }}
               onClickNext={() => play()}
             />

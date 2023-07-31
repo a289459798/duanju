@@ -22,6 +22,7 @@ import Episode, {EpisodeRef} from './episode';
 import Toast from '@attacks/react-native-toast';
 import config from 'config';
 import dramaAction from 'action/dramaAction';
+import {Share} from 'react-native-umshare';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -279,7 +280,12 @@ const Page = CreatePage({
               hideImageAndFollow={hideImageAndFollow}
               onClickAdd={onFollow}
               onClickShare={() => {
-                console.log('onClickShare');
+                Share.shareWX(
+                  video.title,
+                  video.desc,
+                  video.cover_image,
+                  `${config.ShareLink}?id=${video.id}&index=${video.index}`,
+                );
               }}
             />
           </View>

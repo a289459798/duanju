@@ -23,4 +23,5 @@ export default {
   DEBUG: false,
   HOST: '',
   isPro: false,
+  ShareLink: '',
 };

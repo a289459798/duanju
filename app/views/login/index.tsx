@@ -34,8 +34,7 @@ const Page = CreatePage({
           onPress={async () => {
             setLoading(true);
             try {
-              // const info: any = await Share.loginWX();
-              // console.log('info', info);
+              const info: any = await Share.loginWX();
               // 登录
               props.dispatch(
                 userAction.login({
@@ -45,15 +44,14 @@ const Page = CreatePage({
                   onComplete: () => {
                     setLoading(false);
                   },
-                  openId: '12121212',
-                  unionId: '23232323',
-                  nickname: '121212',
-                  avatar: '2322323',
+                  openId: info.openid,
+                  unionId: info.unionid,
+                  nickname: info.originalResponse.nickname,
+                  avatar: info.originalResponse.headimgurl,
                   androidId: DeviceInfo.getAndroidIdSync(),
                 }),
               );
             } catch (e) {
-              console.log(e);
               setLoading(false);
               Toast.show('登录失败');
             }

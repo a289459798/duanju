@@ -8,9 +8,10 @@ export default {
     Share: {
       '1_weixin': {
         appKey: 'wxce23e776a58d940d',
-        appSecret: '582382c2c244a2c60510550d3aec37b6',
+        appSecret: '95f8090822c01df4783538629dcefb4b',
         redirectURL: '',
       },
     },
   },
+  ShareLink: 'https://www.baidu.com/',
 };
