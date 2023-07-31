@@ -1,6 +1,6 @@
 export default {
   AppName: '甜瓜剧场',
-  Scheme: 'tiangua://',
+  Scheme: ['tiangua://'],
   EncrpytHash: 'CxdK3xTJ2Z6Bcyp3WGp5wTxU1BlkMd2l',
   UM: {
     Appkey: '',

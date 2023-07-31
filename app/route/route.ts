@@ -6,5 +6,6 @@ export default {
         Chat: 'chat',
       },
     },
+    Play: 'play/:id/:index',
   },
 };

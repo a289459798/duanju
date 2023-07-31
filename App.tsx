@@ -41,7 +41,7 @@ import historyAction from 'action/historyAction';
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
   const linking: LinkingOptions<{}> = {
-    prefixes: [Config.Scheme],
+    prefixes: Config.Scheme,
 
     async getInitialURL() {
       const url = await Linking.getInitialURL();
@@ -49,13 +49,17 @@ function App(): JSX.Element {
         if (url) {
           Linking.openURL(url);
         }
-      }, 500);
-      return url;
+      }, 1000);
+      return '';
     },
 
     subscribe(listener: Function) {
       const linkingSubscription = Linking.addEventListener('url', ({url}) => {
-        listener(url);
+        setTimeout(() => {
+          if (url) {
+            listener(url);
+          }
+        }, 1000);
       });
 
       return () => {

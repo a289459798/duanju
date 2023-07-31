@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 
 export default {
   AppName: '甜瓜剧场',
-  Scheme: 'tiangua://',
+  Scheme: ['tiangua://', 'https://app.njrzm.com'],
   UM: {
     Appkey: Platform.OS === 'android' ? '64c73061bd4b621232e2daf4' : '',
     Share: {

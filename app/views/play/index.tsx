@@ -249,7 +249,7 @@ const Page = CreatePage({
             width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
           }}
           id={parseFloat(params.id)}
-          index={params.index || 1}
+          index={parseFloat(params.index) || 1}
           currentDuration={params.duration || 0}
           config={{
             mode: 'specific',
