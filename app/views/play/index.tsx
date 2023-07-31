@@ -173,7 +173,7 @@ const Page = CreatePage({
             },
             async (_code: number, message: string) => {
               Toast.show('广告加载失败:' + message);
-              await adLookSuccess(v);
+              await adLookSuccess();
               checkAd();
             },
           );
