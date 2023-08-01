@@ -25,7 +25,7 @@ import {applyMiddleware, legacy_createStore as createStore} from 'redux';
 import thunk from 'redux-thunk';
 
 import userAction from '@/action/userAction';
-import {SplashScreen, TTAdSdk} from '@/briage/module';
+import {CommonModule, SplashScreen, TTAdSdk} from '@/briage/module';
 import UpdateModal, {UpdateModalRef} from '@/component/modal/updateModal';
 import Config from '@/config';
 import reducers from '@/reducer';
@@ -37,6 +37,7 @@ import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
 import DPSdk from 'briage/module/DPSdk';
 import types from 'reducer/types';
 import historyAction from 'action/historyAction';
+import {Storage} from 'utils';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 function App(): JSX.Element {
@@ -85,6 +86,19 @@ function App(): JSX.Element {
             type: types.global.dpstart,
           });
           store.dispatch(historyAction.fetchHistory());
+          Storage.get('first_open').then((res: any) => {
+            if (!res) {
+              // 默认打开推广视频
+              CommonModule.getMetaData('VIDEO_ID').then((videoId: number) => {
+                if (videoId) {
+                  setTimeout(() => {
+                    navigationRef.navigate('Play', {id: videoId, index: 1});
+                  }, 1000);
+                }
+              });
+              Storage.set('first_open', '1');
+            }
+          });
         });
         TTAdSdk.loadSplashAd(config.CSJ.Code.Splash, () => {
           SplashScreen.hide();

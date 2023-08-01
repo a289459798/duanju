@@ -91,5 +91,8 @@
             android:name="com.bytedance.sdk.dp.act.DPProvider"
             android:authorities="com.njrzm.app.BDDPProvider"
             android:exported="false" />
+
+        <meta-data android:value="default" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="17" android:name="VIDEO_ID"/>
     </application>
 </manifest>

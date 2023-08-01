@@ -13,6 +13,7 @@ import {
   StyleSheet,
   PanResponder,
   Image,
+  StatusBar,
 } from 'react-native';
 import {Text} from '@/component';
 import {Screen} from '@/utils';
@@ -139,7 +140,7 @@ export default React.forwardRef(
           {...panResponder.panHandlers}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height - Screen.calc(22),
+              Screen.height + (StatusBar.currentHeight || 0),
             ),
             // converts dpi to px, provide desired width
             width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),

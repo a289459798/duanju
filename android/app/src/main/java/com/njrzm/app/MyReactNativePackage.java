@@ -2,6 +2,7 @@ package com.njrzm.app;
 
 import androidx.annotation.NonNull;
 
+import com.njrzm.app.module.RNCommonModule;
 import com.njrzm.app.module.RNDPSdkModule;
 import com.njrzm.app.module.RNTTAdSdkModule;
 import com.njrzm.app.view.video.ReactCSJTJVideoManager;
@@ -23,6 +24,7 @@ public class MyReactNativePackage implements ReactPackage {
         modules.add(new RNSplashScreenModule(reactApplicationContext));
         modules.add(new RNTTAdSdkModule(reactApplicationContext));
         modules.add(new RNDPSdkModule(reactApplicationContext));
+        modules.add(new RNCommonModule(reactApplicationContext));
         return modules;
     }
 
