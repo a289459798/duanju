@@ -25,6 +25,9 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.njrzm.app.BuildConfig;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class RNCommonModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
@@ -51,5 +54,21 @@ public class RNCommonModule extends ReactContextBaseJavaModule {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @ReactMethod
+    public void getAssetsData(String fileName, Promise promise) {
+        try {
+            InputStreamReader inputReader = new InputStreamReader(reactContext.getResources().getAssets().open(fileName));
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line = "";
+            String Result = "";
+            while ((line = bufReader.readLine()) != null)
+                Result += line;
+            promise.resolve(Result);
+        } catch (Exception e) {
+            promise.reject("", "");
+            e.printStackTrace();
+        }
     }
 }
