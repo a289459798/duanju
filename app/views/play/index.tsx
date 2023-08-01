@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {CreatePage, Screen} from '@/utils';
 import {
+  Dimensions,
   PixelRatio,
   StatusBar,
   StyleSheet,
@@ -243,10 +244,14 @@ const Page = CreatePage({
           ref={ref}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height + (StatusBar.currentHeight || 0),
+              Dimensions.get('screen').height -
+                (StatusBar.currentHeight || 0) -
+                Screen.calc(20),
             ),
             // converts dpi to px, provide desired width
-            width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
+            width: PixelRatio.getPixelSizeForLayoutSize(
+              Dimensions.get('screen').width,
+            ),
           }}
           id={parseFloat(params.id)}
           index={parseFloat(params.index) || 1}

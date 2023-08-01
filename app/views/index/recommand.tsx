@@ -14,6 +14,7 @@ import {
   PanResponder,
   Image,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 import {Text} from '@/component';
 import {Screen} from '@/utils';
@@ -140,10 +141,14 @@ export default React.forwardRef(
           {...panResponder.panHandlers}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Screen.height + (StatusBar.currentHeight || 0),
+              Dimensions.get('screen').height -
+                (StatusBar.currentHeight || 0) -
+                Screen.calc(20),
             ),
             // converts dpi to px, provide desired width
-            width: PixelRatio.getPixelSizeForLayoutSize(Screen.width),
+            width: PixelRatio.getPixelSizeForLayoutSize(
+              Dimensions.get('screen').width,
+            ),
           }}
           onDPVideoPlay={(data: any) => {
             timer && clearTimeout(timer);
