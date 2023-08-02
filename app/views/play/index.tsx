@@ -244,9 +244,7 @@ const Page = CreatePage({
           ref={ref}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Dimensions.get('screen').height -
-                (StatusBar.currentHeight || 0) -
-                Screen.calc(20),
+              Dimensions.get('screen').height,
             ),
             // converts dpi to px, provide desired width
             width: PixelRatio.getPixelSizeForLayoutSize(
