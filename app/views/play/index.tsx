@@ -94,8 +94,13 @@ const Page = CreatePage({
       const onAdVideoBarClick = TTAdSdk.addListener('onAdVideoBarClick', () => {
         console.log('onAdVideoBarClick');
       });
-      const onAdClose = TTAdSdk.addListener('onAdClose', () => {
+      const onAdClose = TTAdSdk.addListener('onAdClose', async () => {
         console.log('onAdClose');
+        // 检测广告
+        const status = await checkAd();
+        if (!status) {
+          nav.pop();
+        }
       });
       const onVideoComplete = TTAdSdk.addListener('onVideoComplete', () => {
         console.log('onVideoComplete');
@@ -104,6 +109,8 @@ const Page = CreatePage({
         console.log('onVideoError');
       });
       const onRewardArrived = TTAdSdk.addListener('onRewardArrived', () => {
+        // 发放奖励
+        adLookSuccess();
         console.log('onRewardArrived');
       });
       const onSkippedVideo = TTAdSdk.addListener('onSkippedVideo', () => {
