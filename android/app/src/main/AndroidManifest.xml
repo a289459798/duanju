@@ -92,7 +92,6 @@
             android:authorities="com.njrzm.app.BDDPProvider"
             android:exported="false" />
 
-        <meta-data android:value="default" android:name="UMENG_CHANNEL"/>
-        <meta-data android:value="17" android:name="VIDEO_ID"/>
+        <meta-data android:value="douyin_video_17" android:name="UMENG_CHANNEL"/>
     </application>
 </manifest>

@@ -47,7 +47,7 @@ public class RNCommonModule extends ReactContextBaseJavaModule {
         try {
             ApplicationInfo info = reactContext.getPackageManager().getApplicationInfo(
                     reactContext.getPackageName(), PackageManager.GET_META_DATA);
-            int data = info.metaData.getInt(name);
+            String data = info.metaData.getString(name);
             promise.resolve(data);
         } catch (PackageManager.NameNotFoundException e) {
             promise.reject("", "");

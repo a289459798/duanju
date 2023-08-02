@@ -89,13 +89,20 @@ function App(): JSX.Element {
           Storage.get('first_open').then((res: any) => {
             if (!res) {
               // 默认打开推广视频
-              CommonModule.getMetaData('VIDEO_ID').then((videoId: number) => {
-                if (videoId) {
-                  setTimeout(() => {
-                    navigationRef.navigate('Play', {id: videoId, index: 1});
-                  }, 1000);
-                }
-              });
+              CommonModule.getMetaData('UMENG_CHANNEL').then(
+                (channel: string) => {
+                  if (channel && channel.indexOf('video_') !== -1) {
+                    const videoId = channel.substring(
+                      channel.indexOf('video_') + 6,
+                    );
+                    if (videoId) {
+                      setTimeout(() => {
+                        navigationRef.navigate('Play', {id: videoId, index: 1});
+                      }, 1000);
+                    }
+                  }
+                },
+              );
               Storage.set('first_open', '1');
             }
           });
@@ -129,7 +136,7 @@ function App(): JSX.Element {
       () => {},
       () => {},
     );
-    global.db?.transaction((tx: SQLiteDatabase) => {
+    global.db?.transaction?.((tx: SQLiteDatabase) => {
       // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
       // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
       tx.executeSql(
