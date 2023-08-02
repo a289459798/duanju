@@ -152,6 +152,7 @@ const Page = CreatePage({
                     width: Screen.calc(80),
                     height: Screen.calc(36),
                   }}
+                  onPress={() => checkLogin(() => nav.push('Vip'))}
                   style={{backgroundColor: 'red'}}
                   title={'续费VIP'}
                 />

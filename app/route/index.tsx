@@ -11,6 +11,7 @@ import Contact from '@/views/contact';
 import Follow from '@/views/follow';
 import Play from '@/views/play';
 import Login from '@/views/login';
+import Vip from '@/views/vip';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,7 @@ export default () => {
         options={{header: () => null}}
       />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Vip" component={Vip} />
     </Stack.Navigator>
   );
 };

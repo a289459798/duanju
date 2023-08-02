@@ -18,7 +18,6 @@ const Page = CreatePage({
   Component: (props: any) => {
     const [loading, setLoading] = useState(false);
     const nav = useNavigator();
-    console.log(props);
     return (
       <View style={styles.container}>
         <Image
