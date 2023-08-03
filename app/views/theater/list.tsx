@@ -20,7 +20,13 @@ export default (props: {category: string}) => {
 
   const fetchList = async (page: number) => {
     setLoading(true);
-    const data = await DPSdk.listWithcCategory(props.category, page);
+    let data = [];
+    if (props.category === '0') {
+      data = await DPSdk.list(page, 24);
+    } else {
+      data = await DPSdk.listWithcCategory(props.category, page);
+    }
+
     if (data.length < 24) {
       setHasMore(false);
     } else {

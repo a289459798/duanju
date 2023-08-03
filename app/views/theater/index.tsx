@@ -29,6 +29,11 @@ const Page = CreatePage({
       const category = await DPSdk.category();
       let r = [];
       let s: any = {};
+      r.push({
+        key: '0',
+        title: '全部',
+      });
+      s['0'] = () => <List category={'0'} />;
       for (let i = 0; i < category.length; i++) {
         r.push({
           key: category[i],
