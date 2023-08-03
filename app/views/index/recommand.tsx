@@ -86,6 +86,7 @@ export default React.forwardRef(
         const viewId = findNodeHandle(videorRef.current);
         if (viewId) {
           createFragment(viewId!);
+          checkHistory();
         }
       }
     }, [props.dpstart]);
@@ -122,16 +123,9 @@ export default React.forwardRef(
       nav.push('Play', {id: video.drama_id, index: video.index});
     };
 
-    const checkHistory = (data: any) => {
-      recommandModalRef.current?.hide();
-      for (let i = 0; i < props.history?.length; i++) {
-        if (parseInt(props.history[i].id, 10) === parseInt(data.drama_id, 10)) {
-          if (props.history[i].index > 1) {
-            data.index = props.history[i].index;
-            recommandModalRef.current?.show(data);
-          }
-          break;
-        }
+    const checkHistory = () => {
+      if (props.history?.length > 0) {
+        recommandModalRef.current?.show(props.history[0]);
       }
     };
     return (
@@ -155,7 +149,6 @@ export default React.forwardRef(
             setShowButton(false);
             setFollow(false);
             setVideo(data.nativeEvent);
-            checkHistory(data.nativeEvent);
             timer = setTimeout(() => setShowButton(true), 5000);
             checkFollow(data.nativeEvent);
           }}
@@ -199,7 +192,7 @@ export default React.forwardRef(
         <RecommandModal
           ref={recommandModalRef}
           onPress={(data: any) => {
-            nav.push('Play', {id: data.drama_id, index: data.index});
+            nav.push('Play', {id: data.id, index: data.index});
             recommandModalRef.current?.hide();
           }}
         />

@@ -302,7 +302,7 @@ const Page = CreatePage({
         )}
         {video && (
           <View style={styles.videoInfo} pointerEvents={'box-none'}>
-            <Text style={styles.titleText}>
+            <Text style={styles.titleText} numberOfLines={1}>
               {video.title} · 正在播第{video.index}集
             </Text>
             <TouchableWithoutFeedback onPress={() => episodeShow()}>
@@ -375,6 +375,8 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#fff',
     fontSize: Screen.calc(16),
+    marginRight: Screen.calc(20),
+    flex: 1,
   },
   chooseeText: {
     color: '#fff',

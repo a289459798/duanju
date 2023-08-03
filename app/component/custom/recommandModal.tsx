@@ -31,7 +31,7 @@ export default React.forwardRef(
     }
     return (
       <View style={styles.container}>
-        <FastImage style={styles.image} source={{uri: video?.cover_image}} />
+        <FastImage style={styles.image} source={{uri: video?.coverImage}} />
         <View style={styles.rightView}>
           <Text style={styles.titleText}>{video?.title}</Text>
           <Text style={styles.statusText}>
