@@ -11,14 +11,13 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {connect} from 'react-redux';
 
-import {Avatar, Button, Text} from '@/component';
+import {Avatar, Text} from '@/component';
 import useNavigator from '@/hooks/useNavigator';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
 import {useNavigation} from '@react-navigation/native';
 import historyAction from 'action/historyAction';
 import {DPSdk} from 'briage/module';
-import config from 'config';
 import FastImage from 'react-native-fast-image';
 import DeviceInfo from 'react-native-device-info';
 
@@ -120,44 +119,6 @@ const Page = CreatePage({
                 </View>
               </View>
             </View>
-            {config.isPro && (
-              <View style={styles.vipView}>
-                <View>
-                  <Text
-                    style={{
-                      fontSize: Screen.calc(14),
-                      fontWeight: '500',
-                      color: '#333',
-                    }}>
-                    到期时间：
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: Screen.calc(6),
-                      alignItems: 'flex-end',
-                    }}>
-                    <Text
-                      style={{
-                        color: '#999',
-                        fontSize: Screen.calc(12),
-                      }}>
-                      开通VIP全场免费无广告
-                    </Text>
-                  </View>
-                </View>
-                <Button
-                  isRadius
-                  containerStyle={{
-                    width: Screen.calc(80),
-                    height: Screen.calc(36),
-                  }}
-                  onPress={() => checkLogin(() => nav.push('Vip'))}
-                  style={{backgroundColor: 'red'}}
-                  title={'续费VIP'}
-                />
-              </View>
-            )}
 
             {follow?.length > 0 && (
               <View
