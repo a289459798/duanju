@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
-import {Text, ListView} from '@/component';
+import {StyleSheet} from 'react-native';
+import {ListView} from '@/component';
 import {Screen} from '@/utils';
 import {DPSdk} from 'briage/module';
-import FastImage from 'react-native-fast-image';
 import useNavigator from 'hooks/useNavigator';
 import dramaAction from '@/action/dramaAction';
+import DramaItem from 'component/custom/dramaItem';
 
 type listType = {
   title: string;
@@ -61,30 +61,13 @@ export default (props: {category: string}) => {
       hasMore={hasMore}
       onLoadMore={() => setPage(page + 1)}
       renderItem={({item}) => (
-        <TouchableWithoutFeedback
-          onPress={() => nav.push('Play', {id: item.id, index: item.index})}>
-          <View style={styles.itemView}>
-            <View>
-              <FastImage
-                style={styles.itemImage}
-                source={{uri: item.coverImage}}
-              />
-              <Image
-                style={styles.statusView}
-                source={
-                  item.status === 0
-                    ? require('@/public/images/ls-ywj.png')
-                    : require('@/public/images/ls-lzz.png')
-                }
-              />
-            </View>
-
-            <Text style={styles.titleText} numberOfLines={1}>
-              {item.title}
-            </Text>
-            <Text style={styles.lookText}>共{item.total}集</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <DramaItem
+          video={item}
+          showTotal={true}
+          onPress={video => {
+            nav.push('Play', {id: video.id, index: video.index});
+          }}
+        />
       )}
     />
   );
@@ -93,32 +76,5 @@ export default (props: {category: string}) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Screen.calc(10),
-  },
-  itemView: {
-    width: Screen.calc(110),
-    marginBottom: Screen.calc(17),
-    marginRight: Screen.calc(10),
-  },
-  itemImage: {
-    width: Screen.calc(110),
-    height: Screen.calc(147),
-    borderRadius: Screen.calc(6),
-  },
-  titleText: {
-    color: '#222',
-    fontSize: Screen.calc(16),
-    marginTop: Screen.calc(10),
-    lineHeight: Screen.calc(19),
-  },
-  lookText: {
-    color: '#999',
-    fontSize: Screen.calc(12),
-    lineHeight: Screen.calc(19),
-  },
-  statusView: {
-    position: 'absolute',
-    top: Screen.calc(6),
-    left: 0,
-    zIndex: 9,
   },
 });

@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
-import {Text, ListView} from '@/component';
+import {StyleSheet} from 'react-native';
+import {ListView} from '@/component';
 import {Screen} from '@/utils';
 import useNavigator from 'hooks/useNavigator';
-import FastImage from 'react-native-fast-image';
+import DramaItem from 'component/custom/dramaItem';
 
 type HistoryProps = {
   history: [];
@@ -21,31 +21,12 @@ export default (props: HistoryProps) => {
       numColumns={3}
       data={props.history}
       renderItem={({item}) => (
-        <TouchableWithoutFeedback
-          onPress={() => {
-            nav.push('Play', {id: item.id, index: item.index});
-          }}>
-          <View style={styles.itemView}>
-            <View style={styles.itemImageView}>
-              <FastImage
-                style={styles.itemImage}
-                source={{uri: item.coverImage}}
-              />
-              <Image
-                style={styles.statusView}
-                source={
-                  item.status === 0
-                    ? require('@/public/images/ls-ywj.png')
-                    : require('@/public/images/ls-lzz.png')
-                }
-              />
-            </View>
-            <Text style={styles.titleText} numberOfLines={1}>
-              {item.title}
-            </Text>
-            <Text style={styles.lookText}>观看到第{item.index}集</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <DramaItem
+          video={item}
+          onPress={video => {
+            nav.push('Play', {id: video.id, index: video.index});
+          }}
+        />
       )}
     />
   );
