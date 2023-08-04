@@ -133,7 +133,6 @@ function App(): JSX.Element {
 
   const initDb = () => {
     SQLite.DEBUG(config.DEBUG);
-    console.log('global.db', global.db);
     if (!global.db) {
       global.db = SQLite.openDatabase(
         {name: 'duanjiu'},
