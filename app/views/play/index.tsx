@@ -7,6 +7,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   UIManager,
   View,
@@ -235,7 +236,9 @@ const Page = CreatePage({
     return (
       <View style={{flex: 1}}>
         <View style={styles.header}>
-          <TouchableWithoutFeedback
+          <TouchableOpacity
+            activeOpacity={1}
+            style={{paddingHorizontal: Screen.calc(10)}}
             onPress={() => {
               nav.pop();
             }}>
@@ -243,9 +246,10 @@ const Page = CreatePage({
               style={{
                 transform: [{rotate: '180deg'}],
               }}
+              size={20}
               color={'#fff'}
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
         <CSJVideoManager
           ref={ref}

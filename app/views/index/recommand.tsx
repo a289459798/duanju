@@ -226,6 +226,7 @@ const styles = StyleSheet.create({
     marginTop: Screen.calc(12),
     fontSize: Screen.calc(14),
     marginBottom: Screen.calc(18),
+    marginRight: Screen.calc(10),
   },
   videoCount: {
     color: '#fff',

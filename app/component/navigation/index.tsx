@@ -8,10 +8,12 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useLayoutEffect} from 'react';
 import {
   BackHandler,
+  Image,
   Platform,
   StatusBar,
   StatusBarProps,
   StyleProp,
+  TouchableOpacity,
   ViewStyle,
 } from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
@@ -21,9 +23,10 @@ import {
 } from 'react-native-safe-area-context';
 
 import Config from '@/config';
-import {IconArrow} from '@/public/iconfont';
 
 import HeaderButton from './header/button';
+import {Screen} from 'utils';
+import {IconArrow} from 'public/iconfont';
 
 export type NavigationProps = {
   hideSafe?: boolean;
@@ -60,7 +63,9 @@ export default (props: NavigationProps) => {
       navigation?.setOptions({
         headerLeft: () =>
           headerLeft || (
-            <TouchableWithoutFeedback
+            <TouchableOpacity
+              activeOpacity={1}
+              style={{paddingHorizontal: Screen.calc(10)}}
               onPress={() => {
                 if (backOnPress) {
                   backOnPress();
@@ -72,9 +77,9 @@ export default (props: NavigationProps) => {
                 style={{
                   transform: [{rotate: '180deg'}],
                 }}
-                color={'#000'}
+                size={20}
               />
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           ),
         headerStyle: {
           backgroundColor: '#fff',
