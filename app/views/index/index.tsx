@@ -68,19 +68,10 @@ const Page = CreatePage({
     const onTabChange = (i: number) => {
       currentIdex = i;
       setIndex(i);
-      changeStatusBar(i);
       if (i === 1) {
         commandResume();
       } else {
         commandPause();
-      }
-    };
-
-    const changeStatusBar = (i: number) => {
-      if (i === 0) {
-        StatusBar.setBarStyle('dark-content');
-      } else {
-        StatusBar.setBarStyle('light-content');
       }
     };
 
