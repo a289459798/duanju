@@ -95,7 +95,7 @@ export default React.forwardRef((props: EpisodeProps, ref: Ref<EpisodeRef>) => {
         </View>
         <BottomSheetFlatList
           style={styles.listView}
-          contentContainerStyle={{paddingBottom: Screen.calc(20)}}
+          contentContainerStyle={{paddingBottom: Screen.calc(40)}}
           data={list}
           numColumns={6}
           horizontal={false}
