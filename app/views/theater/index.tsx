@@ -59,10 +59,6 @@ const Page = CreatePage({
               scrollViewRef.current?.scrollTo({x: i * 60});
             }}
             renderTabBar={(props: any) => {
-              const inputRange = props.navigationState.routes.map(
-                (_x: any, i: number) => i,
-              );
-
               return (
                 <View>
                   <ScrollView
@@ -76,13 +72,6 @@ const Page = CreatePage({
                     style={styles.tabBar}>
                     {props.navigationState.routes.map(
                       (route: any, i: number) => {
-                        const opacity = props.position.interpolate({
-                          inputRange,
-                          outputRange: inputRange.map((inputIndex: number) =>
-                            inputIndex === i ? 1 : 0.5,
-                          ),
-                        });
-
                         return (
                           <TouchableOpacity
                             key={i}
@@ -92,7 +81,6 @@ const Page = CreatePage({
                               style={[
                                 styles.tabBarItemText,
                                 {
-                                  opacity,
                                   fontSize:
                                     props.navigationState.index === i
                                       ? Screen.calc(22)

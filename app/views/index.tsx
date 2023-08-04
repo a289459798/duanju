@@ -5,6 +5,7 @@ import {Image} from 'react-native';
 import Index from '../views/index/index';
 import My from '../views/my';
 import Theater from '../views/theater';
+import {Screen} from 'utils';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -21,6 +22,9 @@ export default function Tab() {
         lazy: true,
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#000',
+        tabBarLabelStyle: {
+          fontSize: Screen.calc(14),
+        },
       }}>
       <BottomTab.Screen
         options={{
