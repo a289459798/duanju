@@ -14,4 +14,5 @@ export default {
     },
   },
   ShareLink: '',
+  AppKey: 'tianguapro',
 };

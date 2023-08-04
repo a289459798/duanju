@@ -14,4 +14,5 @@ export default {
     },
   },
   ShareLink: 'https://www.baidu.com/',
+  AppKey: 'tianguaapp',
 };

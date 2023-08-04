@@ -24,4 +24,5 @@ export default {
   HOST: '',
   isPro: false,
   ShareLink: '',
+  AppKey: '',
 };

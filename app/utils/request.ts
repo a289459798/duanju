@@ -28,6 +28,7 @@ const getParams = async (method: string, options?: RequestOptions) => {
     method: method.toLocaleUpperCase(),
     headers: {
       'Content-Type': 'application/json',
+      'App-Key': config.AppKey,
       Authorization: user?.token,
       timestamp: timestamp,
       sign: md5.hex_md5(`${timestamp}-${user?.token}`),
