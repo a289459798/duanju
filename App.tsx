@@ -82,10 +82,12 @@ function App(): JSX.Element {
       () => {
         console.log('穿山甲初始成功');
         DPSdk.start(() => {
-          store.dispatch({
-            type: types.global.dpstart,
-          });
           store.dispatch(historyAction.fetchHistory());
+          setTimeout(() => {
+            store.dispatch({
+              type: types.global.dpstart,
+            });
+          }, 300);
           Storage.get('first_open').then((res: any) => {
             if (!res) {
               // 默认打开推广视频
@@ -131,22 +133,25 @@ function App(): JSX.Element {
 
   const initDb = () => {
     SQLite.DEBUG(config.DEBUG);
-    global.db = SQLite.openDatabase(
-      {name: 'duanjiu'},
-      () => {},
-      () => {},
-    );
-    global.db?.transaction?.((tx: SQLiteDatabase) => {
-      // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
-      // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Follow(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
+    console.log('global.db', global.db);
+    if (!global.db) {
+      global.db = SQLite.openDatabase(
+        {name: 'duanjiu'},
+        () => {},
+        () => {},
       );
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Ad(id INTEGER , current INTEGER)',
-      );
-    });
-    SQLite.enablePromise(true);
+      global.db?.transaction?.((tx: SQLiteDatabase) => {
+        // tx.executeSql('DROP TABLE IF EXISTS Follow', []);
+        // tx.executeSql('DROP TABLE IF EXISTS Ad', []);
+        tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS Follow(id INTEGER PRIMARY KEY NOT NULL, current INTEGER, duration INTEGER, time DATETIME)',
+        );
+        tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS Ad(id INTEGER , current INTEGER)',
+        );
+      });
+      SQLite.enablePromise(true);
+    }
   };
 
   const updateModalRef = useRef<UpdateModalRef>(null);

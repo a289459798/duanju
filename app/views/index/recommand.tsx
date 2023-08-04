@@ -156,7 +156,10 @@ export default React.forwardRef(
         {video?.drama_id && (
           <View style={styles.videoBottom} pointerEvents="box-none">
             <View style={styles.videoInfo}>
-              <Text style={styles.videoTitle} onPress={() => play()}>
+              <Text
+                style={styles.videoTitle}
+                onPress={() => play()}
+                selectable={false}>
                 {video.title}
               </Text>
               <Text
@@ -167,7 +170,10 @@ export default React.forwardRef(
               </Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image source={require('@/public/images/sy-js.png')} />
-                <Text style={styles.videoCount} onPress={() => play()}>
+                <Text
+                  style={styles.videoCount}
+                  onPress={() => play()}
+                  selectable={false}>
                   第{video.index}集 | 共{video.total}集 {'>'}
                 </Text>
               </View>

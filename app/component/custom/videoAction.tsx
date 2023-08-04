@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableWithoutFeedback, View, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Screen} from 'utils';
 import CustomButton from './customButton';
+import Text from 'component/text';
 
 export type VideoActionProps = {
   videoInfo: any;
@@ -14,7 +15,26 @@ export type VideoActionProps = {
   follow: boolean;
 };
 
+let followMap: any = {};
 export default (props: VideoActionProps) => {
+  const [followNumber, setFollowNumber] = useState(0);
+
+  useEffect(() => {
+    if (!followMap[props.videoInfo?.drama_id]) {
+      followMap[props.videoInfo?.drama_id] = Math.round(
+        Math.random() * 1200 + 800,
+      );
+    }
+    setFollowNumber(followMap[props.videoInfo?.drama_id]);
+  }, [props.videoInfo?.drama_id]);
+
+  useEffect(() => {
+    if (props.follow) {
+      setFollowNumber(followNumber + 1);
+    } else {
+      setFollowNumber(followNumber - 1);
+    }
+  }, [props.follow]);
   return (
     <View style={styles.container}>
       <View
@@ -30,15 +50,15 @@ export default (props: VideoActionProps) => {
         )}
         {!props.hideImageAndFollow && (
           <TouchableWithoutFeedback onPress={props.onClickAdd}>
-            <View pointerEvents={'box-only'}>
+            <View style={styles.addView} pointerEvents={'box-only'}>
               <Image
-                style={styles.addView}
                 source={
                   props.follow
                     ? require('@/public/images/sy-zjdl.png')
                     : require('@/public/images/sy-zj.png')
                 }
               />
+              <Text style={{color: '#fff'}}>{followNumber}</Text>
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -81,6 +101,7 @@ const styles = StyleSheet.create({
   },
   addView: {
     marginVertical: Screen.calc(24),
+    alignItems: 'center',
   },
   button: {
     backgroundColor: '#FF5501',
