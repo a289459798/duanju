@@ -92,7 +92,7 @@ const Page = CreatePage({
                                   color:
                                     props.navigationState.index === i
                                       ? '#222'
-                                      : '#999',
+                                      : '#666',
                                 },
                               ]}>
                               {route.title}
