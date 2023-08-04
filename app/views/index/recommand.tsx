@@ -162,8 +162,8 @@ export default React.forwardRef(
               <Text
                 style={styles.videoDesc}
                 numberOfLines={2}
-                onPress={() => play()}>
-                {video.desc}
+                selectable={false}>
+                {video.desc?.substring(0, 30)}...
               </Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image source={require('@/public/images/sy-js.png')} />
