@@ -8,7 +8,6 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useLayoutEffect} from 'react';
 import {
   BackHandler,
-  Image,
   Platform,
   StatusBar,
   StatusBarProps,
@@ -16,7 +15,6 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
