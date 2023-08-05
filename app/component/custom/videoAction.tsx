@@ -17,7 +17,9 @@ export type VideoActionProps = {
 
 let followMap: any = {};
 export default (props: VideoActionProps) => {
-  const [followNumber, setFollowNumber] = useState(0);
+  const [followNumber, setFollowNumber] = useState(
+    Math.round(Math.random() * 1200 + 800),
+  );
 
   useEffect(() => {
     if (!followMap[props.videoInfo?.drama_id]) {

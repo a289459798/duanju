@@ -51,6 +51,7 @@ const playIndex = (viewId: number | null, index: number) =>
   );
 
 let adIndex: number = 0;
+let adVideoData: any = {};
 
 let timer: any;
 
@@ -74,13 +75,11 @@ const Page = CreatePage({
 
     const [freeSize, setFreeSize] = useState(10);
     const [unlockSize, setUnlockSize] = useState(3);
-    const isVip = false;
 
     const getConfig = async () => {
       try {
         const c: any = await dramaAction.config({id: params.id});
         if (c) {
-          console.log('c', c);
           setFreeSize(c.freeSize);
           setUnlockSize(c.unlockSize);
         }
@@ -95,13 +94,10 @@ const Page = CreatePage({
       const onAdVideoBarClick = TTAdSdk.addListener('onAdVideoBarClick', () => {
         console.log('onAdVideoBarClick');
       });
-      const onAdClose = TTAdSdk.addListener('onAdClose', async () => {
+      const onAdClose = TTAdSdk.addListener('onAdClose', () => {
         console.log('onAdClose');
         // 检测广告
-        const status = await checkAd();
-        if (!status) {
-          nav.pop();
-        }
+        checkAd();
       });
       const onVideoComplete = TTAdSdk.addListener('onVideoComplete', () => {
         console.log('onVideoComplete');
@@ -161,12 +157,13 @@ const Page = CreatePage({
 
     const onShowAdIfNeeded = async (data: any) => {
       const v = data.nativeEvent;
-      if (v.index <= freeSize || isVip) {
+      if (v.index <= freeSize) {
         play(findNodeHandle(ref.current));
         return;
       }
       // 判断是否已经看过广告
       adIndex = v.index;
+      adVideoData = v;
       if (!(await checkAd())) {
         if (config.isPro) {
         } else {
@@ -193,7 +190,7 @@ const Page = CreatePage({
     const getUnlockInfo = () => {
       let size = 0;
       let unlockInfo = [];
-      for (let i = adIndex; i <= video.total; i++) {
+      for (let i = adIndex; i <= adVideoData.total; i++) {
         if (unlock?.[i]) {
           continue;
         }
