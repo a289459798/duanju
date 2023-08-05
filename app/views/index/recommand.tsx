@@ -153,6 +153,7 @@ export default React.forwardRef(
         recommandModalRef.current?.show(props.history[0]);
       }
     };
+    console.log('PixelRatio', PixelRatio.get());
     return (
       <View style={{flex: 1}}>
         <CSJTJVideoManager
@@ -160,9 +161,7 @@ export default React.forwardRef(
           {...panResponder.panHandlers}
           style={{
             height: PixelRatio.getPixelSizeForLayoutSize(
-              Dimensions.get('screen').height -
-                (StatusBar.currentHeight || 0) -
-                Screen.calc(20),
+              Dimensions.get('screen').height - 48,
             ),
             // converts dpi to px, provide desired width
             width: PixelRatio.getPixelSizeForLayoutSize(
