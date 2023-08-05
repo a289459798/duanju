@@ -28,6 +28,7 @@ import useNavigator from 'hooks/useNavigator';
 import Toast from '@attacks/react-native-toast';
 import {Share} from 'react-native-umshare';
 import config from 'config';
+import {TTAdSdk} from 'briage/module';
 
 const createFragment = (viewId: number | null) =>
   UIManager.dispatchViewManagerCommand(
@@ -80,6 +81,23 @@ export default React.forwardRef(
         pause(findNodeHandle(videorRef.current));
       },
     }));
+
+    useEffect(() => {
+      const onSplashAdShow = TTAdSdk.addListener('onSplashAdShow', () => {
+        pause(findNodeHandle(videorRef.current));
+      });
+      const onSplashAdClose = TTAdSdk.addListener('onSplashAdClose', () => {
+        resume(findNodeHandle(videorRef.current));
+      });
+      const onSplashAdClick = TTAdSdk.addListener('onSplashAdClick', () => {
+        resume(findNodeHandle(videorRef.current));
+      });
+      return () => {
+        onSplashAdShow?.remove();
+        onSplashAdClose?.remove();
+        onSplashAdClick?.remove();
+      };
+    }, []);
 
     useEffect(() => {
       if (props.dpstart) {

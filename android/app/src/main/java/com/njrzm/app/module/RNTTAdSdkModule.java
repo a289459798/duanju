@@ -212,16 +212,21 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                 csjSplashAd.setSplashAdListener(new CSJSplashAd.SplashAdListener() {
                     @Override
                     public void onSplashAdShow(CSJSplashAd csjSplashAd) {
-
+                        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit("onSplashAdShow", null);
                     }
 
                     @Override
                     public void onSplashAdClick(CSJSplashAd csjSplashAd) {
+                        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit("onSplashAdClick", null);
                         ((ViewGroup) getCurrentActivity().getWindow().getDecorView()).removeView(v);
                     }
 
                     @Override
                     public void onSplashAdClose(CSJSplashAd csjSplashAd, int i) {
+                        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit("onSplashAdClose", null);
                         ((ViewGroup) getCurrentActivity().getWindow().getDecorView()).removeView(v);
                     }
                 });
