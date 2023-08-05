@@ -173,19 +173,18 @@ export default React.forwardRef(
         />
         {video?.drama_id && (
           <View style={styles.videoBottom} pointerEvents="box-none">
-            <View style={styles.videoInfo}>
-              <Text
-                style={styles.videoTitle}
-                onPress={() => play()}
-                selectable={false}>
-                {video.title}
-              </Text>
-              <Text
-                style={styles.videoDesc}
-                numberOfLines={2}
-                selectable={false}>
-                {video.desc?.substring(0, 30)}...
-              </Text>
+            <View style={styles.videoInfo} pointerEvents="box-none">
+              <View pointerEvents="none">
+                <Text style={styles.videoTitle} selectable={false}>
+                  {video.title}
+                </Text>
+                <Text
+                  style={styles.videoDesc}
+                  numberOfLines={2}
+                  selectable={false}>
+                  {video.desc?.substring(0, 30)}...
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image source={require('@/public/images/sy-js.png')} />
                 <Text

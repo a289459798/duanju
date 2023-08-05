@@ -15,7 +15,7 @@ export default {
   },
   protoctl: {
     // 用户协议
-    agreement: 'http://tgjc.njrzm.com/yh.pdf',
+    agreement: 'http://tgjc.njrzm.com/yhys.pdf',
     // 隐私协议
     privacy: 'http://tgjc.njrzm.com/yszc.pdf',
     list: 'http://tgjc.njrzm.com/qd1.pdf',
