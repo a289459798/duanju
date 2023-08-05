@@ -15,11 +15,14 @@ export default CreatePage({
         <View
           style={{
             borderRadius: Screen.calc(8),
-            padding: Screen.calc(10),
+            padding: Screen.calc(2),
             borderWidth: Screen.calc(1.5),
             borderColor: '#ccc',
           }}>
-          <Image style={styles.image} source={{uri: ''}} />
+          <Image
+            style={styles.image}
+            source={require('@/public/images/kf.jpg')}
+          />
         </View>
         <Text
           style={{

@@ -9,8 +9,8 @@ export default {
   CSJ: {
     AppId: '5413022',
     Code: {
-      Splash: '888391456',
-      Video: '952982086',
+      Splash: '888421298',
+      Video: '953137020',
     },
   },
   protoctl: {
