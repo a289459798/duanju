@@ -136,7 +136,7 @@ const Page = CreatePage({
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{
                       alignItems: 'center',
-                      paddingVertical: Screen.calc(10),
+                      paddingBottom: Screen.calc(10),
                     }}
                     style={styles.tabBar}>
                     {props.navigationState.routes.map(
@@ -152,7 +152,7 @@ const Page = CreatePage({
                                 {
                                   fontSize:
                                     props.navigationState.index === i
-                                      ? Screen.calc(22)
+                                      ? Screen.calc(17)
                                       : Screen.calc(15),
                                   fontWeight:
                                     props.navigationState.index === i
@@ -213,14 +213,16 @@ const styles = StyleSheet.create({
   tabItem: {
     marginRight: Screen.calc(35),
     alignItems: 'center',
+    paddingBottom: Screen.calc(10),
   },
   tabBarItemText: {
     color: '#000',
   },
   line: {
+    position: 'absolute',
     width: Screen.calc(24),
     height: Screen.calc(5),
-    marginTop: Screen.calc(4),
+    bottom: 0,
   },
   hotView: {
     marginTop: Screen.calc(10),
