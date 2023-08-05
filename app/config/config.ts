@@ -13,13 +13,15 @@ export default {
       Video: '952982086',
     },
   },
-  // 用户协议
-  agreement:
-    'https://img.smuai.com/agreement/%E4%B8%89%E7%9B%AE%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE.pdf',
-  // 隐私协议
-  privacy:
-    'https://img.smuai.com/agreement/%E4%B8%89%E7%9B%AE%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.pdf',
-  // 协议弹窗
+  protoctl: {
+    // 用户协议
+    agreement: 'http://tgjc.njrzm.com/yh.pdf',
+    // 隐私协议
+    privacy: 'http://tgjc.njrzm.com/yszc.pdf',
+    list: ' http://tgjc.njrzm.com/qd1.pdf',
+    tripartite: 'http://tgjc.njrzm.com/qd2.pdf',
+  },
+
   DEBUG: false,
   HOST: '',
   isPro: false,

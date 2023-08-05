@@ -6,12 +6,14 @@ import {Text} from '@/component';
 import config from '@/config';
 import {CreatePage, Screen} from '@/utils';
 import screen from '@/utils/screen';
+import useNavigator from 'hooks/useNavigator';
 
 export default CreatePage({
   navigationProps: () => ({
     title: '关于我们',
   }),
   Component: () => {
+    const nav = useNavigator();
     return (
       <View style={styles.container}>
         <Image
@@ -50,10 +52,32 @@ export default CreatePage({
             alignItems: 'center',
             paddingBottom: Screen.calc(24),
           }}>
-          <Text style={styles.proto}>《用户协议》</Text>
-          <Text style={styles.proto}>《隐私政策》</Text>
-          <Text style={styles.proto}>《收集个人信息明示清单》</Text>
-          <Text style={styles.proto}>《个人信息第三方共享清单》</Text>
+          <Text
+            style={styles.proto}
+            onPress={() =>
+              nav.push('Protocol', {url: config.protoctl.agreement})
+            }>
+            《用户协议》
+          </Text>
+          <Text
+            style={styles.proto}
+            onPress={() =>
+              nav.push('Protocol', {url: config.protoctl.privacy})
+            }>
+            《隐私政策》
+          </Text>
+          <Text
+            style={styles.proto}
+            onPress={() => nav.push('Protocol', {url: config.protoctl.list})}>
+            《收集个人信息明示清单》
+          </Text>
+          <Text
+            style={styles.proto}
+            onPress={() =>
+              nav.push('Protocol', {url: config.protoctl.tripartite})
+            }>
+            《个人信息第三方共享清单》
+          </Text>
         </View>
       </View>
     );

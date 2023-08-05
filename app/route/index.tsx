@@ -13,6 +13,7 @@ import Play from '@/views/play';
 import Login from '@/views/login';
 import Vip from '@/views/vip';
 import Hot from '@/views/hot';
+import Protocol from '@/views/protoctl';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,7 @@ export default () => {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Vip" component={Vip} />
       <Stack.Screen name="Hot" component={Hot} />
+      <Stack.Screen name="Protocol" component={Protocol} />
     </Stack.Navigator>
   );
 };
