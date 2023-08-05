@@ -35,6 +35,10 @@ public class RNDPSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void start(Callback callback) {
+        if(DPSdk.isStartSuccess()) {
+            callback.invoke();
+            return;
+        }
         DPSdk.start(new DPSdk.StartListener() {
             @Override
             public void onStartComplete(boolean b, String s) {

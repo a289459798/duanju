@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 
 export default {
-  HOST: 'http://192.168.31.120:8877/',
+  HOST: 'http://192.168.1.104:8877/',
   DEBUG: true,
   Push: {
     AppId:
