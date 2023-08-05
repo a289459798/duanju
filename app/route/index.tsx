@@ -12,6 +12,7 @@ import Follow from '@/views/follow';
 import Play from '@/views/play';
 import Login from '@/views/login';
 import Vip from '@/views/vip';
+import Hot from '@/views/hot';
 
 const Stack = createStackNavigator();
 
@@ -56,6 +57,7 @@ export default () => {
       />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Vip" component={Vip} />
+      <Stack.Screen name="Hot" component={Hot} />
     </Stack.Navigator>
   );
 };

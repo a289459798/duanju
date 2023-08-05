@@ -5,13 +5,19 @@ import {SceneMap, TabView} from 'react-native-tab-view';
 import List from './list';
 import {
   Animated,
+  Image,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {DPSdk} from 'briage/module';
+import dramaAction from 'action/dramaAction';
+import useNavigator from 'hooks/useNavigator';
+import FastImage from 'react-native-fast-image';
 
 const Page = CreatePage({
   navigationProps: () => ({
@@ -24,6 +30,8 @@ const Page = CreatePage({
     const [routes, setRoutes] = useState<any>([]);
     const [scene, setScene] = useState<any>({});
     const scrollViewRef = useRef<ScrollView>(null);
+    const [hotList, setHotList] = useState<any>([]);
+    const nav = useNavigator();
 
     const fetchCategory = async () => {
       const category = await DPSdk.category();
@@ -44,11 +52,71 @@ const Page = CreatePage({
       setScene(s);
       setRoutes(r);
     };
+    const fetchHot = async () => {
+      try {
+        const hot: any = await dramaAction.hotList({offset: 1, limit: 8});
+        if (hot?.total > 0) {
+          setHotList(hot.list);
+        }
+      } catch (e) {}
+    };
     useEffect(() => {
+      fetchHot();
       fetchCategory();
     }, []);
     return (
       <View style={styles.container}>
+        {hotList?.length > 0 && (
+          <>
+            <View style={styles.hotView}>
+              <TouchableWithoutFeedback onPress={() => nav.push('Hot')}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: Screen.calc(12),
+                  }}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image source={require('@/public/images/jc-rb.png')} />
+                    <Text
+                      style={{
+                        fontSize: Screen.calc(18),
+                        color: '#222',
+                        fontWeight: '500',
+                      }}>
+                      热播短剧
+                    </Text>
+                  </View>
+                  <Text style={{fontSize: Screen.calc(15), color: '#999'}}>
+                    更多
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.hotListView}>
+                  {hotList?.map((v: any, k: any) => (
+                    <TouchableWithoutFeedback
+                      key={k}
+                      onPress={() =>
+                        nav.push('Play', {id: v.id, index: v.index})
+                      }>
+                      <View style={styles.hotViewItem}>
+                        <FastImage
+                          style={styles.hotViewImage}
+                          source={{uri: v.coverImage}}
+                        />
+                        <Text numberOfLines={1} style={styles.hotViewTitle}>
+                          {v.title}
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  ))}
+                </View>
+              </ScrollView>
+            </View>
+            <View style={{height: Screen.calc(8), backgroundColor: '#eee'}} />
+          </>
+        )}
         {routes?.length > 0 && (
           <TabView
             lazy
@@ -58,6 +126,7 @@ const Page = CreatePage({
               setIndex(i);
               scrollViewRef.current?.scrollTo({x: i * 60});
             }}
+            sceneContainerStyle={{paddingHorizontal: Screen.calc(12)}}
             renderTabBar={(props: any) => {
               return (
                 <View>
@@ -131,10 +200,14 @@ export default connect((state: any) => {
 })(Page);
 
 const styles = StyleSheet.create({
-  container: {flex: 1, paddingHorizontal: Screen.calc(12)},
+  container: {
+    flex: 1,
+    paddingTop: Screen.calc(10) + (StatusBar.currentHeight || 0),
+  },
   tabBar: {
     backgroundColor: 'transparent',
-    marginTop: Screen.calc(10) + (StatusBar.currentHeight || 0),
+    marginTop: Screen.calc(10),
+    paddingHorizontal: Screen.calc(12),
   },
 
   tabItem: {
@@ -148,5 +221,29 @@ const styles = StyleSheet.create({
     width: Screen.calc(24),
     height: Screen.calc(5),
     marginTop: Screen.calc(4),
+  },
+  hotView: {
+    marginTop: Screen.calc(10),
+  },
+  hotListView: {
+    flexDirection: 'row',
+    paddingBottom: Screen.calc(14),
+    paddingLeft: Screen.calc(12),
+  },
+  hotViewItem: {
+    marginTop: Screen.calc(15),
+    width: Screen.calc(80),
+    marginRight: Screen.calc(20),
+  },
+  hotViewImage: {
+    width: Screen.calc(90),
+    height: Screen.calc(120),
+    borderRadius: Screen.calc(6),
+  },
+  hotViewTitle: {
+    alignSelf: 'center',
+    fontSize: Screen.calc(15),
+    marginTop: Screen.calc(4),
+    color: '#222',
   },
 });
