@@ -18,7 +18,7 @@ export default {
     agreement: 'http://tgjc.njrzm.com/yh.pdf',
     // 隐私协议
     privacy: 'http://tgjc.njrzm.com/yszc.pdf',
-    list: ' http://tgjc.njrzm.com/qd1.pdf',
+    list: 'http://tgjc.njrzm.com/qd1.pdf',
     tripartite: 'http://tgjc.njrzm.com/qd2.pdf',
   },
 

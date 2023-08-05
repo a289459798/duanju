@@ -55,26 +55,40 @@ export default CreatePage({
           <Text
             style={styles.proto}
             onPress={() =>
-              nav.push('Protocol', {url: config.protoctl.agreement})
+              nav.push('Protoctl', {
+                url: config.protoctl.agreement,
+                title: '用户协议',
+              })
             }>
             《用户协议》
           </Text>
           <Text
             style={styles.proto}
             onPress={() =>
-              nav.push('Protocol', {url: config.protoctl.privacy})
+              nav.push('Protoctl', {
+                url: config.protoctl.privacy,
+                title: '《隐私政策》',
+              })
             }>
             《隐私政策》
           </Text>
           <Text
             style={styles.proto}
-            onPress={() => nav.push('Protocol', {url: config.protoctl.list})}>
+            onPress={() =>
+              nav.push('Protoctl', {
+                url: config.protoctl.list,
+                title: '《收集个人信息明示清单》',
+              })
+            }>
             《收集个人信息明示清单》
           </Text>
           <Text
             style={styles.proto}
             onPress={() =>
-              nav.push('Protocol', {url: config.protoctl.tripartite})
+              nav.push('Protoctl', {
+                url: config.protoctl.tripartite,
+                title: '《个人信息第三方共享清单》',
+              })
             }>
             《个人信息第三方共享清单》
           </Text>
