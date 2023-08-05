@@ -129,6 +129,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation 'com.umeng.umsdk:share-wx:7.3.2'
+    implementation 'com.umeng.umsdk:apm:1.9.2'
 
     implementation 'com.pangle.cn:ads-sdk-pro:5.3.0.5'
     implementation ('com.pangle.cn:pangrowth-sdk:3.9.0.0'){

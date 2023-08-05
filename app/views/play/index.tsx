@@ -157,6 +157,11 @@ const Page = CreatePage({
 
     const onShowAdIfNeeded = async (data: any) => {
       const v = data.nativeEvent;
+      // 推荐点击进来可以直接观看
+      if (params.from === 'recommand' && params.index === v.index) {
+        play(findNodeHandle(ref.current));
+        return;
+      }
       if (v.index <= freeSize) {
         play(findNodeHandle(ref.current));
         return;

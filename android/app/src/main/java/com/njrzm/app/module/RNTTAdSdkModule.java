@@ -170,7 +170,13 @@ public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
                             .emit("onSkippedVideo", null);
                 }
             });
-            ad.showRewardVideoAd(reactContext.getCurrentActivity());
+            reactContext.runOnUiQueueThread(new Runnable() {
+                @Override
+                public void run() {
+                    ad.showRewardVideoAd(reactContext.getCurrentActivity());
+                }
+            });
+
         }
     }
 

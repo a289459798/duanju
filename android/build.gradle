@@ -13,6 +13,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
@@ -28,5 +29,6 @@ allprojects {
         maven {
             url "https://artifact.bytedance.com/repository/pangle/"
         }
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
 }

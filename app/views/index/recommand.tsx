@@ -138,11 +138,18 @@ export default React.forwardRef(
     ).current;
 
     const play = () => {
-      nav.push('Play', {id: video.drama_id, index: video.index});
+      nav.push('Play', {
+        id: video.drama_id,
+        index: video.index,
+        from: 'recommand',
+      });
     };
 
     const checkHistory = () => {
-      if (props.history?.length > 0) {
+      if (
+        props.history?.length > 0 &&
+        props.history[0].index < props.history[0].total
+      ) {
         recommandModalRef.current?.show(props.history[0]);
       }
     };
