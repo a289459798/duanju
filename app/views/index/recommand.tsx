@@ -13,7 +13,6 @@ import {
   StyleSheet,
   PanResponder,
   Image,
-  StatusBar,
   Dimensions,
 } from 'react-native';
 import {Text} from '@/component';
@@ -153,7 +152,6 @@ export default React.forwardRef(
         recommandModalRef.current?.show(props.history[0]);
       }
     };
-    console.log('PixelRatio', PixelRatio.get());
     return (
       <View style={{flex: 1}}>
         <CSJTJVideoManager

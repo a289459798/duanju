@@ -174,20 +174,22 @@ const Page = CreatePage({
         } else {
           const unlockInfo = getUnlockInfo();
           Toast.show(`看广告解锁${unlockInfo.join('、')}集`);
-          // 直接播放广告
-          TTAdSdk.loadAd(
-            config.CSJ.Code.Video,
-            Screen.width,
-            Screen.height,
-            () => {
-              TTAdSdk.showAd();
-            },
-            async (_code: number, message: string) => {
-              Toast.show('广告加载失败:' + message);
-              await adLookSuccess();
-              checkAd();
-            },
-          );
+          setTimeout(() => {
+            // 直接播放广告
+            TTAdSdk.loadAd(
+              config.CSJ.Code.Video,
+              Screen.width,
+              Screen.height,
+              () => {
+                TTAdSdk.showAd();
+              },
+              async (_code: number, message: string) => {
+                Toast.show('广告加载失败:' + message);
+                await adLookSuccess();
+                checkAd();
+              },
+            );
+          }, 1000);
         }
       }
     };
