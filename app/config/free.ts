@@ -13,6 +13,6 @@ export default {
       },
     },
   },
-  ShareLink: 'https://www.baidu.com/',
+  ShareLink: 'http://tgjc.njrzm.com/web/',
   AppKey: 'tianguaapp',
 };
