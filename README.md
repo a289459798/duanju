@@ -20,6 +20,7 @@
 ## 功能演示
 ![](./demo.mp4)
 
+[点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
 
 
 # Getting Started
