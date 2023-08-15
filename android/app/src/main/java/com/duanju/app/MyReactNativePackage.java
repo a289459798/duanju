@@ -1,17 +1,17 @@
-package com.njrzm.app;
+package com.duanju.app;
 
 import androidx.annotation.NonNull;
 
-import com.njrzm.app.module.RNCommonModule;
-import com.njrzm.app.module.RNDPSdkModule;
-import com.njrzm.app.module.RNTTAdSdkModule;
-import com.njrzm.app.view.video.ReactCSJTJVideoManager;
-import com.njrzm.app.view.video.ReactCSJVideoManager;
+import com.duanju.app.module.RNCommonModule;
+import com.duanju.app.module.RNDPSdkModule;
+import com.duanju.app.module.RNTTAdSdkModule;
+import com.duanju.app.view.video.ReactCSJTJVideoManager;
+import com.duanju.app.view.video.ReactCSJVideoManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.njrzm.app.module.RNSplashScreenModule;
+import com.duanju.app.module.RNSplashScreenModule;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.njrzm.app;
+package com.duanju.app;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -59,7 +59,7 @@ public class LaunchActivity extends Activity {
                 @Override
                 public void onClick(@NonNull View widget) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://tgjc.njrzm.com/yhys.pdf"));
+                    intent.setData(Uri.parse("隐私协议地址"));
                     startActivity(intent);
                 }
 
@@ -76,7 +76,7 @@ public class LaunchActivity extends Activity {
                 @Override
                 public void onClick(@NonNull View widget) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://tgjc.njrzm.com/yszc.pdf"));
+                    intent.setData(Uri.parse("用户协议地址"));
                     startActivity(intent);
                 }
 

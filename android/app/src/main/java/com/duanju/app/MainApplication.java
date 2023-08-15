@@ -1,4 +1,4 @@
-package com.njrzm.app;
+package com.duanju.app;
 
 import android.app.Application;
 

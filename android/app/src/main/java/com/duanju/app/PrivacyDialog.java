@@ -1,9 +1,8 @@
-package com.njrzm.app;
+package com.duanju.app;
 
 import android.app.Dialog;
 import android.content.Context;
 import androidx.annotation.NonNull;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by zzy on 2023/6/19.

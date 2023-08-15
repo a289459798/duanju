@@ -1,4 +1,4 @@
-package com.njrzm.app.module;
+package com.duanju.app.module;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -20,7 +20,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.njrzm.app.BuildConfig;
+import com.duanju.app.BuildConfig;
 
 public class RNTTAdSdkModule extends ReactContextBaseJavaModule {
 

@@ -12,15 +12,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
-        android:name="com.njrzm.app.openadsdk.permission.TT_PANGOLIN"
+        android:name="com.duanju.app.openadsdk.permission.TT_PANGOLIN"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.njrzm.app.openadsdk.permission.TT_PANGOLIN" />
+    <uses-permission android:name="com.duanju.app.openadsdk.permission.TT_PANGOLIN" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
-        android:name="com.njrzm.app.MainApplication"
+        android:name="com.duanju.app.MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -53,34 +53,25 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="tiangua"/>
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="app.njrzm.com" />
+                    android:scheme="duanjuapp"/>
             </intent-filter>
         </activity>
 
         <!--微信-->
         <activity
-            android:name="com.njrzm.app.wxapi.WXEntryActivity"
+            android:name="com.duanju.app.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.njrzm.app.wxapi.WXPayEntryActivity"
+            android:name="com.duanju.app.wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
-            android:authorities="com.njrzm.app.TTFileProvider"
+            android:authorities="com.duanju.app.TTFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -89,7 +80,7 @@
         </provider>
         <provider
             android:name="com.bytedance.sdk.dp.act.DPProvider"
-            android:authorities="com.njrzm.app.BDDPProvider"
+            android:authorities="com.duanju.app.BDDPProvider"
             android:exported="false" />
 
         <meta-data android:value="default" android:name="UMENG_CHANNEL"/>

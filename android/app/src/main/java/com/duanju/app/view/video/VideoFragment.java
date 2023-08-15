@@ -1,4 +1,4 @@
-package com.njrzm.app.view.video;
+package com.duanju.app.view.video;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.njrzm.app.R;
+import com.duanju.app.R;
 
 public class VideoFragment extends Fragment {
     CustomView customView;

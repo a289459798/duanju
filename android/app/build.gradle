@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.njrzm.app"
+    namespace "com.duanju.app"
     defaultConfig {
-        applicationId "com.njrzm.app"
+        applicationId "com.duanju.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -87,16 +87,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('app')
-            storePassword 'njrzm.com'
-            keyAlias 'njrzm'
-            keyPassword 'njrzm.com'
-        }
-        release {
-            storeFile file('app')
-            storePassword 'njrzm.com'
-            keyAlias 'njrzm'
-            keyPassword 'njrzm.com'
+            storeFile file('debug.keystore')
+            storePassword 'debug.keystore'
+            keyAlias 'debug.keystore'
+            keyPassword 'debug.keystore'
         }
     }
     buildTypes {
@@ -106,7 +100,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

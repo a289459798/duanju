@@ -1,4 +1,4 @@
-package com.njrzm.app.wxapi;
+package com.duanju.app.wxapi;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

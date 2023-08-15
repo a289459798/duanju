@@ -1,8 +1,8 @@
-package com.njrzm.app;
+package com.duanju.app;
 
 import android.os.Bundle;
 
-import com.njrzm.app.module.RNSplashScreenModule;
+import com.duanju.app.module.RNSplashScreenModule;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;

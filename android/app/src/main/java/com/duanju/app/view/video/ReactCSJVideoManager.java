@@ -1,4 +1,4 @@
-package com.njrzm.app.view.video;
+package com.duanju.app.view.video;
 
 import android.view.Choreographer;
 import android.view.View;
@@ -30,7 +30,6 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
-import java.util.List;
 import java.util.Map;
 
 public class ReactCSJVideoManager extends ViewGroupManager<FrameLayout> implements LifecycleEventListener {

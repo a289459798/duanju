@@ -1,4 +1,4 @@
-package com.njrzm.app.module;
+package com.duanju.app.module;
 
 import android.util.Log;
 

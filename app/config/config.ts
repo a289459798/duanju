@@ -1,25 +1,24 @@
 export default {
-  AppName: '甜瓜剧场',
-  Scheme: ['tiangua://'],
-  EncrpytHash: 'CxdK3xTJ2Z6Bcyp3WGp5wTxU1BlkMd2l',
+  AppName: '短剧应用',
+  Scheme: ['duanjuapp://'],
   UM: {
-    Appkey: '',
+    Appkey: '友盟应用appkey',
     Share: {},
   },
   CSJ: {
-    AppId: '5413022',
+    AppId: '穿山甲应用ID',
     Code: {
-      Splash: '888421298',
-      Video: '953137020',
+      Splash: '开屏广告ID',
+      Video: '激励视频广告ID',
     },
   },
   protoctl: {
     // 用户协议
-    agreement: 'http://tgjc.njrzm.com/yhys.pdf',
+    agreement: '用户协议地址',
     // 隐私协议
-    privacy: 'http://tgjc.njrzm.com/yszc.pdf',
-    list: 'http://tgjc.njrzm.com/qd1.pdf',
-    tripartite: 'http://tgjc.njrzm.com/qd2.pdf',
+    privacy: '隐私协议地址',
+    list: '三分清单地址',
+    tripartite: '信息共享清单地址',
   },
 
   DEBUG: false,
