@@ -1,4 +1,4 @@
-本项目是用react-native开发的短剧App，短剧资源来源于穿山甲短剧SDK，目前只开源了android版本，IOS版本请联系作者。
+本项目是用react-native开发的短剧App，短剧资源来源于穿山甲短剧SDK，该项目是android版本，IOS版本请联系作者定制开发 。
 
 # 环境要求
 - node: 18.0.0+
