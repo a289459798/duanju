@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">甜瓜剧场</string>
+    <string name="app_name">短剧</string>
     <string name="CodePushDeploymentKey">lkYndpCAyHexGt3qiZg5So9OtoyvATmnX1lBo</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
