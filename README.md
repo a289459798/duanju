@@ -1,10 +1,11 @@
 本项目是用react-native开发的短剧App，短剧资源来源于穿山甲短剧SDK。
 
 ### 以下任意一项可以联系作者（付费, 微信：zhangzy816）
-- 需要专业指导
-- 需要定制开发
+- 需要专业指导（环境部署、搭建等）
+- 需要定制开发（各种定制需求）
 - 需要ios版本
 - 需要升级原生SDK
+- 需要下载体验版
 <img src="asserts/image.png" alt="alt text" width="200" height="200"/>
 
 
