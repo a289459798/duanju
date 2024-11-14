@@ -5,7 +5,7 @@
 - 需要定制开发
 - 需要ios版本
 - 需要升级原生SDK
-![alt text](asserts/image.png){width=200 height=200}
+<img src="asserts/image.png" alt="alt text" width="200" height="200"/>
 
 # 环境要求
 - node: 18.0.0+
