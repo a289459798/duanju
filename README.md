@@ -7,6 +7,15 @@
 - 需要升级原生SDK
 <img src="asserts/image.png" alt="alt text" width="200" height="200"/>
 
+
+# 功能演示
+![alt text](asserts/image1.png)
+![alt text](asserts/image2.png)
+![alt text](asserts/image3.png)
+
+
+[点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
+
 # 环境要求
 - node: 18.0.0+
 - jdk: 13+
@@ -27,12 +36,6 @@
 5. 短剧播放（看广告解锁）
 6. 追剧
 7. 我的
-
-## 功能演示
-<video controls src="asserts/demo.mp4" title="示例链接"></video>
-
-
-[点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
 
 
 # Getting Started
