@@ -9,9 +9,13 @@
 
 
 # 功能演示
-<img src="asserts/image1.png" alt="alt text" width="200"/>
-<img src="asserts/image2.png" alt="alt text" width="200"/>
-<img src="asserts/image3.png" alt="alt text" width="200"/>
+<table>
+  <tr>
+    <td><img src="asserts/image1.png" alt="alt text" width="200"/></td>
+    <td><img src="asserts/image2.png" alt="alt text" width="200"/></td>
+    <td><img src="asserts/image3.png" alt="alt text" width="200"/></td>
+  </tr>
+</table>
 
 
 [点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
