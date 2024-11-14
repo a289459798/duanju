@@ -11,9 +11,9 @@
 # 功能演示
 <table>
   <tr>
-    <td><img src="asserts/image1.png" alt="alt text" width="200"/></td>
-    <td><img src="asserts/image2.png" alt="alt text" width="200"/></td>
-    <td><img src="asserts/image3.png" alt="alt text" width="200"/></td>
+    <td><a href="http://img.smuai.com/demo.mp4" target="_blank"><img src="asserts/image1.png" alt="alt text" width="200"/></a></td>
+    <td><a href="http://img.smuai.com/demo.mp4" target="_blank"><img src="asserts/image2.png" alt="alt text" width="200"/></a></td>
+    <td><a href="http://img.smuai.com/demo.mp4" target="_blank"><img src="asserts/image3.png" alt="alt text" width="200"/></a></td>
   </tr>
 </table>
 
