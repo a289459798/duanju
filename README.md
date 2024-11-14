@@ -29,7 +29,7 @@
 7. 我的
 
 ## 功能演示
-<iframe src="http://img.smuai.com/demo.mp4" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+<video controls src="asserts/demo.mp4" title="示例链接"></video>
 
 
 [点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
