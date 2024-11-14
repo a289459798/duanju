@@ -9,9 +9,9 @@
 
 
 # 功能演示
-![alt text](asserts/image1.png)
-![alt text](asserts/image2.png)
-![alt text](asserts/image3.png)
+![alt text](asserts/image1.png){width=300}
+![alt text](asserts/image2.png){width=300}
+![alt text](asserts/image3.png){width=300}
 
 
 [点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
