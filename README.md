@@ -29,11 +29,8 @@
 7. 我的
 
 ## 功能演示
-<video width="320" height="240" controls>
-  <source src="asserts/demo.mp4" type="video/mp4">
-  您的浏览器不支持视频标签。
-</video>
-![](./demo.mp4)
+<iframe src="http://img.smuai.com/demo.mp4" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+
 
 [点击观看演示](http://img.smuai.com/demo.mp4 "示例链接")
 
