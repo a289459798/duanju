@@ -59,7 +59,7 @@ public class LaunchActivity extends Activity {
                 @Override
                 public void onClick(@NonNull View widget) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("隐私协议地址"));
+                    intent.setData(Uri.parse("https://img.smuai.com/privacy.html"));
                     startActivity(intent);
                 }
 
@@ -76,7 +76,7 @@ public class LaunchActivity extends Activity {
                 @Override
                 public void onClick(@NonNull View widget) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("用户协议地址"));
+                    intent.setData(Uri.parse("https://img.smuai.com/terms.html"));
                     startActivity(intent);
                 }
 
